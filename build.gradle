@@ -74,6 +74,12 @@ task smoke(type: Test) {
   classpath = sourceSets.smokeTest.runtimeClasspath
 }
 
+task fortifyScan(type: JavaExec)  {
+  main = "uk.gov.hmcts.fortifyclient.FortifyClientMainApp"
+  classpath += sourceSets.test.runtimeClasspath
+  jvmArgs = ['--add-opens=java.base/java.lang.reflect=ALL-UNNAMED']
+}
+
 tasks.withType(Test) {
   useJUnitPlatform()
 
@@ -175,7 +181,7 @@ repositories {
   jcenter()
   mavenCentral()
   maven {
-    url "https://dl.bintray.com/hmcts/hmcts-maven"
+    url 'https://www.jitpack.io'
   }
 }
 
@@ -241,6 +247,8 @@ dependencies {
     exclude group: 'junit', module: 'junit'
     exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
   }
+
+  testCompile 'com.github.hmcts:fortify-client:1.2.1:all'
 
   testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.3.3'
   testImplementation group: 'com.github.tomakehurst', name: 'wiremock', version: '2.23.2'
