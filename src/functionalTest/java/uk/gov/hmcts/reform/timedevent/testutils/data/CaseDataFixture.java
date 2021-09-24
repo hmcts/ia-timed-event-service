@@ -9,12 +9,16 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UncheckedIOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.springframework.core.io.Resource;
 import org.springframework.util.FileCopyUtils;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
+import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.DynamicList;
+import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Value;
 import uk.gov.hmcts.reform.timedevent.infrastructure.clients.model.ccd.CaseDataContent;
 import uk.gov.hmcts.reform.timedevent.infrastructure.clients.model.ccd.CaseDetails;
 import uk.gov.hmcts.reform.timedevent.infrastructure.clients.model.ccd.Event;
@@ -141,6 +145,27 @@ public class CaseDataFixture {
         );
     }
 
+    public String requestHomeOfficeData() {
+
+        Map<String, Object> data = new HashMap<>();
+
+        final List<Value> values = new ArrayList<>();
+        values.add(new Value("NoMatch", "No Match"));
+        DynamicList appellantsList = new DynamicList(values.get(0), values);
+
+        data.put("homeOfficeAppellantsList", appellantsList);
+
+        return triggerEvent(
+                caseOfficerToken,
+                s2sToken,
+                caseOfficerUserId,
+                caseId,
+                "requestHomeOfficeData",
+                data
+        );
+
+    }
+    
     public String requestRespondentEvidence() {
 
         Map<String, Object> data = new HashMap<>();
