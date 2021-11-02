@@ -27,8 +27,8 @@ import uk.gov.hmcts.reform.timedevent.testutils.clients.ExtendedCcdApi;
 
 public class CaseDataFixture {
 
-    private final String jurisdiction = "IA";
-    private final String caseType = "Asylum";
+    private static final String JURISDICTION = "IA";
+    private static final String CASE_TYPE = "Asylum";
 
     private final ObjectMapper objectMapper;
     private final ExtendedCcdApi ccdApi;
@@ -102,13 +102,13 @@ public class CaseDataFixture {
         authenticateUsers();
 
         String event = "startAppeal";
-        StartEventTrigger startEventResponse = ccdApi.startCaseCreation(legalRepToken, s2sToken, legalRepUserId, jurisdiction, caseType, event);
+        StartEventTrigger startEventResponse = ccdApi.startCaseCreation(legalRepToken, s2sToken, legalRepUserId, JURISDICTION, CASE_TYPE, event);
 
         Map<String, Object> data = Collections.emptyMap();
         try {
             data = objectMapper.readValue(
                 asString(minimalAppealStarted),
-                new TypeReference<Map<String, Object>>() {
+                new TypeReference<>() {
                 }
             );
         } catch (Exception e) {
@@ -123,7 +123,7 @@ public class CaseDataFixture {
             data
         );
 
-        CaseDetails submit = ccdApi.submitCaseCreation(legalRepToken, s2sToken, legalRepUserId, jurisdiction, caseType, content);
+        CaseDetails submit = ccdApi.submitCaseCreation(legalRepToken, s2sToken, legalRepUserId, JURISDICTION, CASE_TYPE, content);
 
         caseId = submit.getId();
     }
@@ -218,6 +218,7 @@ public class CaseDataFixture {
         caseArgumentDocument.put("document_url", "{$FIXTURE_DOC1_PDF_URL}");
         caseArgumentDocument.put("document_binary_url", "{$FIXTURE_DOC1_PDF_URL_BINARY}");
         caseArgumentDocument.put("document_filename", "{$FIXTURE_DOC1_PDF_FILENAME}");
+        caseArgumentDocument.put("document_hash", "{$FIXTURE_DOC1_PDF_HASH}");
 
         Map<String, Object> data = new HashMap<>();
         data.put("caseArgumentDocument", caseArgumentDocument);
@@ -280,6 +281,7 @@ public class CaseDataFixture {
         homeOfficeAppealResponseDocument.put("document_url", "{$FIXTURE_DOC2_PDF_URL}");
         homeOfficeAppealResponseDocument.put("document_binary_url", "{$FIXTURE_DOC2_PDF_URL_BINARY}");
         homeOfficeAppealResponseDocument.put("document_filename", "{$FIXTURE_DOC2_PDF_FILENAME}");
+        homeOfficeAppealResponseDocument.put("document_hash", "{$FIXTURE_DOC2_PDF_HASH}");
 
         Map<String, Object> data = new HashMap<>();
         data.put("homeOfficeAppealResponseDocument", homeOfficeAppealResponseDocument);
@@ -301,6 +303,8 @@ public class CaseDataFixture {
         appealResponseDocument.put("document_url", "{$FIXTURE_DOC2_PDF_URL}");
         appealResponseDocument.put("document_binary_url", "{$FIXTURE_DOC2_PDF_URL_BINARY}");
         appealResponseDocument.put("document_filename", "{$FIXTURE_DOC2_PDF_FILENAME}");
+        appealResponseDocument.put("document_hash", "{$FIXTURE_DOC2_PDF_HASH}");
+
 
         Map<String, Object> data = new HashMap<>();
         data.put("appealResponseDocument", appealResponseDocument);
@@ -353,7 +357,7 @@ public class CaseDataFixture {
 
     private String triggerEvent(String userToken, String s2sToken, String userId, long caseId, String event, Map<String, Object> data) {
 
-        StartEventTrigger startEventResponse = ccdApi.startEvent(userToken, s2sToken, userId, jurisdiction, caseType, String.valueOf(caseId), event);
+        StartEventTrigger startEventResponse = ccdApi.startEvent(userToken, s2sToken, userId, JURISDICTION, CASE_TYPE, String.valueOf(caseId), event);
 
         mapValueExpander.expandValues(data);
 
@@ -364,7 +368,7 @@ public class CaseDataFixture {
             data
         );
 
-        CaseDetails submit = ccdApi.submitEvent(userToken, s2sToken, userId, jurisdiction, caseType, String.valueOf(caseId), content);
+        CaseDetails submit = ccdApi.submitEvent(userToken, s2sToken, userId, JURISDICTION, CASE_TYPE, String.valueOf(caseId), content);
 
         return submit.getState();
     }
@@ -384,6 +388,7 @@ public class CaseDataFixture {
         doc.put("document_url", "{$FIXTURE_DOC1_PDF_URL}");
         doc.put("document_binary_url", "{$FIXTURE_DOC1_PDF_URL_BINARY}");
         doc.put("document_filename", "{$FIXTURE_DOC1_PDF_FILENAME}");
+        doc.put("document_hash", "{$FIXTURE_DOC1_PDF_HASH}");
 
         Map<String, Object> document = new HashMap<>();
         document.put("document", doc);
