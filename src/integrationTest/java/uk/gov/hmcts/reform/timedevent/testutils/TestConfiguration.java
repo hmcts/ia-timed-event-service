@@ -26,6 +26,7 @@ public class TestConfiguration {
             }
         };
     }
+
     @Bean
     public Retryer retryer() {
         return new Retryer.Default(1000L, 1000L, 3);
