@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 import feign.FeignException;
 import feign.Request;
 import java.util.Collections;
+import java.util.HashMap;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -109,7 +110,7 @@ class TestingSupportControllerTest {
 
         String message = "someMessage";
 
-        doThrow(new FeignException.BadRequest("", request, message.getBytes())).when(eventExecutor).execute(any(EventExecution.class));
+        doThrow(new FeignException.BadRequest("", request, message.getBytes(), new HashMap<>())).when(eventExecutor).execute(any(EventExecution.class));
 
         TestingSupportController testingSupportController = new TestingSupportController(
             systemTokenGenerator,
