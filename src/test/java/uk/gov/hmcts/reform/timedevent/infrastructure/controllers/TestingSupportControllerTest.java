@@ -4,17 +4,21 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 import feign.FeignException;
 import feign.Request;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestHeader;
 import uk.gov.hmcts.reform.timedevent.domain.entities.EventExecution;
 import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Event;
 import uk.gov.hmcts.reform.timedevent.domain.services.EventExecutor;
@@ -109,8 +113,10 @@ class TestingSupportControllerTest {
         String event = "example";
 
         String message = "someMessage";
+        Map<String, Collection<String>> headers =new HashMap<>();
+        headers.put("Header", Collections.singleton(AUTHORIZATION));
 
-        doThrow(new FeignException.BadRequest("", request, message.getBytes(), new HashMap<>())).when(eventExecutor).execute(any(EventExecution.class));
+        doThrow(new FeignException.BadRequest("", request, message.getBytes(), headers)).when(eventExecutor).execute(any(EventExecution.class));
 
         TestingSupportController testingSupportController = new TestingSupportController(
             systemTokenGenerator,
