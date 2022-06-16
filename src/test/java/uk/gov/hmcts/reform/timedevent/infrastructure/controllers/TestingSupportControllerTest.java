@@ -113,7 +113,7 @@ class TestingSupportControllerTest {
         String event = "example";
 
         String message = "someMessage";
-        Map<String, Collection<String>> headers =new HashMap<>();
+        Map<String, Collection<String>> headers = new HashMap<>();
         headers.put("Header", Collections.singleton(AUTHORIZATION));
 
         doThrow(new FeignException.BadRequest("", request, message.getBytes(), headers)).when(eventExecutor).execute(any(EventExecution.class));
