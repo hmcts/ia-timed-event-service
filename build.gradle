@@ -18,7 +18,6 @@ def versions = [
         junit           : '5.6.2',
         junitPlatform   : '1.6.2',
         reformLogging   : '5.1.7',
-        springBoot      : '2.6.3',
         serenity        : '3.1.20'
 ]
 
@@ -211,19 +210,19 @@ dependencies {
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-quartz'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
   implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign'
+  implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap'
   implementation group: 'org.flywaydb', name: 'flyway-core'
   implementation group: 'org.apache.commons', name: 'commons-lang3'
 
   implementation group: 'uk.gov.hmcts.reform', name: 'logging', version: versions.reformLogging
   implementation group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: versions.reformLogging
-  //implementation group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: '0.0.4'
   implementation group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: '3.1.2'
   implementation group: 'org.postgresql', name: 'postgresql', version: '42.3.3'
   implementation group: 'com.sun.xml.bind', name: 'jaxb-osgi', version: '2.3.3'
   implementation group: 'commons-io', name: 'commons-io', version: '2.10.0'
 
   testImplementation libraries.junit5
-  testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot, {
+  testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', {
     exclude group: 'junit', module: 'junit'
     exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
   }
