@@ -210,7 +210,7 @@ dependencies {
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-quartz'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
   implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign'
-  implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap'
+  implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap' , version: '3.1.1'
   implementation group: 'org.flywaydb', name: 'flyway-core'
   implementation group: 'org.apache.commons', name: 'commons-lang3'
 
