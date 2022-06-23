@@ -20,7 +20,7 @@ class SwaggerPublisher extends SpringBootIntegrationTest {
     @Test
     void generateDocs() throws Exception {
         byte[] specs = mockMvc
-            .perform(get("/v2/api-docs"))
+            .perform(get("/v3/api-docs"))
             .andExpect(status().isOk())
             .andReturn()
             .getResponse()
