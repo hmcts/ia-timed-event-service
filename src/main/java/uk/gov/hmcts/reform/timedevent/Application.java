@@ -2,11 +2,9 @@ package uk.gov.hmcts.reform.timedevent;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
-@EnableCircuitBreaker
 @EnableFeignClients(basePackages = {
     "uk.gov.hmcts.reform.authorisation",
     "uk.gov.hmcts.reform.timedevent.infrastructure.clients"
