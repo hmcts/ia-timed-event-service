@@ -204,7 +204,7 @@ ext.libraries = [
 
 dependencies {
 
-
+/*
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
   compile group: 'org.springframework.security', name: 'spring-security-test'
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-cache'
@@ -220,8 +220,8 @@ dependencies {
   annotationProcessor 'org.projectlombok:lombok'
   implementation group: 'org.springframework.security', name: 'spring-security-crypto'
   implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations'
-
-
+*/
+  implementation group: 'com.azure.spring', name: 'spring-cloud-azure-starter-keyvault-secrets'
   compile group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.8'
   compile group: 'com.google.guava', name: 'guava', version: '31.1-jre'
 
