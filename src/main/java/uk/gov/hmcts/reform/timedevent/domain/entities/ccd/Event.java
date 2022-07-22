@@ -14,7 +14,7 @@ public enum Event {
     ROLLBACK_PAYMENT("rollbackPayment"),
     ROLLBACK_PAYMENT_TIMEOUT("rollbackPaymentTimeout"),
     ROLLBACK_PAYMENT_TIMEOUT_TO_PAYMENT_PENDING("rollbackPaymentTimeoutToPaymentPending"),
-
+    END_APPEAL_AUTOMATICALLY("endAppealAutomatically"),
     @JsonEnumDefaultValue
     UNKNOWN("unknown");
 

@@ -16,6 +16,7 @@ class EventTest {
         assertEquals("rollbackPayment", Event.ROLLBACK_PAYMENT.toString());
         assertEquals("rollbackPaymentTimeout", Event.ROLLBACK_PAYMENT_TIMEOUT.toString());
         assertEquals("rollbackPaymentTimeoutToPaymentPending", Event.ROLLBACK_PAYMENT_TIMEOUT_TO_PAYMENT_PENDING.toString());
+        assertEquals("endAppealAutomatically", Event.END_APPEAL_AUTOMATICALLY.toString());
     }
 
     @Test
