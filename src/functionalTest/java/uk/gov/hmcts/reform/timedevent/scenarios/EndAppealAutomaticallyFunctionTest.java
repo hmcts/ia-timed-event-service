@@ -39,7 +39,6 @@ public class EndAppealAutomaticallyFunctionTest extends FunctionalTest {
 
         caseDataFixture.startAppeal();
         caseDataFixture.submitAppeal();
-        caseDataFixture.buildCase();
     }
 
     @Test
