@@ -39,13 +39,7 @@ public class EndAppealAutomaticallyFunctionTest extends FunctionalTest {
 
         caseDataFixture.startAppeal();
         caseDataFixture.submitAppeal();
-        caseDataFixture.requestHomeOfficeData();
-        caseDataFixture.requestRespondentEvidence();
-        caseDataFixture.uploadRespondentEvidence();
-        caseDataFixture.buildCase();
-        caseDataFixture.requestRespondentReview();
-        caseDataFixture.uploadHomeOfficeAppealResponse();
-        caseDataFixture.requestResponseReview();
+
     }
 
     @Test
@@ -62,7 +56,7 @@ public class EndAppealAutomaticallyFunctionTest extends FunctionalTest {
 
         return given(requestSpecification)
             .when()
-            .header(new Header("Authorization", caseDataFixture.getCaseOfficerToken()))
+            .header(new Header("Authorization", caseDataFixture.getSysUserToken()))
             .header(new Header("ServiceAuthorization", caseDataFixture.getS2sToken()))
             .contentType("application/json")
             .body("{ \"jurisdiction\": \"" + jurisdiction + "\","

@@ -48,6 +48,11 @@ public class CaseDataFixture {
     private String homeOfficeLartToken;
     private String homeOfficeLartUserId;
 
+    public String getSysUserToken() {
+        return sysUserToken;
+    }
+
+    private String sysUserToken;
     private long caseId;
 
     public CaseDataFixture(
@@ -349,6 +354,8 @@ public class CaseDataFixture {
 
         homeOfficeLartToken = idamAuthProvider.getHomeOfficeLartToken();
         homeOfficeLartUserId = idamAuthProvider.getUserId(homeOfficeLartToken);
+
+        sysUserToken = idamAuthProvider.getSystemUserToken();
     }
 
     private String triggerEvent(String userToken, String s2sToken, String userId, long caseId, String event, Map<String, Object> data) {
