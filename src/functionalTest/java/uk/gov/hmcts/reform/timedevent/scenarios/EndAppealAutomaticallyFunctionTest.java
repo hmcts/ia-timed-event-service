@@ -39,6 +39,13 @@ public class EndAppealAutomaticallyFunctionTest extends FunctionalTest {
 
         caseDataFixture.startAppeal();
         caseDataFixture.submitAppeal();
+        caseDataFixture.requestHomeOfficeData();
+        caseDataFixture.requestRespondentEvidence();
+        caseDataFixture.uploadRespondentEvidence();
+        caseDataFixture.buildCase();
+        caseDataFixture.requestRespondentReview();
+        caseDataFixture.uploadHomeOfficeAppealResponse();
+        caseDataFixture.requestResponseReview();
     }
 
     @Test
