@@ -2,10 +2,12 @@ package uk.gov.hmcts.reform.timedevent.infrastructure.controllers;
 
 import static org.springframework.http.ResponseEntity.*;
 
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import io.swagger.annotations.Authorization;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.http.HttpStatus;
@@ -26,35 +28,35 @@ public class TimedEventController {
         this.schedulerService = timedEventService;
     }
 
-    @ApiOperation(
-        value = "Scheduling / rescheduling timed event",
-        authorizations =
+    @Operation(
+        summary = "Scheduling / rescheduling timed event",
+        security =
         {
-            @Authorization(value = "Authorization"),
-            @Authorization(value = "ServiceAuthorization")
+            @SecurityRequirement(name = "Authorization"),
+            @SecurityRequirement(name = "ServiceAuthorization")
         }
     )
     @ApiResponses({
         @ApiResponse(
-            code = 201,
-            message = "Created TimeEvent object",
-            response = TimedEvent.class
+            responseCode  = "201",
+            description = "Created TimeEvent object",
+            content =  @Content(schema = @Schema(implementation = TimedEvent.class))
         ),
         @ApiResponse(
-            code = 415,
-            message = "Unsupported Media Type"
+            responseCode = "415",
+            description = "Unsupported Media Type"
         ),
         @ApiResponse(
-            code = 400,
-            message = "Bad Request"
+            responseCode = "400",
+            description = "Bad Request"
         ),
         @ApiResponse(
-            code = 403,
-            message = "Forbidden"
+            responseCode = "403",
+            description = "Forbidden"
         ),
         @ApiResponse(
-            code = 500,
-            message = "Internal Server Error"
+            responseCode = "500",
+            description = "Internal Server Error"
         )
     })
     @PostMapping("/timed-event")
@@ -85,31 +87,31 @@ public class TimedEventController {
         );
     }
 
-    @ApiOperation(
-        value = "Getting scheduled event",
-        authorizations =
+    @Operation(
+        summary = "Getting scheduled event",
+        security =
             {
-                @Authorization(value = "Authorization"),
-                @Authorization(value = "ServiceAuthorization")
+                @SecurityRequirement(name = "Authorization"),
+                @SecurityRequirement(name = "ServiceAuthorization")
             }
     )
     @ApiResponses({
         @ApiResponse(
-            code = 200,
-            message = "TimeEvent object",
-            response = TimedEvent.class
+            responseCode = "200",
+            description = "TimeEvent object",
+            content =  @Content(schema = @Schema(implementation = TimedEvent.class))
         ),
         @ApiResponse(
-            code = 404,
-            message = "Not Found"
+            responseCode = "404",
+            description = "Not Found"
         ),
         @ApiResponse(
-            code = 401,
-            message = "Forbidden"
+            responseCode = "401",
+            description = "Forbidden"
         ),
         @ApiResponse(
-            code = 500,
-            message = "Internal Server Error"
+            responseCode = "500",
+            description = "Internal Server Error"
         )
     })
     @GetMapping("/timed-event/{id}")

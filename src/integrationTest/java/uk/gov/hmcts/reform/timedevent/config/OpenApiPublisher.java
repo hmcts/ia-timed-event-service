@@ -14,13 +14,13 @@ import uk.gov.hmcts.reform.timedevent.testutils.SpringBootIntegrationTest;
  * Built-in feature which saves service's swagger specs in temporary directory.
  * Each travis run on master should automatically save and upload (if updated) documentation.
  */
-class SwaggerPublisher extends SpringBootIntegrationTest {
+class OpenApiPublisher extends SpringBootIntegrationTest {
 
     @DisplayName("Generate swagger documentation")
     @Test
     void generateDocs() throws Exception {
         byte[] specs = mockMvc
-            .perform(get("/v2/api-docs"))
+            .perform(get("/v3/api-docs"))
             .andExpect(status().isOk())
             .andReturn()
             .getResponse()
