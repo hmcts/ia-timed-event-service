@@ -190,7 +190,16 @@ dependencyManagement {
       entry 'log4j-to-slf4j'
     }
 
-    dependency group: 'org.springframework', name: 'spring-webmvc', version: '5.3.22'
+    dependencySet(group: 'org.springframework', version: '5.3.22') {
+      entry 'spring-webmvc'
+      entry 'spring-jcl'
+      entry 'spring-jdbc'
+      entry 'spring-tx'
+      entry 'spring-core'
+      entry 'spring-aop'
+      entry 'spring-beans'
+      entry 'spring-context'
+    }
   }
 }
 
