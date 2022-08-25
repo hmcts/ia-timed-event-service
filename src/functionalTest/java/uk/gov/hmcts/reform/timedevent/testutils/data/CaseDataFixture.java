@@ -17,12 +17,12 @@ import java.util.Map;
 import org.springframework.core.io.Resource;
 import org.springframework.util.FileCopyUtils;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
-import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.DynamicList;
-import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Value;
 import uk.gov.hmcts.reform.timedevent.infrastructure.clients.model.ccd.CaseDataContent;
 import uk.gov.hmcts.reform.timedevent.infrastructure.clients.model.ccd.CaseDetails;
 import uk.gov.hmcts.reform.timedevent.infrastructure.clients.model.ccd.Event;
 import uk.gov.hmcts.reform.timedevent.infrastructure.clients.model.ccd.StartEventTrigger;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.ccd.DynamicList;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.ccd.Value;
 import uk.gov.hmcts.reform.timedevent.testutils.clients.ExtendedCcdApi;
 
 public class CaseDataFixture {
