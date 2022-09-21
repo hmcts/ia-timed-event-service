@@ -17,7 +17,7 @@ public interface WithIdamStub {
         server.addStubMapping(
             new StubMapping(
                 newRequestPattern(RequestMethod.POST, urlEqualTo("/idam/o/token"))
-                    .withHeader("Content-Type", equalTo("application/x-www-form-urlencoded;charset=UTF-8"))
+                    .withHeader("Content-Type", equalTo("application/x-www-form-urlencoded; charset=UTF-8"))
                     .withRequestBody(
                         equalTo("grant_type=password"
                                 + "&redirect_uri=http%3A%2F%2Flocalhost%3A3002%2Foauth2%2Fcallback"
