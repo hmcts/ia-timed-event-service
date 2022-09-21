@@ -3,6 +3,7 @@ package uk.gov.hmcts.reform.timedevent.domain.entities.ccd;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.ccd.Event;
 
 class EventTest {
 
@@ -16,12 +17,13 @@ class EventTest {
         assertEquals("rollbackPayment", Event.ROLLBACK_PAYMENT.toString());
         assertEquals("rollbackPaymentTimeout", Event.ROLLBACK_PAYMENT_TIMEOUT.toString());
         assertEquals("rollbackPaymentTimeoutToPaymentPending", Event.ROLLBACK_PAYMENT_TIMEOUT_TO_PAYMENT_PENDING.toString());
+        assertEquals("endAppealAutomatically", Event.END_APPEAL_AUTOMATICALLY.toString());
     }
 
     @Test
     void if_this_test_fails_it_is_because_it_needs_updating_with_your_changes() {
 
-        assertEquals(8, Event.values().length);
+        assertEquals(9, Event.values().length);
     }
 
 }

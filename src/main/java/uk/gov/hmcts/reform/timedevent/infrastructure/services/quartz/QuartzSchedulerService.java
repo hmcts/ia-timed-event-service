@@ -12,9 +12,9 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.quartz.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import uk.gov.hmcts.reform.timedevent.domain.entities.TimedEvent;
-import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Event;
-import uk.gov.hmcts.reform.timedevent.domain.services.SchedulerService;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.TimedEvent;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.ccd.Event;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.services.SchedulerService;
 import uk.gov.hmcts.reform.timedevent.infrastructure.services.IdentityProvider;
 import uk.gov.hmcts.reform.timedevent.infrastructure.services.exceptions.SchedulerProcessingException;
 

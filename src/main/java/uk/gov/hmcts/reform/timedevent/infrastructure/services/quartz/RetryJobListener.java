@@ -6,9 +6,9 @@ import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.listeners.JobListenerSupport;
-import uk.gov.hmcts.reform.timedevent.domain.entities.TimedEvent;
-import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Event;
-import uk.gov.hmcts.reform.timedevent.domain.services.SchedulerService;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.TimedEvent;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.ccd.Event;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.services.SchedulerService;
 import uk.gov.hmcts.reform.timedevent.infrastructure.services.DateTimeProvider;
 import uk.gov.hmcts.reform.timedevent.infrastructure.services.exceptions.RetryableException;
 
