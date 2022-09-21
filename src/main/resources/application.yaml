@@ -121,6 +121,7 @@ security:
     - "rollbackPayment"
     - "rollbackPaymentTimeout"
     - "rollbackPaymentTimeoutToPaymentPending"
+    - "endAppealAutomatically"
     caseworker-ia-iacjudge:
       - "requestHearingRequirementsFeature"
     caseworker-ia-admofficer:
