@@ -6,9 +6,9 @@ import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.stereotype.Component;
-import uk.gov.hmcts.reform.timedevent.domain.entities.EventExecution;
-import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Event;
-import uk.gov.hmcts.reform.timedevent.domain.services.EventExecutor;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.EventExecution;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.ccd.Event;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.services.EventExecutor;
 import uk.gov.hmcts.reform.timedevent.infrastructure.services.RetryableExceptionHandler;
 
 @Slf4j

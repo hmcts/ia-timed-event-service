@@ -8,15 +8,16 @@ import static org.mockito.Mockito.when;
 import feign.FeignException;
 import feign.Request;
 import java.util.Collections;
+import java.util.HashMap;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import uk.gov.hmcts.reform.timedevent.domain.entities.EventExecution;
-import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Event;
-import uk.gov.hmcts.reform.timedevent.domain.services.EventExecutor;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.EventExecution;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.ccd.Event;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.services.EventExecutor;
 import uk.gov.hmcts.reform.timedevent.infrastructure.security.SystemTokenGenerator;
 import uk.gov.hmcts.reform.timedevent.infrastructure.security.SystemUserProvider;
 
@@ -109,7 +110,7 @@ class TestingSupportControllerTest {
 
         String message = "someMessage";
 
-        doThrow(new FeignException.BadRequest("", request, message.getBytes())).when(eventExecutor).execute(any(EventExecution.class));
+        doThrow(new FeignException.BadRequest("", request, message.getBytes(), new HashMap<>())).when(eventExecutor).execute(any(EventExecution.class));
 
         TestingSupportController testingSupportController = new TestingSupportController(
             systemTokenGenerator,
