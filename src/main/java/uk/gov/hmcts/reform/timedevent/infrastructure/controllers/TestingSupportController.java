@@ -3,9 +3,11 @@ package uk.gov.hmcts.reform.timedevent.infrastructure.controllers;
 import static org.springframework.http.ResponseEntity.*;
 
 import feign.FeignException;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +15,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import uk.gov.hmcts.reform.timedevent.domain.entities.EventExecution;
-import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Event;
-import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.EventNotFoundException;
-import uk.gov.hmcts.reform.timedevent.domain.services.EventExecutor;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.EventExecution;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.ccd.Event;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.ccd.EventNotFoundException;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.services.EventExecutor;
 import uk.gov.hmcts.reform.timedevent.infrastructure.security.SystemTokenGenerator;
 import uk.gov.hmcts.reform.timedevent.infrastructure.security.SystemUserProvider;
 
@@ -41,16 +43,16 @@ public class TestingSupportController {
         this.eventExecutor = eventExecutor;
     }
 
-    @ApiOperation("Generating system user token")
+    @Operation(summary = "Generating system user token")
     @ApiResponses({
         @ApiResponse(
-            code = 200,
-            message = "Generated system user token",
-            response = String.class
+            responseCode = "200",
+            description = "Generated system user token",
+            content =  @Content(schema = @Schema(implementation = String.class))
         ),
         @ApiResponse(
-            code = 500,
-            message = "Internal Server Error"
+            responseCode = "500",
+            description = "Internal Server Error"
         )
     })
     @GetMapping("/testing-support/token")
@@ -59,16 +61,16 @@ public class TestingSupportController {
         return ok(systemTokenGenerator.generate());
     }
 
-    @ApiOperation("Getting system user id")
+    @Operation(summary = "Getting system user id")
     @ApiResponses({
         @ApiResponse(
-            code = 200,
-            message = "system user id",
-            response = String.class
+            responseCode = "200",
+            description = "system user id",
+            content =  @Content(schema = @Schema(implementation = String.class))
         ),
         @ApiResponse(
-            code = 500,
-            message = "Internal Server Error"
+            responseCode = "500",
+            description = "Internal Server Error"
         )
     })
     @GetMapping("/testing-support/system-user")
@@ -77,37 +79,37 @@ public class TestingSupportController {
         return ok(systemUserProvider.getSystemUserId("Bearer " + systemTokenGenerator.generate()));
     }
 
-    @ApiOperation("Executing event in CCD")
+    @Operation(summary = "Executing event in CCD")
     @ApiResponses({
         @ApiResponse(
-            code = 200,
-            message = "confirmation message",
-            response = String.class
+            responseCode = "200",
+            description = "confirmation message",
+            content =  @Content(schema = @Schema(implementation = String.class))
         ),
         @ApiResponse(
-            code = 403,
-            message = "Forbidden / re-thrown from dependent service"
+            responseCode = "403",
+            description = "Forbidden / re-thrown from dependent service"
         ),
         @ApiResponse(
-            code = 422,
-            message = "Unprocessable Entity / re-thrown from dependent service"
+            responseCode = "422",
+            description = "Unprocessable Entity / re-thrown from dependent service"
         ),
 
         @ApiResponse(
-            code = 400,
-            message = "Bad Request / re-thrown from dependent service"
+            responseCode = "400",
+            description = "Bad Request / re-thrown from dependent service"
         ),
         @ApiResponse(
-            code = 404,
-            message = "Not Found / re-thrown from dependent service"
+            responseCode = "404",
+            description = "Not Found / re-thrown from dependent service"
         ),
         @ApiResponse(
-            code = 504,
-            message = "Gateway Timeout / re-thrown from dependent service"
+            responseCode = "504",
+            description = "Gateway Timeout / re-thrown from dependent service"
         ),
         @ApiResponse(
-            code = 500,
-            message = "Internal Server Error"
+            responseCode = "500",
+            description = "Internal Server Error"
         )
     })
     @PostMapping("/testing-support/execute/jurisdiction/{jurisdiction}/case-type/{caseType}/cid/{cid}/event/{event}")
