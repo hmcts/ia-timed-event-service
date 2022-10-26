@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.security.access.AccessDeniedException;
-import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Event;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.ccd.Event;
 
 public class CcdEventAuthorizor {
 

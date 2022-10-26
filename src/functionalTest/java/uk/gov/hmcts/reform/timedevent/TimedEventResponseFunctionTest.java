@@ -11,8 +11,8 @@ import java.time.ZonedDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import uk.gov.hmcts.reform.timedevent.domain.entities.TimedEvent;
-import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Event;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.TimedEvent;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.ccd.Event;
 import uk.gov.hmcts.reform.timedevent.testutils.FunctionalTest;
 
 public class TimedEventResponseFunctionTest extends FunctionalTest {

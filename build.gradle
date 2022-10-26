@@ -1,14 +1,21 @@
+buildscript {
+  dependencies {
+    classpath("net.serenity-bdd:serenity-gradle-plugin:2.0.11")
+  }
+}
+
+
 plugins {
   id 'application'
   id 'checkstyle'
   id 'pmd'
   id 'jacoco'
   id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-  id 'org.springframework.boot' version '2.3.9.RELEASE'
+  id 'org.springframework.boot' version '2.7.0'
   id 'uk.gov.hmcts.java' version '0.12.5'
-  id 'org.owasp.dependencycheck' version '6.1.6'
-  id 'com.github.ben-manes.versions' version '0.28.0'
-  id 'org.sonarqube' version '2.8'
+  id 'org.owasp.dependencycheck' version '7.1.2'
+  id 'com.github.ben-manes.versions' version '0.42.0'
+  id 'org.sonarqube' version '3.0'
   id "io.freefair.lombok" version "5.3.0"
   id 'org.flywaydb.flyway' version '5.2.4'
   id "info.solidsoft.pitest" version '1.5.2'
@@ -63,7 +70,7 @@ task functional(type: Test, description: 'Runs the functional tests.', group: 'V
 task integration(type: Test, description: 'Runs the integration tests.', group: 'Verification') {
   testClassesDirs = sourceSets.integrationTest.output.classesDirs
   classpath = sourceSets.integrationTest.runtimeClasspath
-  useJUnitPlatform()
+  //useJUnitPlatform()
   // set your environment variables here
   // environment("APPINSIGHTS_INSTRUMENTATIONKEY", "test-key")
 }
@@ -85,8 +92,7 @@ tasks.withType(Test) {
 checkstyle {
   maxWarnings = 0
   toolVersion = '8.29'
-  // need to set configDir to rootDir otherwise submodule will use submodule/config/checkstyle
-  configDir = new File(rootDir, 'config/checkstyle')
+  getConfigDirectory().set(new File(rootDir, 'config/checkstyle'))
 }
 
 pmd {
@@ -158,7 +164,7 @@ dependencyCheck {
 dependencyManagement {
   // CVE-2021-42340
   dependencies {
-    dependencySet(group: 'org.apache.tomcat.embed', version: '9.0.58') {
+    dependencySet(group: 'org.apache.tomcat.embed', version: '9.0.65') {
       entry 'tomcat-embed-core'
       entry 'tomcat-embed-el'
       entry 'tomcat-embed-websocket'
@@ -169,11 +175,8 @@ dependencyManagement {
       entry 'guava'
     }
 
-    // CVE-2021-22060
-    dependency(group: 'org.springframework', name: 'spring-core', version: '5.3.15')
-
     //CVE-2021-22119
-    dependency group: 'org.springframework.security', name: 'spring-security-core',  version: '5.6.1'
+    dependency group: 'org.springframework.security', name: 'spring-security-core',  version: '5.7.1'
 
     //CVE-2021-27568
     dependency group: 'net.minidev', name: 'json-smart', version: '2.4.8'
@@ -189,6 +192,9 @@ dependencyManagement {
       entry 'log4j-api'
       entry 'log4j-to-slf4j'
     }
+
+    //CVE-2022-38750, CVE-2022-38751, CVE-2022-38752
+    dependency group: 'org.yaml', name: 'snakeyaml', version: '1.33'
   }
 }
 
@@ -202,12 +208,13 @@ repositories {
 }
 
 def versions = [
-    junit           : '5.6.2',
-    junitPlatform   : '1.6.2',
+    junit           : '5.7.0',
+    junitPlatform   : '1.7.2',
     reformLogging   : '5.1.7',
-    springBoot      : '2.6.3',
-    springfoxSwagger: '2.9.2',
-    serenity        : '2.2.12'
+    springBoot      : '2.7.0',
+    springDoc       : '1.6.8',
+    serenity        : '3.1.20',
+    springSecurity  : '5.7.1'
 ]
 
 ext.libraries = [
@@ -226,24 +233,27 @@ dependencies {
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: versions.springBoot
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: versions.springBoot
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-json', version: versions.springBoot
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-client', version: versions.springBoot
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-resource-server', version: versions.springBoot
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-quartz', version: versions.springBoot
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: versions.springBoot
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: versions.springBoot
 
-  implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '2.2.2.RELEASE'
-  implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.2'
+  implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '3.1.1'
+  implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap', version: '3.1.1'
+  implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.3'
+
+  implementation group: 'org.springframework.security', name: 'spring-security-oauth2-client', version: versions.springSecurity
+  implementation group: 'org.springframework.security', name: 'spring-security-oauth2-resource-server', version: versions.springSecurity
+  implementation group: 'org.springframework.security', name: 'spring-security-oauth2-jose', version: versions.springSecurity
 
   implementation group: 'org.flywaydb', name: 'flyway-core', version: '5.2.4'
-  implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.13'
+  implementation group: 'org.postgresql', name: 'postgresql', version: '42.4.1'
 
-  implementation group: 'io.springfox', name: 'springfox-swagger2', version: versions.springfoxSwagger
-  implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: versions.springfoxSwagger
+  implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: versions.springDoc
 
   implementation group: 'uk.gov.hmcts.reform', name: 'logging', version: versions.reformLogging
   implementation group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: versions.reformLogging
-  implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: '2.2.2.RELEASE'
-  implementation group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: '0.0.4'
+  implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: '2.2.10.RELEASE'
+  implementation group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version: '0.1.0'
   implementation group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: '3.1.2'
   implementation group: 'com.sun.xml.bind', name: 'jaxb-osgi', version: '2.3.3'
 
@@ -253,15 +263,16 @@ dependencies {
   implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
 
   testImplementation libraries.junit5
-  testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot, {
+
+  testImplementation(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot) {
     exclude group: 'junit', module: 'junit'
-    exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    exclude group: "com.vaadin.external.google", module: "android-json"
   }
 
-  testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '3.3.3'
-  testImplementation group: 'com.github.tomakehurst', name: 'wiremock', version: '2.23.2'
+//  testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '4.6.1'
+  testImplementation group: 'com.github.tomakehurst', name: 'wiremock', version: '2.27.2'
   testImplementation group: 'ru.lanwen.wiremock', name: 'wiremock-junit5', version: '1.3.1'
-  testImplementation group: 'org.springframework.security', name: 'spring-security-test'
+  testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '5.7.1'
 
   testImplementation group: 'uk.gov.hmcts.reform', name: 'document-management-client', version: '4.0.1'
 
