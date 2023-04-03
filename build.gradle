@@ -232,7 +232,7 @@ def versions = [
     springBoot      : '2.7.2',
     springDoc       : '1.6.8',
     serenity        : '3.1.20',
-    springSecurity  : '5.7.1'
+    springSecurity  : '5.7.5'
 ]
 
 ext.libraries = [
