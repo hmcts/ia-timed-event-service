@@ -164,7 +164,7 @@ dependencyCheck {
 dependencyManagement {
   // CVE-2021-42340
   dependencies {
-    dependencySet(group: 'org.apache.tomcat.embed', version: '9.0.69') {
+    dependencySet(group: 'org.apache.tomcat.embed', version: '9.0.73') {
       entry 'tomcat-embed-core'
       entry 'tomcat-embed-el'
       entry 'tomcat-embed-websocket'
