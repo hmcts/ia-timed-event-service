@@ -11,12 +11,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.hmcts.reform.timedevent.infrastructure.clients.IdamApi;
 import uk.gov.hmcts.reform.timedevent.infrastructure.clients.model.idam.UserInfo;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.services.IdamService;
 
 @ExtendWith(MockitoExtension.class)
 class IdamSystemUserProviderTest {
 
     @Mock
     private IdamApi idamApi;
+    @Mock
+    private IdamService idamService;
 
     @Mock
     private UserInfo userInfo;
@@ -28,23 +31,23 @@ class IdamSystemUserProviderTest {
 
         String expectedUserId = "someUserID";
         when(userInfo.getUid()).thenReturn(expectedUserId);
-        when(idamApi.userInfo(token)).thenReturn(userInfo);
+        when(idamService.getUserInfo(token)).thenReturn(userInfo);
 
-        IdamSystemUserProvider idamSystemUserProvider = new IdamSystemUserProvider(idamApi);
+        IdamSystemUserProvider idamSystemUserProvider = new IdamSystemUserProvider(idamApi,idamService);
 
         String userId = idamSystemUserProvider.getSystemUserId(token);
 
         assertEquals(expectedUserId, userId);
 
-        verify(idamApi).userInfo(token);
+        verify(idamService).getUserInfo(token);
     }
 
     @Test
     public void should_throw_exception_when_auth_service_unavailable() {
 
-        when(idamApi.userInfo(token)).thenThrow(FeignException.class);
+        when(idamService.getUserInfo(token)).thenThrow(FeignException.class);
 
-        IdamSystemUserProvider idamSystemUserProvider = new IdamSystemUserProvider(idamApi);
+        IdamSystemUserProvider idamSystemUserProvider = new IdamSystemUserProvider(idamApi,idamService);
 
         IdentityManagerResponseException thrown = assertThrows(
             IdentityManagerResponseException.class,
