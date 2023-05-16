@@ -23,7 +23,7 @@ module "ia_timed_event_service_database_11" {
   database_name      = "${var.postgresql_database_name}"
   postgresql_user    = "${var.postgresql_user}"
   postgresql_version = "11"
-  common_tags        = "${merge(var.common_tags, map("lastUpdated", "${timestamp()}"))}"
+  common_tags        = "${merge(var.common_tags, tomap({"lastUpdated" = "${timestamp()}"}))}"
   subscription       = "${var.subscription}"
 }
 

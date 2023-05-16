@@ -10,10 +10,10 @@ plugins {
   id 'checkstyle'
   id 'pmd'
   id 'jacoco'
-  id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-  id 'org.springframework.boot' version '2.7.0'
+  id 'io.spring.dependency-management' version '1.1.0'
+  id 'org.springframework.boot' version '2.7.11'
   id 'uk.gov.hmcts.java' version '0.12.5'
-  id 'org.owasp.dependencycheck' version '8.0.2'
+  id 'org.owasp.dependencycheck' version '8.2.1'
   id 'com.github.ben-manes.versions' version '0.42.0'
   id 'org.sonarqube' version '3.0'
   id "io.freefair.lombok" version "5.3.0"
@@ -162,39 +162,42 @@ dependencyCheck {
 }
 
 dependencyManagement {
-  // CVE-2021-42340
   dependencies {
-    dependencySet(group: 'org.apache.tomcat.embed', version: '9.0.65') {
-      entry 'tomcat-embed-core'
-      entry 'tomcat-embed-el'
-      entry 'tomcat-embed-websocket'
-    }
-
     // CVE-2018-10237 - Unbounded memory allocation
-    dependencySet(group: 'com.google.guava', version: '30.0-jre') {
+    dependencySet(group: 'com.google.guava', version: '31.1-jre') {
       entry 'guava'
     }
 
-    //CVE-2021-22119
-    dependency group: 'org.springframework.security', name: 'spring-security-core',  version: '5.7.1'
+    //CVE-2021-27568, CVE-2022-45688, CVE-2023-1370
+    dependency group: 'net.minidev', name: 'json-smart', version: '2.4.10'
 
-    //CVE-2021-27568
-    dependency group: 'net.minidev', name: 'json-smart', version: '2.4.8'
-
-    //CVE-2021-42550
-    dependencySet(group: 'ch.qos.logback', version: '1.2.10') {
-      entry 'logback-classic'
-      entry 'logback-core'
-    }
-
-    //CVE-2021-44228, CVE-2021-44832, CVE-2021-45046
-    dependencySet(group: 'org.apache.logging.log4j', version: '2.17.1') {
-      entry 'log4j-api'
-      entry 'log4j-to-slf4j'
+    dependencySet(group: 'commons-fileupload', version: '1.5') {
+      entry 'commons-fileupload'
     }
 
     //CVE-2022-38750, CVE-2022-38751, CVE-2022-38752
-    dependency group: 'org.yaml', name: 'snakeyaml', version: '1.33'
+    dependency group: 'org.yaml', name: 'snakeyaml', version: '2.0'
+
+    dependencySet(group: 'com.fasterxml.jackson.core', version: '2.15.0') {
+      entry 'jackson-databind'
+      entry 'jackson-core'
+      entry 'jackson-annotations'
+    }
+
+    dependencySet(group: 'com.fasterxml.jackson.dataformat', version: '2.15.0') {
+      entry 'jackson-dataformat-yaml'
+    }
+
+    dependencySet(group: 'com.fasterxml.jackson.datatype', version: '2.15.0') {
+      entry 'jackson-datatype-jsr310'
+      entry 'jackson-datatype-jdk8'
+    }
+
+    dependencySet(group: 'com.fasterxml.jackson.module', version: '2.15.0') {
+      entry 'jackson-module-parameter-names'
+      entry 'jackson-module-afterburner'
+    }
+
   }
 }
 
@@ -211,10 +214,8 @@ def versions = [
     junit           : '5.7.0',
     junitPlatform   : '1.7.2',
     reformLogging   : '5.1.7',
-    springBoot      : '2.7.0',
     springDoc       : '1.6.8',
-    serenity        : '3.1.20',
-    springSecurity  : '5.7.1'
+    serenity        : '3.1.20'
 ]
 
 ext.libraries = [
@@ -228,25 +229,25 @@ ext.libraries = [
 ]
 
 dependencies {
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: versions.springBoot
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: versions.springBoot
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: versions.springBoot
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: versions.springBoot
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-json', version: versions.springBoot
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-quartz', version: versions.springBoot
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: versions.springBoot
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: versions.springBoot
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-json'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-quartz'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
 
   implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '3.1.1'
   implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap', version: '3.1.1'
-  implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.3'
+  implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind'
 
-  implementation group: 'org.springframework.security', name: 'spring-security-oauth2-client', version: versions.springSecurity
-  implementation group: 'org.springframework.security', name: 'spring-security-oauth2-resource-server', version: versions.springSecurity
-  implementation group: 'org.springframework.security', name: 'spring-security-oauth2-jose', version: versions.springSecurity
+  implementation group: 'org.springframework.security', name: 'spring-security-oauth2-client'
+  implementation group: 'org.springframework.security', name: 'spring-security-oauth2-resource-server'
+  implementation group: 'org.springframework.security', name: 'spring-security-oauth2-jose'
 
   implementation group: 'org.flywaydb', name: 'flyway-core', version: '5.2.4'
-  implementation group: 'org.postgresql', name: 'postgresql', version: '42.4.1'
+  implementation group: 'org.postgresql', name: 'postgresql', version: '42.4.3'
 
   implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: versions.springDoc
 
@@ -266,15 +267,12 @@ dependencies {
   compile group: 'com.github.ben-manes.caffeine', name: 'caffeine'
   testImplementation libraries.junit5
 
-  testImplementation(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot) {
+  testImplementation(group: 'org.springframework.boot', name: 'spring-boot-starter-test') {
     exclude group: 'junit', module: 'junit'
     exclude group: "com.vaadin.external.google", module: "android-json"
   }
 
-//  testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '4.6.1'
-  testImplementation group: 'com.github.tomakehurst', name: 'wiremock', version: '2.27.2'
-  testImplementation group: 'ru.lanwen.wiremock', name: 'wiremock-junit5', version: '1.3.1'
-  testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '5.7.1'
+  testImplementation group: 'org.springframework.security', name: 'spring-security-test'
 
   testImplementation group: 'uk.gov.hmcts.reform', name: 'document-management-client', version: '4.0.1'
 
@@ -287,6 +285,10 @@ dependencies {
   testImplementation group: 'net.serenity-bdd', name: 'serenity-junit', version: versions.serenity
   testImplementation group: 'net.serenity-bdd', name: 'serenity-rest-assured', version: versions.serenity
   testImplementation group: 'net.serenity-bdd', name: 'serenity-spring', version: versions.serenity
+
+  testImplementation(group: 'org.springframework.cloud', name: 'spring-cloud-contract-wiremock', version: '3.1.6') {
+    exclude group: "com.github.tomakehurst", module: "wiremock-standalone"
+  }
 
   integrationTestCompile sourceSets.main.runtimeClasspath
   integrationTestCompile sourceSets.test.runtimeClasspath

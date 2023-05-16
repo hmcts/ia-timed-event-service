@@ -7,14 +7,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.http.RequestMethod;
 import com.github.tomakehurst.wiremock.stubbing.StubMapping;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.MvcResult;
-import ru.lanwen.wiremock.ext.WiremockResolver;
 import uk.gov.hmcts.reform.timedevent.testutils.SpringBootIntegrationTest;
-import uk.gov.hmcts.reform.timedevent.testutils.StaticPortWiremockFactory;
 import uk.gov.hmcts.reform.timedevent.testutils.WithIdamStub;
 import uk.gov.hmcts.reform.timedevent.testutils.WithServiceAuthStub;
 
@@ -28,7 +25,7 @@ public class PostExecuteEventIntegrationTest extends SpringBootIntegrationTest i
     private String state = "someState";
 
     @Test
-    public void executionEndpoint(@WiremockResolver.Wiremock(factory = StaticPortWiremockFactory.class) WireMockServer server) throws Exception {
+    public void executionEndpoint() throws Exception {
 
         addIdamTokenStub(server);
         addUserInfoStub(server);
@@ -96,7 +93,7 @@ public class PostExecuteEventIntegrationTest extends SpringBootIntegrationTest i
     }
 
     @Test
-    public void should_return_400_when_case_does_not_exists(@WiremockResolver.Wiremock(factory = StaticPortWiremockFactory.class) WireMockServer server) throws Exception {
+    public void should_return_400_when_case_does_not_exists() throws Exception {
 
         addIdamTokenStub(server);
         addUserInfoStub(server);
@@ -141,7 +138,7 @@ public class PostExecuteEventIntegrationTest extends SpringBootIntegrationTest i
     }
 
     @Test
-    public void should_return_404_when_event_is_not_defined_in_ccd(@WiremockResolver.Wiremock(factory = StaticPortWiremockFactory.class) WireMockServer server) throws Exception {
+    public void should_return_404_when_event_is_not_defined_in_ccd() throws Exception {
 
         addIdamTokenStub(server);
         addUserInfoStub(server);
@@ -188,7 +185,7 @@ public class PostExecuteEventIntegrationTest extends SpringBootIntegrationTest i
     }
 
     @Test
-    public void should_return_504_when_system_user_does_not_have_access_in_ccd_or_case_api_is_down(@WiremockResolver.Wiremock(factory = StaticPortWiremockFactory.class) WireMockServer server) throws Exception {
+    public void should_return_504_when_system_user_does_not_have_access_in_ccd_or_case_api_is_down() throws Exception {
 
         addIdamTokenStub(server);
         addUserInfoStub(server);
@@ -232,7 +229,7 @@ public class PostExecuteEventIntegrationTest extends SpringBootIntegrationTest i
     }
 
     @Test
-    public void should_return_422_when_case_is_in_wrong_state(@WiremockResolver.Wiremock(factory = StaticPortWiremockFactory.class) WireMockServer server) throws Exception {
+    public void should_return_422_when_case_is_in_wrong_state() throws Exception {
 
         addIdamTokenStub(server);
         addUserInfoStub(server);
@@ -277,7 +274,7 @@ public class PostExecuteEventIntegrationTest extends SpringBootIntegrationTest i
     }
 
     @Test
-    public void should_return_422_when_caseType_is_not_defined_in_ccd(@WiremockResolver.Wiremock(factory = StaticPortWiremockFactory.class) WireMockServer server) throws Exception {
+    public void should_return_422_when_caseType_is_not_defined_in_ccd() throws Exception {
 
         addIdamTokenStub(server);
         addUserInfoStub(server);
@@ -324,7 +321,7 @@ public class PostExecuteEventIntegrationTest extends SpringBootIntegrationTest i
     }
 
     @Test
-    public void should_return_403_when_jurisdiction_is_not_defined_in_ccd(@WiremockResolver.Wiremock(factory = StaticPortWiremockFactory.class) WireMockServer server) throws Exception {
+    public void should_return_403_when_jurisdiction_is_not_defined_in_ccd() throws Exception {
 
         addIdamTokenStub(server);
         addUserInfoStub(server);
