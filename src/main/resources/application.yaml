@@ -151,3 +151,8 @@ idam:
 ccd:
   case-data-api:
     url: ${CCD_URL:http://127.0.0.1:4452}
+
+ia:
+  config:
+    validator:
+      secret: ${IA_CONFIG_VALIDATOR_SECRET:}
