@@ -33,7 +33,9 @@ def secrets = [
         secret('test-law-firm-a-username', 'TEST_LAW_FIRM_A_USERNAME'),
         secret('test-law-firm-a-password', 'TEST_LAW_FIRM_A_PASSWORD'),
         secret('test-homeoffice-lart-username', 'TEST_HOMEOFFICE_LART_USERNAME'),
-        secret('test-homeoffice-lart-password', 'TEST_HOMEOFFICE_LART_PASSWORD')
+        secret('test-homeoffice-lart-password', 'TEST_HOMEOFFICE_LART_PASSWORD'),
+
+        secret('ia-config-validator-secret', 'IA_CONFIG_VALIDATOR_SECRET')
     ]
 ]
 
