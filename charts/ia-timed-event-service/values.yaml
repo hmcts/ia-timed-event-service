@@ -32,3 +32,4 @@ java:
         - AppInsightsInstrumentationKey
         - timed-event-service-POSTGRES-PASS-11
         - app-insights-connection-string
+        - ia-config-validator-secret
