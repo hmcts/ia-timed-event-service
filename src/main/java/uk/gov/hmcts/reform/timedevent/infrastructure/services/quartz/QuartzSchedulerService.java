@@ -90,8 +90,7 @@ public class QuartzSchedulerService implements SchedulerService {
                     timedEvent.getCaseId(),
                     timedEvent.getScheduledDateTime().toString()
                 );
-            }
-            else {
+            } else {
                 // 2023-08-10 it's an error condition and will cause problems...
                 // ... but we continue execution for compatibility while we try to understand what's happening
                 log.error(
