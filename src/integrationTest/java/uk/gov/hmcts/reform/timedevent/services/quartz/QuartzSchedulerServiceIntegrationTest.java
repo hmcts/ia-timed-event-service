@@ -1,14 +1,12 @@
 package uk.gov.hmcts.reform.timedevent.services.quartz;
 
 import java.time.ZonedDateTime;
-import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.TimedEvent;
 import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.ccd.Event;
 import uk.gov.hmcts.reform.timedevent.infrastructure.domain.services.SchedulerService;
-import uk.gov.hmcts.reform.timedevent.infrastructure.services.quartz.QuartzSchedulerService;
 import uk.gov.hmcts.reform.timedevent.testutils.SpringBootIntegrationTest;
 
 import static java.time.temporal.ChronoUnit.DAYS;
