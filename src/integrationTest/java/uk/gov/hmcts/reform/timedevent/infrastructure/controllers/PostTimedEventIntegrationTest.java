@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.timedevent.infrastructure.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -71,6 +72,32 @@ public class PostTimedEventIntegrationTest extends SpringBootIntegrationTest {
             .andReturn();
 
         assertEquals(timedEventWithIdAndDate(identity), getResponse.getResponse().getContentAsString());
+    }
+
+    @Test
+    @WithMockUser(authorities = {"caseworker-ia-caseofficer"})
+    public void deleteTimedEventEndpoint() throws Exception {
+
+        // Given: a task has been scheduled
+        String identity = "cee88160-78f4-4d24-87ff-91fd3b131034";
+
+        when(identityProvider.identity()).thenReturn(identity);
+
+        mockMvc.perform(
+            post("/timed-event").content(timedEvent()).contentType("application/json")
+            )
+            .andExpect(status().isCreated())
+            .andReturn();
+
+        // When: I try to delete the event
+        mockMvc.perform(delete("/timed-event/" + identity).contentType("application/json"))
+            .andExpect(status().is2xxSuccessful())
+            .andReturn();
+
+        // Then: the event is no longer in quartz
+        mockMvc.perform(get("/timed-event/" + identity).contentType("application/json"))
+            .andExpect(status().isNotFound())
+            .andReturn();
     }
 
     private String timedEventWithIdAndDate(String id) {

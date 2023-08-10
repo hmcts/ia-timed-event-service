@@ -6,6 +6,8 @@ import com.google.common.collect.ImmutableMap;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Optional;
+
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -94,6 +96,14 @@ public class QuartzSchedulerService implements SchedulerService {
 
             throw new SchedulerProcessingException(e);
         }
+    }
+
+    @SneakyThrows
+    @Transactional
+    public boolean deleteSchedule(String jobKey) {
+        TimedEvent timedEvent = get(jobKey).orElseThrow();
+        Pair<JobDetail, Trigger> jobAndTrigger = createJobAndTrigger(timedEvent, 0);
+        return quartzScheduler.deleteJob(jobAndTrigger.getLeft().getKey());
     }
 
     @Override
