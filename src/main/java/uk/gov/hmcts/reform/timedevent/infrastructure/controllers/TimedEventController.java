@@ -87,6 +87,16 @@ public class TimedEventController {
         );
     }
 
+    @DeleteMapping("/timed-event/{id}")
+    public ResponseEntity<TimedEvent> delete(@PathVariable("id") String jobKey) {
+        boolean result = schedulerService.deleteSchedule(jobKey);
+        if (!result) {
+            return status(HttpStatus.NOT_FOUND).build();
+        }
+
+        return status(HttpStatus.ACCEPTED).build();
+    }
+
     @Operation(
         summary = "Getting scheduled event",
         security =
