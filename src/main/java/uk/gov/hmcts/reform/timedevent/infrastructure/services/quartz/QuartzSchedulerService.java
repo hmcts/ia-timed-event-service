@@ -6,6 +6,8 @@ import com.google.common.collect.ImmutableMap;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Optional;
+
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -79,14 +81,26 @@ public class QuartzSchedulerService implements SchedulerService {
 
         try {
 
-            quartzScheduler.rescheduleJob(new TriggerKey(timedEvent.getId()), jobAndTrigger.getRight());
+            Date newSchedule = quartzScheduler.rescheduleJob(new TriggerKey(timedEvent.getId()), jobAndTrigger.getRight());
 
-            log.info(
-                "Timed Event re-scheduled for event: {}, case id: {} at: {}",
-                timedEvent.getEvent().toString(),
-                timedEvent.getCaseId(),
-                timedEvent.getScheduledDateTime().toString()
-            );
+            if (newSchedule != null) {
+                log.info(
+                    "Timed Event re-scheduled for event: {}, case id: {} at: {}",
+                    timedEvent.getEvent().toString(),
+                    timedEvent.getCaseId(),
+                    timedEvent.getScheduledDateTime().toString()
+                );
+            } else {
+                // 2023-08-10 it's an error condition and will cause problems...
+                // ... but we continue execution for compatibility while we try to understand what's happening
+                log.error(
+                    "Timed Event re-scheduling failed for event: {}, case id: {} at: {}, timedEvent id: {}",
+                    timedEvent.getEvent().toString(),
+                    timedEvent.getCaseId(),
+                    timedEvent.getScheduledDateTime().toString(),
+                    timedEvent.getId()
+                );
+            }
 
             return jobAndTrigger.getRight().getKey().getName();
 
@@ -94,6 +108,14 @@ public class QuartzSchedulerService implements SchedulerService {
 
             throw new SchedulerProcessingException(e);
         }
+    }
+
+    @SneakyThrows
+    @Transactional
+    public boolean deleteSchedule(String jobKey) {
+        TimedEvent timedEvent = get(jobKey).orElseThrow();
+        Pair<JobDetail, Trigger> jobAndTrigger = createJobAndTrigger(timedEvent, 0);
+        return quartzScheduler.deleteJob(jobAndTrigger.getLeft().getKey());
     }
 
     @Override

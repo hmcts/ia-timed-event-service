@@ -46,6 +46,9 @@ public class RetryJobListener extends JobListenerSupport {
         long caseId = data.getLong("caseId");
 
         if (jobException instanceof RetryableException) {
+            log.warn("A retryable exception was issued while executing a job so a retry will be scheduled. "
+                    + "Stack trace of exception follows.",
+                jobException);
 
             long retryCount = data.getLong("retryCount");
 
@@ -54,11 +57,14 @@ public class RetryJobListener extends JobListenerSupport {
                 String retriedIdentity = scheduleRetry(data, newDate, identity, retryCount + 1);
 
                 log.info(
-                    "Retry has been scheduled with new identity: {}, for event: {}, caseId: {}, date: {}",
+                    "Retry has been scheduled with new identity: {}, for event: {}, caseId: {}, date: {}. "
+                        + "Retry #{} of {}",
                     retriedIdentity,
                     event,
                     caseId,
-                    newDate.toString()
+                    newDate.toString(),
+                    retryCount + 1,
+                    maxRetryNumber
                 );
             } else {
 
@@ -77,17 +83,23 @@ public class RetryJobListener extends JobListenerSupport {
 
     private String scheduleRetry(JobDataMap data, ZonedDateTime newDate, String identity, long retryCount) {
 
-        return schedulerService.reschedule(
-            new TimedEvent(
-                identity,
-                Event.fromString(data.getString("event")),
-                newDate,
-                data.getString("jurisdiction"),
-                data.getString("caseType"),
-                data.getLong("caseId")
-            ),
-            retryCount
+        TimedEvent timedEvent = new TimedEvent(
+            identity,
+            Event.fromString(data.getString("event")),
+            newDate,
+            data.getString("jurisdiction"),
+            data.getString("caseType"),
+            data.getLong("caseId")
         );
+
+        log.info(
+            "Automated scheduling of a retry for event: {}, case id: {} at: {}",
+            timedEvent.getEvent().toString(),
+            timedEvent.getCaseId(),
+            timedEvent.getScheduledDateTime().toString()
+        );
+
+        return schedulerService.reschedule(timedEvent, retryCount);
     }
 
     private ZonedDateTime calculateNextScheduledDate() {

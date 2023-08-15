@@ -49,11 +49,11 @@ public class TestingSupportController {
             responseCode = "200",
             description = "Generated system user token",
             content =  @Content(schema = @Schema(implementation = String.class))
-        ),
+            ),
         @ApiResponse(
             responseCode = "500",
             description = "Internal Server Error"
-        )
+            )
     })
     @GetMapping("/testing-support/token")
     public ResponseEntity<String> token() {
@@ -67,11 +67,11 @@ public class TestingSupportController {
             responseCode = "200",
             description = "system user id",
             content =  @Content(schema = @Schema(implementation = String.class))
-        ),
+            ),
         @ApiResponse(
             responseCode = "500",
             description = "Internal Server Error"
-        )
+            )
     })
     @GetMapping("/testing-support/system-user")
     public ResponseEntity<String> systemUser() {
@@ -85,32 +85,32 @@ public class TestingSupportController {
             responseCode = "200",
             description = "confirmation message",
             content =  @Content(schema = @Schema(implementation = String.class))
-        ),
+            ),
         @ApiResponse(
             responseCode = "403",
             description = "Forbidden / re-thrown from dependent service"
-        ),
+            ),
         @ApiResponse(
             responseCode = "422",
             description = "Unprocessable Entity / re-thrown from dependent service"
-        ),
+            ),
 
         @ApiResponse(
             responseCode = "400",
             description = "Bad Request / re-thrown from dependent service"
-        ),
+            ),
         @ApiResponse(
             responseCode = "404",
             description = "Not Found / re-thrown from dependent service"
-        ),
+            ),
         @ApiResponse(
             responseCode = "504",
             description = "Gateway Timeout / re-thrown from dependent service"
-        ),
+            ),
         @ApiResponse(
             responseCode = "500",
             description = "Internal Server Error"
-        )
+            )
     })
     @PostMapping("/testing-support/execute/jurisdiction/{jurisdiction}/case-type/{caseType}/cid/{cid}/event/{event}")
     public ResponseEntity<String> execute(
