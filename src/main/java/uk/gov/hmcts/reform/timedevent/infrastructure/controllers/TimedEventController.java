@@ -41,23 +41,23 @@ public class TimedEventController {
             responseCode  = "201",
             description = "Created TimeEvent object",
             content =  @Content(schema = @Schema(implementation = TimedEvent.class))
-        ),
+            ),
         @ApiResponse(
             responseCode = "415",
             description = "Unsupported Media Type"
-        ),
+            ),
         @ApiResponse(
             responseCode = "400",
             description = "Bad Request"
-        ),
+            ),
         @ApiResponse(
             responseCode = "403",
             description = "Forbidden"
-        ),
+            ),
         @ApiResponse(
             responseCode = "500",
             description = "Internal Server Error"
-        )
+            )
     })
     @PostMapping("/timed-event")
     public ResponseEntity<TimedEvent> post(@RequestBody TimedEvent timedEvent) {
@@ -87,6 +87,16 @@ public class TimedEventController {
         );
     }
 
+    @DeleteMapping("/timed-event/{id}")
+    public ResponseEntity<TimedEvent> delete(@PathVariable("id") String jobKey) {
+        boolean result = schedulerService.deleteSchedule(jobKey);
+        if (!result) {
+            return status(HttpStatus.NOT_FOUND).build();
+        }
+
+        return status(HttpStatus.ACCEPTED).build();
+    }
+
     @Operation(
         summary = "Getting scheduled event",
         security =
@@ -100,19 +110,19 @@ public class TimedEventController {
             responseCode = "200",
             description = "TimeEvent object",
             content =  @Content(schema = @Schema(implementation = TimedEvent.class))
-        ),
+            ),
         @ApiResponse(
             responseCode = "404",
             description = "Not Found"
-        ),
+            ),
         @ApiResponse(
             responseCode = "401",
             description = "Forbidden"
-        ),
+            ),
         @ApiResponse(
             responseCode = "500",
             description = "Internal Server Error"
-        )
+            )
     })
     @GetMapping("/timed-event/{id}")
     public ResponseEntity<TimedEvent> get(@PathVariable("id") String id) {
