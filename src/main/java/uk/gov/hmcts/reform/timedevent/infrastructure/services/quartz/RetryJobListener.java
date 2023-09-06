@@ -50,11 +50,11 @@ public class RetryJobListener extends JobListenerSupport {
                     + "Stack trace of exception follows.",
                 jobException);
 
-            long retryCount = data.getLong("retryCount");
+            long attempts = (Long)data.getOrDefault("attempts", 0L);
 
-            if (retryCount <= maxRetryNumber) {
+            if (attempts <= maxRetryNumber) {
                 ZonedDateTime newDate = calculateNextScheduledDate();
-                String retriedIdentity = scheduleRetry(data, newDate, identity, retryCount + 1);
+                String retriedIdentity = scheduleRetry(data, newDate, identity);
 
                 log.info(
                     "Retry has been scheduled with new identity: {}, for event: {}, caseId: {}, date: {}. "
@@ -63,7 +63,7 @@ public class RetryJobListener extends JobListenerSupport {
                     event,
                     caseId,
                     newDate.toString(),
-                    retryCount + 1,
+                    attempts + 1,
                     maxRetryNumber
                 );
             } else {
@@ -81,7 +81,7 @@ public class RetryJobListener extends JobListenerSupport {
         log.info("Job finished execution with identity: {}, for event: {}, caseId: {}", identity, event, caseId);
     }
 
-    private String scheduleRetry(JobDataMap data, ZonedDateTime newDate, String identity, long retryCount) {
+    private String scheduleRetry(JobDataMap data, ZonedDateTime newDate, String identity) {
 
         TimedEvent timedEvent = new TimedEvent(
             identity,
@@ -99,7 +99,7 @@ public class RetryJobListener extends JobListenerSupport {
             timedEvent.getScheduledDateTime().toString()
         );
 
-        return schedulerService.reschedule(timedEvent, retryCount);
+        return schedulerService.reschedule(timedEvent);
     }
 
     private ZonedDateTime calculateNextScheduledDate() {

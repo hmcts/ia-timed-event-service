@@ -5,6 +5,7 @@ import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.quartz.PersistJobDataAfterExecution;
 import org.springframework.stereotype.Component;
 import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.EventExecution;
 import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.ccd.Event;
@@ -13,6 +14,7 @@ import uk.gov.hmcts.reform.timedevent.infrastructure.services.RetryableException
 
 @Slf4j
 @Component
+@PersistJobDataAfterExecution
 public class TimedEventJob implements Job {
 
     private final EventExecutor eventExecutor;
@@ -26,6 +28,7 @@ public class TimedEventJob implements Job {
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
         JobDataMap data = context.getJobDetail().getJobDataMap();
+        increaseAttemptsNumber(data);
 
         try {
             eventExecutor.execute(
@@ -42,4 +45,18 @@ public class TimedEventJob implements Job {
             exceptionHandler.wrapException(e);
         }
     }
+
+    private void increaseAttemptsNumber(JobDataMap data) {
+        long attempts;
+
+        try {
+            attempts = data.getLongValue("attempts");
+        }
+        catch(Exception ex) {
+            attempts = 0L;
+        }
+        data.put("attempts", attempts + 1L);
+
+    }
+
 }

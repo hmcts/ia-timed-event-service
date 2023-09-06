@@ -35,7 +35,7 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
     @WithMockUser(authorities = {"caseworker-ia-caseofficer"})
     void testScheduledEventHasRunAfterAppropriateTime() {
         // Given: an event scheduled in the future
-        scheduleEvent(ZonedDateTime.now().plusSeconds(5));
+        scheduleEvent(Event.EXAMPLE, ZonedDateTime.now().plusSeconds(5), 1588772172174020L);
 
         // When: I wait for enough time to pass
         weirdSleep(6000);
@@ -48,7 +48,7 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
     @WithMockUser(authorities = {"caseworker-ia-caseofficer"})
     void testScheduledEventHasNotRunBeforeTime() {
         // Given: an event scheduled in the future
-        scheduleEvent(ZonedDateTime.now().plusSeconds(5));
+        scheduleEvent(Event.EXAMPLE, ZonedDateTime.now().plusSeconds(5), 1588772172174021L);
 
         // When: I don't wait for enough time to pass
         weirdSleep(1000);
@@ -64,7 +64,7 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
         // Given: an event scheduled in the future that is destined to fail
         doThrow(FeignException.GatewayTimeout.class).when(eventExecutor).execute(any());
 
-        scheduleEvent(ZonedDateTime.now().plusSeconds(5));
+        scheduleEvent(Event.EXAMPLE, ZonedDateTime.now().plusSeconds(5), 1588772172174022L);
 
         // When: I wait for enough time to pass
         weirdSleep(30000);
@@ -79,7 +79,7 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
         // Given: an event scheduled in the future that is destined to fail
         doThrow(FeignException.GatewayTimeout.class).when(eventExecutor).execute(any());
 
-        scheduleEvent(ZonedDateTime.now().plusSeconds(5));
+        scheduleEvent(Event.EXAMPLE, ZonedDateTime.now().plusSeconds(5), 1588772172174023L);
 
         // When: I wait for enough time to pass
         weirdSleep(30000);
@@ -89,18 +89,17 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
     }
 
     @SneakyThrows
-    private TimedEvent scheduleEvent(ZonedDateTime scheduledDateTime) {
+    private TimedEvent scheduleEvent(Event event, ZonedDateTime scheduledDateTime, Long caseId) {
         MvcResult postResponse = mockMvc
             .perform(
                 post("/timed-event")
-                    .content(buildTimedEvent(scheduledDateTime))
+                    .content(buildTimedEvent(event, scheduledDateTime, caseId))
                     .contentType("application/json")
             )
             .andExpect(status().isCreated())
             .andReturn();
 
-        TimedEvent result = objectMapper.readValue(postResponse.getResponse().getContentAsString(), TimedEvent.class);
-        return result;
+        return objectMapper.readValue(postResponse.getResponse().getContentAsString(), TimedEvent.class);
     }
 
     /**
@@ -121,9 +120,15 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
     }
 
     @SneakyThrows
-    private String buildTimedEvent(ZonedDateTime scheduledDateTime) {
+    private String buildTimedEvent(Event event, ZonedDateTime scheduledDateTime, long caseId) {
         //scheduledDateTime.format(DateTimeFormatter.ISO_DATE_TIME)
-        TimedEvent timedEvent = new TimedEvent(null, Event.EXAMPLE, scheduledDateTime, "IA", "Asylum", 1588772172174023L);
+        TimedEvent timedEvent = new TimedEvent(
+            null,
+            event,
+            scheduledDateTime,
+            "IA",
+            "Asylum",
+            caseId);
         return objectMapper.writeValueAsString(timedEvent);
     }
 
