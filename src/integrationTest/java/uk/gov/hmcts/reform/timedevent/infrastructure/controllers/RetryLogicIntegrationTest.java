@@ -30,6 +30,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
 
+    static final long INCREMENT = 250;
+
     @MockBean
     EventExecutor eventExecutor;
 
@@ -61,7 +63,7 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
 
         // When: I wait for enough time to pass
         weirdSleep(1000); // enough for the original invocation
-        weirdSleep(retryIntervalMillis *2);   // some more time
+        weirdSleep(retryIntervalMillis * 2);   // some more time
 
         // Then: the event is executed
         verify(eventExecutor, times(1)).execute(any());
@@ -136,9 +138,8 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
     @SneakyThrows
     private void weirdSleep(long totalMillis) {
         long total = 0;
-        final long INCREMENT = 250;
 
-        while(total < totalMillis) {
+        while (total < totalMillis) {
             Thread.sleep(INCREMENT);
             total += INCREMENT;
         }
