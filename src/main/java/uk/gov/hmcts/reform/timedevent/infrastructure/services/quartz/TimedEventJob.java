@@ -52,7 +52,7 @@ public class TimedEventJob implements Job {
         try {
             attempts = data.getLongValue("attempts");
         }
-        catch(Exception ex) {
+        catch (Exception ex) {
             attempts = 0L;
         }
         data.put("attempts", attempts + 1L);
