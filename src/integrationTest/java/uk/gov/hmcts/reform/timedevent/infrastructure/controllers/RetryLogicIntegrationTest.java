@@ -106,7 +106,7 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
         // Given: an event scheduled in the future that is destined to fail
         doThrow(FeignException.GatewayTimeout.class).when(eventExecutor).execute(any());
 
-        scheduleEvent(ZonedDateTime.now().plusSeconds(1), 1588772172174023L);
+        scheduleEvent(ZonedDateTime.now().plusSeconds(1), 1588772172174000L);
 
         // When: I wait for enough time to pass
         weirdSleep(1000); // enough for the original invocation
