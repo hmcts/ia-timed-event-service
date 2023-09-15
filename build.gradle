@@ -261,7 +261,11 @@ dependencies {
       replacedBy("org.apache.groovy:groovy-json", "conflicts in current rest-assured version")
     }
   }
+
   implementation group: 'org.quartz-scheduler', name: 'quartz', version: '2.5.0-rc1'
+
+  implementation group: 'org.apiguardian', name:'apiguardian-api', version: '1.0.0'
+
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
