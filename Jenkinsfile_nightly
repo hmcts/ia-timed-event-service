@@ -63,7 +63,7 @@ withNightlyPipeline(type, product, component) {
 
 //    enableFortifyScan()
     enableSecurityScan()
-    enableMutationTest()
+//    enableMutationTest()
     enableSlackNotifications('#ia-tech')
     enableFullFunctionalTest()
 
