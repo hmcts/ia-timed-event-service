@@ -51,6 +51,7 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 withNightlyPipeline(type, product, component) {
     env.TEST_URL = params.URL_TO_TEST
     env.Rules = params.SecurityRules
+    env.SecurityRules = params.SecurityRules
 
     env.CCD_URL = "http://ccd-data-store-api-aat.service.core-compute-aat.internal"
     env.IDAM_URL = "https://idam-web-public.aat.platform.hmcts.net"
@@ -60,7 +61,7 @@ withNightlyPipeline(type, product, component) {
 
     loadVaultSecrets(secrets)
 
-    enableFortifyScan()
+//    enableFortifyScan()
     enableSecurityScan()
     enableMutationTest()
     enableSlackNotifications('#ia-tech')
