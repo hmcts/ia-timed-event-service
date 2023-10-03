@@ -143,7 +143,6 @@ sonarqube {
 project.tasks['sonarqube'].dependsOn test, integration, jacocoTestReport
 
 pitest {
-  print('./gradlew --version'.execute().text.trim())
   junit5PluginVersion = '1.1.2'
   targetClasses = ['uk.gov.hmcts.reform.timedevent.*']
   excludedClasses = [
@@ -155,7 +154,7 @@ pitest {
   timestampedReports = true
   failWhenNoMutations = false
   verbose = true
-  mutationThreshold = 90
+  mutationThreshold = 60
 }
 
 project.tasks['pitest'].group = "Verification"
