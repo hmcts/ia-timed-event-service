@@ -46,10 +46,6 @@ public class RetryJobListener extends JobListenerSupport {
         long caseId = data.getLong("caseId");
 
         if (jobException instanceof RetryableException) {
-            log.warn("A retryable exception was issued while executing a job so a retry will be scheduled. "
-                    + "Stack trace of exception follows.",
-                jobException);
-
             long retryCount = data.getLong("retryCount");
 
             if (retryCount <= maxRetryNumber) {
@@ -75,10 +71,9 @@ public class RetryJobListener extends JobListenerSupport {
                     caseId
                 );
             }
-
+        } else {
+            log.info("Job finished execution with identity: {}, for event: {}, caseId: {}", identity, event, caseId);
         }
-
-        log.info("Job finished execution with identity: {}, for event: {}, caseId: {}", identity, event, caseId);
     }
 
     private String scheduleRetry(JobDataMap data, ZonedDateTime newDate, String identity, long retryCount) {
