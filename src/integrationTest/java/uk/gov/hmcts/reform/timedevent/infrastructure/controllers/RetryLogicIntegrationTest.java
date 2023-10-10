@@ -15,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MvcResult;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.EventExecution;
 import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.TimedEvent;
 import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.ccd.Event;
 import uk.gov.hmcts.reform.timedevent.infrastructure.domain.services.EventExecutor;
@@ -68,7 +69,7 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
         weirdSleep(retryIntervalMillis * 2);   // some more time
 
         // Then: the event is executed
-        verify(eventExecutor, times(1)).execute(any());
+        verify(eventExecutor, times(1)).execute(any(EventExecution.class));
     }
 
     @Test
@@ -81,7 +82,7 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
         weirdSleep(1000);
 
         // Then: the event is not executed
-        verify(eventExecutor, times(0)).execute(any());
+        verify(eventExecutor, times(0)).execute(any(EventExecution.class));
     }
 
     @Test
@@ -97,7 +98,7 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
         weirdSleep(retryIntervalMillis * 2);  // enough for one more try and then some
 
         // Then: the event execution is attempted at least twice
-        verify(eventExecutor, atLeast(2)).execute(any());
+        verify(eventExecutor, atLeast(2)).execute(any(EventExecution.class));
     }
 
     @Test
@@ -114,7 +115,7 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
 
         // Then: the event execution is attempted exactly one time plus the number of retries
         verify(eventExecutor, atLeast(2)).execute(any());
-        verify(eventExecutor, atMost(1 + maxRetryNumber)).execute(any());
+        verify(eventExecutor, atMost(1 + maxRetryNumber)).execute(any(EventExecution.class));
     }
 
     @SneakyThrows
