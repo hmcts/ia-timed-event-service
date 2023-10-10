@@ -4,7 +4,6 @@ import java.time.ZonedDateTime;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.FeignException;
-import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
