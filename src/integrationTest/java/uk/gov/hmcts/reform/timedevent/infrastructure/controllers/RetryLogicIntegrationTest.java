@@ -142,14 +142,19 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
      * preventing the scheduled operation to happen or to be deleted.
      * @param totalMillis The total wait time
      */
-    @SneakyThrows
+    //@SneakyThrows
     private void weirdSleep(long totalMillis) {
-        long total = 0;
-
-        while (total < totalMillis) {
-            Thread.sleep(INCREMENT);
-            total += INCREMENT;
+        try {
+            Thread.sleep(totalMillis);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+//        long total = 0;
+//
+//        while (total < totalMillis) {
+//            Thread.sleep(INCREMENT);
+//            total += INCREMENT;
+//        }
 
     }
 
