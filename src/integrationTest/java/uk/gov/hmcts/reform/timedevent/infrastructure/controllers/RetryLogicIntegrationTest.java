@@ -34,10 +34,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
 
     static final long INCREMENT = 250;
-    private static final long CASE_ID1 = 1588772172174020L;
-    private static final long CASE_ID2 = 1588772172174021L;
-    private static final long CASE_ID3 = 1588772172174022L;
-    private static final long CASE_ID4 = 1588772172174000L;
+    public static final long CASE_ID1 = 1588772172174020L;
+    public static final long CASE_ID2 = 1588772172174021L;
+    public static final long CASE_ID3 = 1588772172174022L;
+    public static final long CASE_ID4 = 1588772172174000L;
 
     @MockBean
     EventExecutor eventExecutor;
@@ -69,7 +69,7 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
         scheduleEvent(ZonedDateTime.now().plusSeconds(1), CASE_ID1);
 
         // When: I wait for enough time to pass
-        weirdSleep(60000); // enough for the original invocation
+        weirdSleep(1000); // enough for the original invocation
         weirdSleep(retryIntervalMillis * 2);   // some more time
 
         // Then: the event is executed
@@ -91,22 +91,6 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
 
     @Test
     @WithMockUser(authorities = {"caseworker-ia-caseofficer"})
-    void testRetryableExecutionFailureTriggersAnotherAttempt() {
-        // Given: an event scheduled in the future that is destined to fail
-        doThrow(FeignException.GatewayTimeout.class).when(eventExecutor).execute(any(EventExecution.class));
-
-        scheduleEvent(ZonedDateTime.now().plusSeconds(1), CASE_ID3);
-
-        // When: I wait for enough time to pass
-        weirdSleep(60000); // enough for the original invocation
-        weirdSleep(retryIntervalMillis * 2);  // enough for one more try and then some
-
-        // Then: the event execution is attempted at least twice
-        verify(eventExecutor, atLeast(2)).execute(any(EventExecution.class));
-    }
-
-    @Test
-    @WithMockUser(authorities = {"caseworker-ia-caseofficer"})
     void testExecutionFailureMaximumAttemptLimitIsRespected() {
         // Given: an event scheduled in the future that is destined to fail
         doThrow(FeignException.GatewayTimeout.class).when(eventExecutor).execute(any(EventExecution.class));
@@ -114,7 +98,7 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
         scheduleEvent(ZonedDateTime.now().plusSeconds(1), CASE_ID4);
 
         // When: I wait for enough time to pass
-        weirdSleep(60000); // enough for the original invocation
+        weirdSleep(1000); // enough for the original invocation
         weirdSleep(retryIntervalMillis * (maxRetryNumber + 2));  // enough for all the retries plus some
 
         // Then: the event execution is attempted exactly one time plus the number of retries
@@ -125,13 +109,13 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
     @SneakyThrows
     private TimedEvent scheduleEvent(ZonedDateTime scheduledDateTime, Long caseId) {
         MvcResult postResponse = mockMvc
-            .perform(
-                post("/timed-event")
-                    .content(buildTimedEvent(Event.EXAMPLE, scheduledDateTime, caseId))
-                    .contentType("application/json")
-            )
-            .andExpect(status().isCreated())
-            .andReturn();
+                .perform(
+                        post("/timed-event")
+                                .content(buildTimedEvent(Event.EXAMPLE, scheduledDateTime, caseId))
+                                .contentType("application/json")
+                )
+                .andExpect(status().isCreated())
+                .andReturn();
 
         return objectMapper.readValue(postResponse.getResponse().getContentAsString(), TimedEvent.class);
     }
@@ -142,25 +126,27 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
      * preventing the scheduled operation to happen or to be deleted.
      * @param totalMillis The total wait time
      */
-    //@SneakyThrows
+    @SneakyThrows
     private void weirdSleep(long totalMillis) {
-        try {
-            Thread.sleep(totalMillis);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        long total = 0;
+
+        while (total < totalMillis) {
+            Thread.sleep(INCREMENT);
+            total += INCREMENT;
         }
+
     }
 
     @SneakyThrows
     private String buildTimedEvent(Event event, ZonedDateTime scheduledDateTime, long caseId) {
         //scheduledDateTime.format(DateTimeFormatter.ISO_DATE_TIME)
         TimedEvent timedEvent = new TimedEvent(
-            null,
-            event,
-            scheduledDateTime,
-            "IA",
-            "Asylum",
-            caseId);
+                null,
+                event,
+                scheduledDateTime,
+                "IA",
+                "Asylum",
+                caseId);
         return objectMapper.writeValueAsString(timedEvent);
     }
 
