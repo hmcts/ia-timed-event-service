@@ -149,13 +149,6 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-//        long total = 0;
-//
-//        while (total < totalMillis) {
-//            Thread.sleep(INCREMENT);
-//            total += INCREMENT;
-//        }
-
     }
 
     @SneakyThrows
