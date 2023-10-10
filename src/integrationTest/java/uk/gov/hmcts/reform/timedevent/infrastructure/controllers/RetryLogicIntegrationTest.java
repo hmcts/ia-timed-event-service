@@ -69,7 +69,7 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
         scheduleEvent(ZonedDateTime.now().plusSeconds(1), CASE_ID1);
 
         // When: I wait for enough time to pass
-        weirdSleep(1000); // enough for the original invocation
+        weirdSleep(60000); // enough for the original invocation
         weirdSleep(retryIntervalMillis * 2);   // some more time
 
         // Then: the event is executed
@@ -98,7 +98,7 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
         scheduleEvent(ZonedDateTime.now().plusSeconds(1), CASE_ID3);
 
         // When: I wait for enough time to pass
-        weirdSleep(1000); // enough for the original invocation
+        weirdSleep(60000); // enough for the original invocation
         weirdSleep(retryIntervalMillis * 2);  // enough for one more try and then some
 
         // Then: the event execution is attempted at least twice
@@ -114,7 +114,7 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
         scheduleEvent(ZonedDateTime.now().plusSeconds(1), CASE_ID4);
 
         // When: I wait for enough time to pass
-        weirdSleep(1000); // enough for the original invocation
+        weirdSleep(60000); // enough for the original invocation
         weirdSleep(retryIntervalMillis * (maxRetryNumber + 2));  // enough for all the retries plus some
 
         // Then: the event execution is attempted exactly one time plus the number of retries
