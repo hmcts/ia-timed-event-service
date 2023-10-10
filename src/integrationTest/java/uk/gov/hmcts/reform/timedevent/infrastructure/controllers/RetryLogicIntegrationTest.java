@@ -34,6 +34,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
 
     static final long INCREMENT = 250;
+    private static final long CASE_ID1 = 1588772172174020L;
+    private static final long CASE_ID2 = 1588772172174021L;
+    private static final long CASE_ID3 = 1588772172174022L;
+    private static final long CASE_ID4 = 1588772172174000L;
 
     @MockBean
     EventExecutor eventExecutor;
@@ -62,7 +66,7 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
     @WithMockUser(authorities = {"caseworker-ia-caseofficer"})
     void testScheduledEventHasRunAfterAppropriateTime() {
         // Given: an event scheduled in the future
-        scheduleEvent(ZonedDateTime.now().plusSeconds(1), 1588772172174020L);
+        scheduleEvent(ZonedDateTime.now().plusSeconds(1), CASE_ID1);
 
         // When: I wait for enough time to pass
         weirdSleep(1000); // enough for the original invocation
@@ -76,7 +80,7 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
     @WithMockUser(authorities = {"caseworker-ia-caseofficer"})
     void testScheduledEventHasNotRunBeforeTime() {
         // Given: an event scheduled in the future
-        scheduleEvent(ZonedDateTime.now().plusSeconds(5), 1588772172174021L);
+        scheduleEvent(ZonedDateTime.now().plusSeconds(5), CASE_ID2);
 
         // When: I don't wait for enough time to pass
         weirdSleep(1000);
@@ -89,9 +93,9 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
     @WithMockUser(authorities = {"caseworker-ia-caseofficer"})
     void testRetryableExecutionFailureTriggersAnotherAttempt() {
         // Given: an event scheduled in the future that is destined to fail
-        doThrow(FeignException.GatewayTimeout.class).when(eventExecutor).execute(any());
+        doThrow(FeignException.GatewayTimeout.class).when(eventExecutor).execute(any(EventExecution.class));
 
-        scheduleEvent(ZonedDateTime.now().plusSeconds(1), 1588772172174022L);
+        scheduleEvent(ZonedDateTime.now().plusSeconds(1), CASE_ID3);
 
         // When: I wait for enough time to pass
         weirdSleep(1000); // enough for the original invocation
@@ -105,16 +109,16 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
     @WithMockUser(authorities = {"caseworker-ia-caseofficer"})
     void testExecutionFailureMaximumAttemptLimitIsRespected() {
         // Given: an event scheduled in the future that is destined to fail
-        doThrow(FeignException.GatewayTimeout.class).when(eventExecutor).execute(any());
+        doThrow(FeignException.GatewayTimeout.class).when(eventExecutor).execute(any(EventExecution.class));
 
-        scheduleEvent(ZonedDateTime.now().plusSeconds(1), 1588772172174000L);
+        scheduleEvent(ZonedDateTime.now().plusSeconds(1), CASE_ID4);
 
         // When: I wait for enough time to pass
         weirdSleep(1000); // enough for the original invocation
         weirdSleep(retryIntervalMillis * (maxRetryNumber + 2));  // enough for all the retries plus some
 
         // Then: the event execution is attempted exactly one time plus the number of retries
-        verify(eventExecutor, atLeast(2)).execute(any());
+        verify(eventExecutor, atLeast(2)).execute(any(EventExecution.class));
         verify(eventExecutor, atMost(1 + maxRetryNumber)).execute(any(EventExecution.class));
     }
 
