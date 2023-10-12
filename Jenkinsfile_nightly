@@ -33,7 +33,9 @@ def secrets = [
         secret('test-law-firm-a-username', 'TEST_LAW_FIRM_A_USERNAME'),
         secret('test-law-firm-a-password', 'TEST_LAW_FIRM_A_PASSWORD'),
         secret('test-homeoffice-lart-username', 'TEST_HOMEOFFICE_LART_USERNAME'),
-        secret('test-homeoffice-lart-password', 'TEST_HOMEOFFICE_LART_PASSWORD')
+        secret('test-homeoffice-lart-password', 'TEST_HOMEOFFICE_LART_PASSWORD'),
+
+        secret('ia-config-validator-secret', 'IA_CONFIG_VALIDATOR_SECRET')
     ]
 ]
 
@@ -49,6 +51,7 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 withNightlyPipeline(type, product, component) {
     env.TEST_URL = params.URL_TO_TEST
     env.Rules = params.SecurityRules
+    env.SecurityRules = params.SecurityRules
 
     env.CCD_URL = "http://ccd-data-store-api-aat.service.core-compute-aat.internal"
     env.IDAM_URL = "https://idam-web-public.aat.platform.hmcts.net"
@@ -58,9 +61,14 @@ withNightlyPipeline(type, product, component) {
 
     loadVaultSecrets(secrets)
 
+//    enableFortifyScan()
     enableSecurityScan()
     enableMutationTest()
     enableSlackNotifications('#ia-tech')
     enableFullFunctionalTest()
+
+    after('fortify-scan') {
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
+    }
 
 }

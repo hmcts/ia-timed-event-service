@@ -9,5 +9,7 @@ public interface SchedulerService {
 
     String reschedule(TimedEvent timedEvent, long retryCount);
 
+    boolean deleteSchedule(String jobKey);
+
     Optional<TimedEvent> get(String identity);
 }
