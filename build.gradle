@@ -79,6 +79,11 @@ task functional(type: Test, description: 'Runs the functional tests.', group: 'V
 task integration(type: Test, description: 'Runs the integration tests.', group: 'Verification') {
   testClassesDirs = sourceSets.integrationTest.output.classesDirs
   classpath = sourceSets.integrationTest.runtimeClasspath
+  testLogging {
+    outputs.upToDateWhen {false}
+    showStandardStreams = true
+    showStackTraces = true
+  }
   //useJUnitPlatform()
   // set your environment variables here
   // environment("APPINSIGHTS_INSTRUMENTATIONKEY", "test-key")
@@ -151,7 +156,7 @@ pitest {
   ]
   threads = 10
   outputFormats = ['XML', 'HTML']
-  timestampedReports = true
+  timestampedReports = false
   failWhenNoMutations = false
   verbose = true
   mutationThreshold = 60
