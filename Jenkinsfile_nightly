@@ -13,7 +13,6 @@ properties([
 
 @Library("Infrastructure")
 import uk.gov.hmcts.contino.GradleBuilder
-GradleBuilder builder = new GradleBuilder(this, product)
 
 def type = "java"
 def product = "ia"
@@ -49,6 +48,8 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
      envVariable: envVar
     ]
 }
+
+GradleBuilder builder = new GradleBuilder(this, product)
 
 withNightlyPipeline(type, product, component) {
     env.TEST_URL = params.URL_TO_TEST
