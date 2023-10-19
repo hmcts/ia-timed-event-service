@@ -22,6 +22,7 @@ import uk.gov.hmcts.reform.timedevent.Application;
 @TestPropertySource(properties = {
     "CCD_URL=http://127.0.0.1:8990/ccd",
     "IDAM_URL=http://127.0.0.1:8990/idam",
+    "IA_IDAM_REDIRECT_URI=http://localhost:3002/oauth2/callback",
     "S2S_URL=http://127.0.0.1:8990/s2s",
     "IA_IDAM_CLIENT_ID=ia",
     "IA_IDAM_SECRET=something",
