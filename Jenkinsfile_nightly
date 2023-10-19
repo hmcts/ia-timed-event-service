@@ -26,8 +26,8 @@ def secrets = [
         secret('idam-redirect-uri', 'IA_IDAM_REDIRECT_URI'),
         secret('s2s-secret', 'IA_S2S_SECRET'),
         secret('s2s-microservice', 'IA_S2S_MICROSERVICE'),
-        secret('system-username', 'IA_SYSTEM_USERNAME'),
-        secret('system-password', 'IA_SYSTEM_PASSWORD'),
+        secret('system-user-username', 'IA_SYSTEM_USERNAME'),
+        secret('system-user-password', 'IA_SYSTEM_PASSWORD'),
 
         secret('test-caseofficer-username', 'TEST_CASEOFFICER_USERNAME'),
         secret('test-caseofficer-password', 'TEST_CASEOFFICER_PASSWORD'),
