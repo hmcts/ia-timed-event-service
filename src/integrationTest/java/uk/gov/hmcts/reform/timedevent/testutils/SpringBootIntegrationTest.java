@@ -24,7 +24,9 @@ import uk.gov.hmcts.reform.timedevent.Application;
     "IDAM_URL=http://127.0.0.1:8990/idam",
     "S2S_URL=http://127.0.0.1:8990/s2s",
     "IA_IDAM_CLIENT_ID=ia",
-    "IA_IDAM_SECRET=something"
+    "IA_IDAM_SECRET=something",
+    "IA_S2S_SECRET=AAAAAAAAAAAAAAAC",
+    "IA_S2S_MICROSERVICE=ia"
 })
 @AutoConfigureMockMvc(addFilters = false)
 @ActiveProfiles("integration")
