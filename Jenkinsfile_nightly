@@ -12,6 +12,8 @@ properties([
 ])
 
 @Library("Infrastructure")
+import uk.gov.hmcts.contino.GradleBuilder
+GradleBuilder builder = new GradleBuilder(this, product)
 
 def type = "java"
 def product = "ia"
@@ -69,6 +71,55 @@ withNightlyPipeline(type, product, component) {
 
     after('fortify-scan') {
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
+    }
+
+    before('fullFunctionalTest') {
+        try {
+            builder.gradle('test')
+            builder.gradle('integration')
+            builder.gradle('smoke')
+        } finally {
+            junit '**/test-results/**/*.xml'
+        }
+    }
+
+    afterAlways('fullFunctionalTest') {
+        publishHTML([
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "build/reports/tests/functional",
+                reportFiles          : 'index.html',
+                reportName           : 'IAC Timed Event Service Functional Test Report'
+        ])
+        publishHTML target: [
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "build/reports/tests/test",
+                reportFiles          : "index.html",
+                reportName           : "IAC Timed Event Service Unit Test Report"
+        ]
+        publishHTML target: [
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "build/reports/tests/smoke",
+                reportFiles          : "index.html",
+                reportName           : "IAC Timed Event Service Smoke Test Report"
+        ]
+        publishHTML target: [
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "build/reports/tests/integration",
+                reportFiles          : "index.html",
+                reportName           : "IAC Timed Event Service Integration Test Report"
+        ]
+
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/build/reports/**/*'
+        steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/reports/**/*'
     }
 
 }
