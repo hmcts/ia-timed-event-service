@@ -88,7 +88,7 @@ withNightlyPipeline(type, product, component) {
                 allowMissing         : true,
                 alwaysLinkToLastBuild: true,
                 keepAll              : true,
-                reportDir            : "build/reports/pitest/functional",
+                reportDir            : "build/reports/pitest",
                 reportFiles          : 'index.html',
                 reportName           : 'IAC Timed Event Service Mutation Test Report'
         ])
