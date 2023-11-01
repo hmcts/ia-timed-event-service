@@ -41,7 +41,6 @@ module "ia_timed_event_service_database_15" {
   }
 
   source          = "git@github.com:hmcts/terraform-module-postgresql-flexible?ref=master"
-  product         = "${var.product}-${var.component}-postgres-15-db"
   env             = var.env
   location        = var.location
   product         = var.product
