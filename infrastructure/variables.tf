@@ -34,4 +34,5 @@ variable "aks_subscription_id" {
 }
 
 variable "database_backup_retention_days" {
+  default = "7"
 }
