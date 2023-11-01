@@ -64,6 +64,7 @@ resource "azurerm_key_vault_secret" "POSTGRES-PASS-11" {
 
 resource "azurerm_key_vault_secret" "POSTGRES-PASS-15" {
   name         = "${var.component}-POSTGRES-PASS-15"
-  value        = "${module.ia_timed_event_service_database_15.postgresql_password}"
+  value        = "${module.ia_timed_event_service_database_15.password}"
   key_vault_id = "${data.azurerm_key_vault.ia_key_vault.id}"
 }
+
