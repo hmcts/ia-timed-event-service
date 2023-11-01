@@ -32,3 +32,6 @@ variable "postgresql_user" {
 
 variable "aks_subscription_id" {
 }
+
+variable "database_backup_retention_days" {
+}
