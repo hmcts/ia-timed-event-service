@@ -29,3 +29,6 @@ variable "postgresql_database_name" {
 variable "postgresql_user" {
   default = "ia_tes"
 }
+
+variable "aks_subscription_id" {
+}
