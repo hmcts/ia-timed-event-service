@@ -35,7 +35,7 @@ module "ia_timed_event_service_database_11" {
   backup_retention_days = "${var.database_backup_retention_days}"
 }
 
-module "ia_timed_event_service_database_15" {
+module "ia-timed-event-service-db-v15" {
   providers = {
     azurerm.postgres_network = azurerm.cft_vnet
   }
@@ -45,7 +45,7 @@ module "ia_timed_event_service_database_15" {
   component       = var.component
   business_area   = "cft"
   common_tags     = merge(var.common_tags, tomap({"lastUpdated" = "${timestamp()}"}))
-  name            = "${var.product}-${var.component}-postgres-15-db"
+  name            = "${var.product}-${var.component}-postgres-db-v15"
   pgsql_databases = [
     {
       name : var.postgresql_database_name
@@ -69,7 +69,7 @@ resource "azurerm_key_vault_secret" "POSTGRES-PASS-11" {
 
 resource "azurerm_key_vault_secret" "POSTGRES-PASS-15" {
   name         = "${var.component}-POSTGRES-PASS-15"
-  value        = "${module.ia_timed_event_service_database_15.password}"
+  value        = "${module.ia-timed-event-service-db-v15.password}"
   key_vault_id = "${data.azurerm_key_vault.ia_key_vault.id}"
 }
 
