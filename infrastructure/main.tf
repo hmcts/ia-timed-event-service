@@ -52,6 +52,7 @@ module "ia_timed_event_service_database_15" {
       name : var.postgresql_database_name
     }
   ]
+  admin_user_object_id = var.jenkins_AAD_objectId
 
   pgsql_version   = "15"
 }
