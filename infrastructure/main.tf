@@ -58,6 +58,7 @@ module "ia-timed-event-service-db-v15" {
     }
   ]
   pgsql_version   = "15"
+  subnet_suffix = "expanded"
   admin_user_object_id = var.jenkins_AAD_objectId
 }
 
