@@ -151,7 +151,7 @@ pitest {
   ]
   threads = 10
   outputFormats = ['XML', 'HTML']
-  timestampedReports = true
+  timestampedReports = false
   failWhenNoMutations = false
   verbose = true
   mutationThreshold = 60
@@ -347,7 +347,6 @@ dependencies {
 
 test {
   useJUnitPlatform()
-  failFast = true
 }
 
 mainClassName = 'uk.gov.hmcts.reform.timedevent.Application'
