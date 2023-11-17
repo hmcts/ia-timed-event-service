@@ -210,7 +210,7 @@ dependencyManagement {
       entry 'jackson-datatype-jdk8'
     }
 
-    dependencySet(group: 'com.fasterxml.jackson.module', version: '2.15.2') {
+    dependencySet(group: 'com.fasterxml.jackson.module', version: '2.16.0') {
       entry 'jackson-module-parameter-names'
       entry 'jackson-module-afterburner'
     }
