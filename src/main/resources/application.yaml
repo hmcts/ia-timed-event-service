@@ -15,6 +15,7 @@ management:
     probes:
       enabled: true
 
+
 spring:
   application:
     name: Timed Event Service
