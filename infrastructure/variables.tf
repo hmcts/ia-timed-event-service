@@ -37,5 +37,5 @@ variable "jenkins_AAD_objectId" {
 }
 
 variable "database_backup_retention_days" {
-  default = "7"
+  default = "35"
 }
