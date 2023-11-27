@@ -17,5 +17,5 @@ spring:
             tablePrefix: QRTZ_
 
 ccdGatewayUrl: ${CCD_GW_URL:http://localhost:3453}
-document_management.url: ${DM_URL:http://127.0.0.1:4506}
+case_document_am.url: ${CASE_DOCUMENT_AM_URL:http://localhost:4455}
 

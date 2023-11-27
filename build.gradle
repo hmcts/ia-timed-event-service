@@ -222,9 +222,8 @@ repositories {
   mavenLocal()
   jcenter()
   mavenCentral()
-  maven {
-    url "https://dl.bintray.com/hmcts/hmcts-maven"
-  }
+  maven {  url "https://dl.bintray.com/hmcts/hmcts-maven"  }
+  maven {  url 'https://jitpack.io'  }
 }
 
 def versions = [
@@ -313,7 +312,7 @@ dependencies {
 
   testImplementation group: 'org.springframework.security', name: 'spring-security-test'
 
-  testImplementation group: 'uk.gov.hmcts.reform', name: 'document-management-client', version: '4.0.1'
+  testImplementation group: 'com.github.hmcts', name: 'ccd-case-document-am-client', version: '1.7.2'
 
   testImplementation group: 'org.awaitility', name: 'awaitility', version: '4.0.2'
   testImplementation group: 'com.h2database', name: 'h2', version: '1.4.197'

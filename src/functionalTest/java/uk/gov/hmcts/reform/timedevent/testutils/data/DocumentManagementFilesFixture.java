@@ -50,6 +50,9 @@ public class DocumentManagementFilesFixture {
                 Document docStoreDocumentMetadata =
                     documentManagementUploader.upload(
                         documentResource,
+                        "PUBLIC",
+                        "Asylum",
+                        "IA",
                         contentType
                     );
 
@@ -58,6 +61,8 @@ public class DocumentManagementFilesFixture {
                 metadata.put("FIXTURE_" + placeholder + "_URL", docStoreDocumentMetadata.getDocumentUrl());
                 metadata.put("FIXTURE_" + placeholder + "_URL_BINARY", docStoreDocumentMetadata.getDocumentBinaryUrl());
                 metadata.put("FIXTURE_" + placeholder + "_FILENAME", docStoreDocumentMetadata.getDocumentFilename());
+                metadata.put("FIXTURE_" + placeholder + "_HASH", docStoreDocumentMetadata.getDocumentHash());
+
             });
     }
 
