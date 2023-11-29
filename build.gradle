@@ -151,7 +151,7 @@ pitest {
   ]
   threads = 10
   outputFormats = ['XML', 'HTML']
-  timestampedReports = true
+  timestampedReports = false
   failWhenNoMutations = false
   verbose = true
   mutationThreshold = 60
@@ -301,8 +301,8 @@ dependencies {
 
   implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
 
-  implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '9.0.80'
-  implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: '9.0.80'
+  implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '9.0.81'
+  implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: '9.0.81'
 
   testImplementation libraries.junit5
 
@@ -347,7 +347,6 @@ dependencies {
 
 test {
   useJUnitPlatform()
-  failFast = true
 }
 
 mainClassName = 'uk.gov.hmcts.reform.timedevent.Application'
