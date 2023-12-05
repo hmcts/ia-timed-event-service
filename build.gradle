@@ -105,7 +105,7 @@ tasks.withType(Test) {
 
 checkstyle {
   maxWarnings = 0
-  toolVersion = '10.12.5'
+  toolVersion = '10.12.0'
   getConfigDirectory().set(new File(rootDir, 'config/checkstyle'))
 }
 
@@ -181,7 +181,7 @@ dependencyCheck {
 dependencyManagement {
   dependencies {
     // CVE-2018-10237 - Unbounded memory allocation
-    dependencySet(group: 'com.google.guava', version: '32.1.3-jre') {
+    dependencySet(group: 'com.google.guava', version: '32.1.2-jre') {
       entry 'guava'
     }
 
