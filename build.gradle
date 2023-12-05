@@ -19,7 +19,7 @@ plugins {
   id 'org.sonarqube' version '3.5.0.2730'
   id "io.freefair.lombok" version "6.6.3"
   id 'org.flywaydb.flyway' version '5.2.4'
-  id "info.solidsoft.pitest" version '1.15.0'
+  id "info.solidsoft.pitest" version '1.9.0'
 }
 
 group = 'uk.gov.hmcts.reform'
@@ -234,7 +234,7 @@ def versions = [
     springDoc       : '1.7.0',
     serenity        : '3.9.8',
     sonarPitest     : '0.5',
-    pitest          : '1.15.3',
+    pitest          : '1.9.0',
     restAssured     : '5.3.2'
 ]
 
