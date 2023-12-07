@@ -27,5 +27,6 @@
     <suppress until="2024-01-08">
         <notes>Temporary Suppression for CVE-2023-34055 as requirement of 2.7.18 for spring boot is satisfied. Suspect gradle are yet to update</notes>
         <cve>CVE-2023-34055</cve>
+        <cve>CVE-2023-6378</cve>
     </suppress>
 </suppressions>
