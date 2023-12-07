@@ -19,8 +19,13 @@ plugins {
   id 'org.sonarqube' version '3.5.0.2730'
   id "io.freefair.lombok" version "6.6.3"
   id 'org.flywaydb.flyway' version '5.2.4'
-  id "info.solidsoft.pitest" version '1.9.0'
+  id "info.solidsoft.pitest" version '1.15.0'
 }
+
+apply plugin: 'java'
+apply plugin: 'net.serenity-bdd.serenity-gradle-plugin'
+apply plugin: 'project-report'
+apply plugin: 'idea'
 
 group = 'uk.gov.hmcts.reform'
 version = '0.0.1'
@@ -234,7 +239,7 @@ def versions = [
     springDoc       : '1.7.0',
     serenity        : '3.9.8',
     sonarPitest     : '0.5',
-    pitest          : '1.9.0',
+    pitest          : '1.15.3',
     restAssured     : '5.3.2'
 ]
 
@@ -289,6 +294,9 @@ dependencies {
 
   implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: versions.springDoc
 
+  implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.13'
+  implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.2.13'
+
   implementation group: 'uk.gov.hmcts.reform', name: 'logging', version: versions.reformLogging
   implementation group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: versions.reformLogging
   implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-hystrix', version: '2.2.10.RELEASE'
@@ -304,8 +312,6 @@ dependencies {
   implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '9.0.83'
   implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: '9.0.83'
 
-  testImplementation libraries.junit5
-
   testImplementation(group: 'org.springframework.boot', name: 'spring-boot-starter-test') {
     exclude group: 'junit', module: 'junit'
     exclude group: "com.vaadin.external.google", module: "android-json"
@@ -319,7 +325,7 @@ dependencies {
   testImplementation group: 'com.h2database', name: 'h2', version: '1.4.200'
 
   testImplementation group: 'org.pitest', name: 'pitest', version: versions.pitest
-  testImplementation "info.solidsoft.gradle.pitest:gradle-pitest-plugin:${versions.pitest}"
+  testImplementation "info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.15.0"
   testImplementation "org.codehaus.sonar-plugins:sonar-pitest-plugin:${versions.sonarPitest}"
 
   testImplementation(group: 'io.rest-assured', name: 'rest-assured-all', version: versions.restAssured)
