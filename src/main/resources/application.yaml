@@ -128,7 +128,7 @@ security:
       - "endAppealAutomatically"
     caseworker-ia-system:
       - "endAppealAutomatically"
-      - createServiceRequest
+      - "createServiceRequest"
     citizen:
       - "endAppealAutomatically"
 
