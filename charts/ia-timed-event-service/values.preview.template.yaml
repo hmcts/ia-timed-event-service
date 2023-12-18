@@ -5,7 +5,7 @@ java:
   environment:
     IDAM_URL: "https://idam-web-public.{{ .Values.global.environment }}.platform.hmcts.net"
     S2S_URL: "http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
-    CCD_URL: "http://ccd-data-store-api-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal"
+    CCD_URL: "https://ccd-data-store-api-ia-case-api-pr-1866.preview.platform.hmcts.net"
     POSTGRES_HOST: "{{ .Release.Name }}-postgresql"
     POSTGRES_NAME: "{{ .Values.postgresql.auth.database}}"
     POSTGRES_USERNAME: "{{ .Values.postgresql.auth.username}}"
