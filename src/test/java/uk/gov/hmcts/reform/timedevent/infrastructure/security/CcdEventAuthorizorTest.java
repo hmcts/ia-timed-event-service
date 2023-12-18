@@ -64,7 +64,7 @@ class CcdEventAuthorizorTest {
             AccessDeniedException.class,
             () -> ccdEventAuthorizor.throwIfNotAuthorized(Event.UNKNOWN)
         );
-        assertEquals("Event 'unknown' not allowed", thrown.getMessage());
+        assertEquals("Event 'unknown' not allowed, requiredRoles: \nuserRoles: ", thrown.getMessage());
     }
 
     @Test
@@ -80,6 +80,6 @@ class CcdEventAuthorizorTest {
             AccessDeniedException.class,
             () -> ccdEventAuthorizor.throwIfNotAuthorized(Event.UNKNOWN)
         );
-        assertEquals("Event 'unknown' not allowed", thrown.getMessage());
+        assertEquals("Event 'unknown' not allowed, requiredRoles: \nuserRoles: ", thrown.getMessage());
     }
 }
