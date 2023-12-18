@@ -57,8 +57,8 @@ public class RetryJobListener extends JobListenerSupport {
                 String retriedIdentity = scheduleRetry(data, newDate, identity, retryCount + 1);
 
                 log.info(
-                    "Retry has been scheduled with new identity: {}, for event: {}, caseId: {}, "
-                        + "date: {}. Retry #{} of {}",
+                    "Retry has been scheduled with new identity: {}, for event: {}, caseId: {}, date: {}. "
+                        + "Retry #{} of {}",
                     retriedIdentity,
                     event,
                     caseId,

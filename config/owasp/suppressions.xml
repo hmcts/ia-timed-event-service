@@ -20,11 +20,12 @@
         ]]</notes>
         <cve>CVE-2022-45688</cve>
     </suppress>
-    <suppress until="2023-08-31">
-        <cve>CVE-2023-35116</cve><!-- 2023-08-03 jackson-databind 2.15.2 (latest at time of writing) is still vulnerable. Check again once a new version becomes available. -->
+    <suppress until="2024-01-31">
+        <notes>Suppress until org.springframework.cloud and uk.gov.hmcts.reform/service-auth-provider-client upgrade their org.bouncycastle dependents</notes>
+        <cve>CVE-2023-33202</cve>
     </suppress>
-    <suppress until="2023-09-10">
-        <cve>CVE-2023-39017</cve>
-        <cve>CVE-2020-8908</cve>
+    <suppress until="2024-01-08">
+        <notes>Temporary Suppression for CVE-2023-34055 as requirement of 2.7.18 for spring boot is satisfied. Suspect gradle are yet to update</notes>
+        <cve>CVE-2023-34055</cve>
     </suppress>
 </suppressions>
