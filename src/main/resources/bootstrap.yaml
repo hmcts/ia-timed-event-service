@@ -11,6 +11,6 @@ spring:
         system-password: IA_SYSTEM_PASSWORD
         s2s-secret: IA_S2S_SECRET
         s2s-microservice: IA_S2S_MICROSERVICE
-        timed-event-service-POSTGRES-PASS-11: spring.datasource.password
+        timed-event-service-POSTGRES-PASS-15: spring.datasource.password
         AppInsightsInstrumentationKey: azure.application-insights.instrumentation-key
         ia-config-validator-secret: IA_CONFIG_VALIDATOR_SECRET
