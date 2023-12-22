@@ -14,14 +14,14 @@ import org.springframework.test.web.servlet.MvcResult;
 import uk.gov.hmcts.reform.timedevent.infrastructure.services.IdentityProvider;
 import uk.gov.hmcts.reform.timedevent.testutils.SpringBootIntegrationTest;
 
-public class PostTimedEventIntegrationTest extends SpringBootIntegrationTest {
+class PostTimedEventIntegrationTest extends SpringBootIntegrationTest {
 
     @MockBean
     IdentityProvider identityProvider;
 
     @Test
     @WithMockUser(authorities = {"caseworker-ia-caseofficer"})
-    public void timedEventEndpoint() throws Exception {
+    void timedEventEndpoint() throws Exception {
 
         String identity = "cee88160-78f4-4d24-87ff-91fd3b131034";
 
@@ -76,7 +76,7 @@ public class PostTimedEventIntegrationTest extends SpringBootIntegrationTest {
 
     @Test
     @WithMockUser(authorities = {"caseworker-ia-caseofficer"})
-    public void deleteTimedEventEndpoint() throws Exception {
+    void deleteTimedEventEndpoint() throws Exception {
 
         // Given: a task has been scheduled
         String identity = "cee88160-78f4-4d24-87ff-91fd3b131034";
