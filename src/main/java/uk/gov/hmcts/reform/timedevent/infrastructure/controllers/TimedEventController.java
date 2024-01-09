@@ -72,7 +72,7 @@ public class TimedEventController {
         if (StringUtils.isBlank(timedEvent.getId())) {
             identity = schedulerService.schedule(timedEvent);
         } else {
-            identity = schedulerService.reschedule(timedEvent, 0);
+            identity = schedulerService.reschedule(timedEvent);
         }
 
         return status(HttpStatus.CREATED).body(
