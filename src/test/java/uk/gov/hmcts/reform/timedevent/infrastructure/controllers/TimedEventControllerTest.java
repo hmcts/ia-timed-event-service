@@ -74,7 +74,7 @@ class TimedEventControllerTest {
             1234
         );
 
-        when(schedulerService.reschedule(timedEvent, 0)).thenReturn(identity);
+        when(schedulerService.reschedule(timedEvent)).thenReturn(identity);
 
         timedEventController = new TimedEventController(ccdEventAuthorizor, schedulerService);
 
@@ -90,7 +90,7 @@ class TimedEventControllerTest {
         assertEquals(identity, response.getBody().getId());
 
         verify(ccdEventAuthorizor).throwIfNotAuthorized(timedEvent.getEvent());
-        verify(schedulerService).reschedule(timedEvent, 0);
+        verify(schedulerService).reschedule(timedEvent);
 
     }
 

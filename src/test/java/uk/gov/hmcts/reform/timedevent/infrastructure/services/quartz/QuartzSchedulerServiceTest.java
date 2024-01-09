@@ -61,7 +61,6 @@ class QuartzSchedulerServiceTest {
         assertEquals(jurisdiction, trigger.getValue().getJobDataMap().get("jurisdiction"));
         assertEquals(caseType, trigger.getValue().getJobDataMap().getString("caseType"));
         assertEquals(caseId, trigger.getValue().getJobDataMap().getLong("caseId"));
-        assertEquals(0, trigger.getValue().getJobDataMap().getLong("retryCount"));
     }
 
     @Test
@@ -78,9 +77,7 @@ class QuartzSchedulerServiceTest {
             caseId
         );
 
-        long retryCount = 1;
-
-        assertEquals(identity, schedulerService.reschedule(timedEvent, retryCount));
+        assertEquals(identity, schedulerService.reschedule(timedEvent));
 
         ArgumentCaptor<Trigger> trigger = ArgumentCaptor.forClass(Trigger.class);
 
@@ -93,7 +90,6 @@ class QuartzSchedulerServiceTest {
         assertEquals(jurisdiction, trigger.getValue().getJobDataMap().get("jurisdiction"));
         assertEquals(caseType, trigger.getValue().getJobDataMap().getString("caseType"));
         assertEquals(caseId, trigger.getValue().getJobDataMap().getLong("caseId"));
-        assertEquals(retryCount, trigger.getValue().getJobDataMap().getLong("retryCount"));
     }
 
     @Test
