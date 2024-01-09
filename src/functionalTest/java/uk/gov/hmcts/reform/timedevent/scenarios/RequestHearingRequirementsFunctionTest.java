@@ -62,7 +62,7 @@ public class RequestHearingRequirementsFunctionTest extends FunctionalTest {
 
         // execute Timed Event now
         Response response = null;
-        for (int i = 0; i < 5; i ++) {
+        for (int i = 0; i < 5; i++) {
             try {
                 // execute Timed Event now
                 response = scheduleEventNow(caseId);

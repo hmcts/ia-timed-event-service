@@ -52,7 +52,7 @@ public class EndAppealAutomaticallyFunctionTest extends FunctionalTest {
 
         long caseId = caseDataFixture.getCaseId();
         Response response = null;
-        for (int i = 0; i < 5; i ++) {
+        for (int i = 0; i < 5; i++) {
             try {
                 // execute Timed Event now
                 response = scheduleEventNow(caseId);
