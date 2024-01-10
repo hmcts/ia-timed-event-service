@@ -30,7 +30,6 @@ class RetryJobListenerTest {
     private String jurisdiction = "IA";
     private String caseType = "Asylum";
     private long caseId = 12345;
-    private long retryCount = 0;
     private String identity = "someId";
 
     @Mock
@@ -84,9 +83,8 @@ class RetryJobListenerTest {
     @Test
     public void should_not_re_schedule_event_when_exception_is_retryable_but_exceed_retries_number() {
 
-        when(jobDataMap.getLong("retryCount")).thenReturn(6L);
-
         RetryJobListener retryJobListener = new RetryJobListener(durationInSeconds, maxRetryNumber, quartzSchedulerService, dateTimeProvider);
+        when(jobDataMap.getOrDefault("attempts", 0L)).thenReturn(6L);
 
         retryJobListener.jobWasExecuted(jobExecutionContext, new RetryableException());
 
@@ -97,13 +95,11 @@ class RetryJobListenerTest {
     @Test
     public void should_re_schedule_event_when_exception_is_retryable_and_retries_number_lower_than_max() {
 
-        when(jobDataMap.getLong("retryCount")).thenReturn(retryCount);
         when(jobDataMap.getString("jurisdiction")).thenReturn(jurisdiction);
         when(jobDataMap.getString("caseType")).thenReturn(caseType);
+        when(jobDataMap.getOrDefault("attempts", 0L)).thenReturn(0L);
 
         when(dateTimeProvider.now()).thenReturn(dateTime);
-
-        when(jobDataMap.getLong("retryCount")).thenReturn(0L);
 
         RetryJobListener retryJobListener = new RetryJobListener(durationInSeconds, maxRetryNumber, quartzSchedulerService, dateTimeProvider);
 
@@ -112,7 +108,7 @@ class RetryJobListenerTest {
         ArgumentCaptor<TimedEvent> timedEvent = ArgumentCaptor.forClass(TimedEvent.class);
 
         verify(dateTimeProvider).now();
-        verify(quartzSchedulerService).reschedule(timedEvent.capture(), eq(retryCount + 1));
+        verify(quartzSchedulerService).reschedule(timedEvent.capture());
 
         assertEquals(identity, timedEvent.getValue().getId());
         assertEquals(caseId, timedEvent.getValue().getCaseId());

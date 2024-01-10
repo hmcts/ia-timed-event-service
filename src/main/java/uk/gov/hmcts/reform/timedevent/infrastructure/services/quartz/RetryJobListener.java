@@ -46,15 +46,11 @@ public class RetryJobListener extends JobListenerSupport {
         long caseId = data.getLong("caseId");
 
         if (jobException instanceof RetryableException) {
-            log.warn("A retryable exception was issued while executing a job so a retry will be scheduled. "
-                    + "Stack trace of exception follows.",
-                jobException);
+            long attempts = (Long)data.getOrDefault("attempts", 0L);
 
-            long retryCount = data.getLong("retryCount");
-
-            if (retryCount <= maxRetryNumber) {
+            if (attempts <= maxRetryNumber) {
                 ZonedDateTime newDate = calculateNextScheduledDate();
-                String retriedIdentity = scheduleRetry(data, newDate, identity, retryCount + 1);
+                String retriedIdentity = scheduleRetry(data, newDate, identity);
 
                 log.info(
                     "Retry has been scheduled with new identity: {}, for event: {}, caseId: {}, date: {}. "
@@ -63,7 +59,7 @@ public class RetryJobListener extends JobListenerSupport {
                     event,
                     caseId,
                     newDate.toString(),
-                    retryCount + 1,
+                    attempts + 1,
                     maxRetryNumber
                 );
             } else {
@@ -75,13 +71,12 @@ public class RetryJobListener extends JobListenerSupport {
                     caseId
                 );
             }
-
+        } else {
+            log.info("Job finished execution with identity: {}, for event: {}, caseId: {}", identity, event, caseId);
         }
-
-        log.info("Job finished execution with identity: {}, for event: {}, caseId: {}", identity, event, caseId);
     }
 
-    private String scheduleRetry(JobDataMap data, ZonedDateTime newDate, String identity, long retryCount) {
+    private String scheduleRetry(JobDataMap data, ZonedDateTime newDate, String identity) {
 
         TimedEvent timedEvent = new TimedEvent(
             identity,
@@ -99,7 +94,7 @@ public class RetryJobListener extends JobListenerSupport {
             timedEvent.getScheduledDateTime().toString()
         );
 
-        return schedulerService.reschedule(timedEvent, retryCount);
+        return schedulerService.reschedule(timedEvent);
     }
 
     private ZonedDateTime calculateNextScheduledDate() {
