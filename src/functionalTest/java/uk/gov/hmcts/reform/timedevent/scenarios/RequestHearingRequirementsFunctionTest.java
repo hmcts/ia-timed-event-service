@@ -6,7 +6,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 import static org.junit.Assert.assertNotNull;
 
-import feign.FeignException;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
 import java.time.ZonedDateTime;
