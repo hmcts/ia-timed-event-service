@@ -59,13 +59,13 @@ public class RequestHearingRequirementsFunctionTest extends FunctionalTest {
     public void should_trigger_requestHearingRequirementsFeature_event() {
 
         long caseId = caseDataFixture.getCaseId();
-
-        // execute Timed Event now
+        String auth = caseDataFixture.getCaseOfficerToken();
+        String serviceAuth = caseDataFixture.getS2sToken();
         Response response = null;
         for (int i = 0; i < 5; i++) {
             try {
                 // execute Timed Event now
-                response = scheduleEventNow(caseId);
+                response = scheduleEventNow(caseId, auth, serviceAuth);
                 break;
             } catch (FeignException fe) {
                 log.error("Response returned error with " + fe.getMessage() + ". Retrying test.");
@@ -78,12 +78,12 @@ public class RequestHearingRequirementsFunctionTest extends FunctionalTest {
         assertThatCaseIsInState(caseId, "submitHearingRequirements");
     }
 
-    private Response scheduleEventNow(long caseId) {
+    private Response scheduleEventNow(long caseId, String auth, String serviceAuth) {
 
         return given(requestSpecification)
             .when()
-            .header(new Header("Authorization", caseDataFixture.getCaseOfficerToken()))
-            .header(new Header("ServiceAuthorization", caseDataFixture.getS2sToken()))
+            .header(new Header("Authorization", auth))
+            .header(new Header("ServiceAuthorization", serviceAuth))
             .contentType("application/json")
             .body("{ \"jurisdiction\": \"" + jurisdiction + "\","
                   + " \"caseType\": \"" + caseType + "\","
