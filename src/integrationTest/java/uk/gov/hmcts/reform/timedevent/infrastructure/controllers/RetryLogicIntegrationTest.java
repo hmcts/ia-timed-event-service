@@ -74,11 +74,8 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
                 scheduleEvent(ZonedDateTime.now().plusSeconds(1), CASE_ID1);
 
                 // When: I wait for enough time to pass
-                try {
-                    Thread.sleep(3000); // enough for the original invocation and extra
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                weirdSleep(1000); // enough for the original invocation
+                weirdSleep(retryIntervalMillis * (maxRetryNumber + 2));
 
                 // Then: the event is executed
                 verify(eventExecutor, times(1)).execute(any(EventExecution.class));
