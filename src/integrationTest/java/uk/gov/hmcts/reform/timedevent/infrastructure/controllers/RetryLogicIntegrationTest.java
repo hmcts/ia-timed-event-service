@@ -78,7 +78,7 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
                 weirdSleep(retryIntervalMillis * (maxRetryNumber + 2));
 
                 // Then: the event is executed
-                verify(eventExecutor, atLeast(1)).execute(any(EventExecution.class));
+                verify(eventExecutor, times(i + 1)).execute(any(EventExecution.class));
                 return;
             } catch (AssertionError e) {
                 log.error("Failed attempt " + i + " of " + maxAttempts + " due to:");
