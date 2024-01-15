@@ -230,6 +230,7 @@ repositories {
   maven {
     url "https://dl.bintray.com/hmcts/hmcts-maven"
   }
+  maven { url 'https://jitpack.io' }
 }
 
 def versions = [
@@ -344,6 +345,8 @@ dependencies {
     exclude group: 'commons-io', module: 'commons-io'
     exclude group: 'org.apache.commons', module: 'commons-lang3'
   }
+
+  testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junit
 
   integrationTestImplementation sourceSets.main.runtimeClasspath
   integrationTestImplementation sourceSets.test.runtimeClasspath

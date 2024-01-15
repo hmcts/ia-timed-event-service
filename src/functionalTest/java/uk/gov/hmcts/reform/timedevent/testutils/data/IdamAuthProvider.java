@@ -77,7 +77,7 @@ public class IdamAuthProvider {
     }
 
     private String getUserToken(String userName, String password) {
-
+        Throwable ex = new Throwable();
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("grant_type", "password");
         map.add("redirect_uri", idamRedirectUrl);
@@ -87,15 +87,18 @@ public class IdamAuthProvider {
         map.add("password", password);
         map.add("scope", userScope);
 
-        try {
+        for (int i = 0; i < 5; i++) {
+            try {
 
-            Token tokenResponse = idamApi.token(map);
+                Token tokenResponse = idamApi.token(map);
 
-            return "Bearer " + tokenResponse.getAccessToken();
+                return "Bearer " + tokenResponse.getAccessToken();
 
-        } catch (FeignException ex) {
-
-            throw new IdentityManagerResponseException("Could not get system user token from IDAM", ex);
+            } catch (FeignException e) {
+                System.out.println("Could not get user token from IDAM, trying again, attempt " + i + " of 5.");
+                ex = e;
+            }
         }
+        throw new IdentityManagerResponseException("Could not get user token from IDAM", ex);
     }
 }
