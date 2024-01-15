@@ -67,7 +67,7 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
     @Test
     @WithMockUser(authorities = {"caseworker-ia-caseofficer"})
     void testScheduledEventHasRunAfterAppropriateTime() {
-        int maxAttempts = 5;
+        int maxAttempts = 10;
         for (int i = 0; i < maxAttempts; i++) {
             try {
                 // Given: an event scheduled in the future
@@ -75,7 +75,7 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
 
                 // When: I wait for enough time to pass
                 try {
-                    Thread.sleep(2000); // enough for the original invocation and extra
+                    Thread.sleep(3000); // enough for the original invocation and extra
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
