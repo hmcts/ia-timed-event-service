@@ -128,6 +128,7 @@ security:
       - "endAppealAutomatically"
     caseworker-ia-system:
       - "endAppealAutomatically"
+      - "repeatApplyNoc"
     citizen:
       - "endAppealAutomatically"
 
