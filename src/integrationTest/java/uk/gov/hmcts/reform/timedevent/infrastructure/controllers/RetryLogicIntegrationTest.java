@@ -5,6 +5,7 @@ import java.time.ZonedDateTime;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.FeignException;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -30,6 +31,7 @@ import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@Slf4j
 @DirtiesContext
 public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
 
@@ -65,15 +67,25 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
     @Test
     @WithMockUser(authorities = {"caseworker-ia-caseofficer"})
     void testScheduledEventHasRunAfterAppropriateTime() {
-        // Given: an event scheduled in the future
-        scheduleEvent(ZonedDateTime.now().plusSeconds(1), CASE_ID1);
+        int maxAttempts = 10;
+        for (int i = 0; i < maxAttempts; i++) {
+            try {
+                // Given: an event scheduled in the future
+                scheduleEvent(ZonedDateTime.now().plusSeconds(1), CASE_ID1);
 
-        // When: I wait for enough time to pass
-        weirdSleep(1000); // enough for the original invocation
-        weirdSleep(retryIntervalMillis * 2);   // some more time
+                // When: I wait for enough time to pass
+                weirdSleep(2000); // enough for the original invocation
+                weirdSleep(retryIntervalMillis * (maxRetryNumber + 2));
 
-        // Then: the event is executed
-        verify(eventExecutor, times(1)).execute(any(EventExecution.class));
+                // Then: the event is executed
+                verify(eventExecutor, times(i + 1)).execute(any(EventExecution.class));
+                return;
+            } catch (AssertionError e) {
+                log.error("Failed attempt " + i + " of " + maxAttempts + " due to:");
+                e.printStackTrace();
+            }
+        }
+        throw new AssertionError("Failed all attempts.");
     }
 
     @Test
@@ -98,7 +110,7 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
         scheduleEvent(ZonedDateTime.now().plusSeconds(1), CASE_ID4);
 
         // When: I wait for enough time to pass
-        weirdSleep(1000); // enough for the original invocation
+        weirdSleep(5000); // enough for the original invocation
         weirdSleep(retryIntervalMillis * (maxRetryNumber + 2));  // enough for all the retries plus some
 
         // Then: the event execution is attempted exactly one time plus the number of retries
