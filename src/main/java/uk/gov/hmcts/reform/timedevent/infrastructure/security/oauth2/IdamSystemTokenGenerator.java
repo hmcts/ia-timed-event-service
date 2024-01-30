@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.timedevent.infrastructure.security.oauth2;
 
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -39,6 +40,7 @@ public class IdamSystemTokenGenerator implements SystemTokenGenerator {
     }
 
     @Override
+    @Cacheable(value = "accessTokenCache")
     public String generate() {
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();

@@ -10,16 +10,15 @@ import org.springframework.test.web.servlet.MvcResult;
 import uk.gov.hmcts.reform.timedevent.testutils.SpringBootIntegrationTest;
 import uk.gov.hmcts.reform.timedevent.testutils.WithIdamStub;
 
-public class GetTokenIntegrationTest extends SpringBootIntegrationTest implements WithIdamStub {
+class GetTokenIntegrationTest extends SpringBootIntegrationTest implements WithIdamStub {
 
     @BeforeEach
-    public void stubRequests() {
-
+    void stubRequests() {
         addIdamTokenStub(server);
     }
 
     @Test
-    public void tokenSupportEndpoint() throws Exception {
+    void tokenSupportEndpoint() throws Exception {
         MvcResult response = mockMvc
             .perform(get("/testing-support/token"))
             .andExpect(status().isOk())

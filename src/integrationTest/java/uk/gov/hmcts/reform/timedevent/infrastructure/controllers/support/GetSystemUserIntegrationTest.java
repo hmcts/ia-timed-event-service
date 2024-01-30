@@ -10,18 +10,18 @@ import org.springframework.test.web.servlet.MvcResult;
 import uk.gov.hmcts.reform.timedevent.testutils.SpringBootIntegrationTest;
 import uk.gov.hmcts.reform.timedevent.testutils.WithIdamStub;
 
-public class GetSystemUserIntegrationTest extends SpringBootIntegrationTest implements WithIdamStub {
+class GetSystemUserIntegrationTest extends SpringBootIntegrationTest implements WithIdamStub {
 
 
     @BeforeEach
-    public void stubRequests() {
+    void stubRequests() {
 
         addIdamTokenStub(server);
         addUserInfoStub(server);
     }
 
     @Test
-    public void systemUserEndpoint() throws Exception {
+    void systemUserEndpoint() throws Exception {
         MvcResult response = mockMvc
             .perform(get("/testing-support/system-user"))
             .andExpect(status().isOk())
