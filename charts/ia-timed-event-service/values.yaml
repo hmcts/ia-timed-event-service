@@ -14,7 +14,7 @@ java:
   postgresql:
     auth:
       username: ia_tes
-      password: ia_tes
+      password: ${PG_AUTH_VALUES_YAML_PASS}
       database: ia_tes
     service:
       port: 5432
@@ -42,3 +42,5 @@ java:
           alias: azure.application-insights.instrumentation-key
         - name: ia-config-validator-secret
           alias: IA_CONFIG_VALIDATOR_SECRET
+        - name: postgres-auth-values-tes-password
+          alias: PG_AUTH_VALUES_YAML_PASS
