@@ -14,7 +14,7 @@ java:
   postgresql:
     auth:
       username: ia_tes
-      password: ${PG_AUTH_VALUES_YAML_PASS}
+      password: ia_tes
       database: ia_tes
     service:
       port: 5432
