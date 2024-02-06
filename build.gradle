@@ -148,7 +148,7 @@ sonarqube {
 project.tasks['sonarqube'].dependsOn test, integration, jacocoTestReport
 
 pitest {
-  junit5PluginVersion = '1.1.2'
+  junit5PluginVersion = '1.2.1'
   targetClasses = ['uk.gov.hmcts.reform.timedevent.*']
   excludedClasses = [
       'uk.gov.hmcts.reform.timedevent.infrastructure.config.*',
