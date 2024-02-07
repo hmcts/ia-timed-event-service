@@ -79,6 +79,10 @@ spring:
             tablePrefix: ia_timed_event_service.QRTZ_
             isClustered: true
             clusterCheckinInterval: 20000
+  cache:
+    cache-names: userInfoCache, accessTokenCache
+    caffeine:
+      spec: expireAfterAccess=3600s
 
 retry:
   durationInSeconds: ${IA_SCHEDULER_RETRY_DURATION:7200}

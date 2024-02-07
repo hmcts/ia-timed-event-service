@@ -46,8 +46,7 @@ public class QuartzSchedulerService implements SchedulerService {
                 timedEvent.getJurisdiction(),
                 timedEvent.getCaseType(),
                 timedEvent.getCaseId()
-            ),
-            0
+            )
         );
 
         try {
@@ -75,9 +74,9 @@ public class QuartzSchedulerService implements SchedulerService {
 
     @Override
     @Transactional
-    public String reschedule(TimedEvent timedEvent, long retryCount) {
+    public String reschedule(TimedEvent timedEvent) {
 
-        Pair<JobDetail, Trigger> jobAndTrigger = createJobAndTrigger(timedEvent, retryCount);
+        Pair<JobDetail, Trigger> jobAndTrigger = createJobAndTrigger(timedEvent);
 
         try {
 
@@ -114,7 +113,7 @@ public class QuartzSchedulerService implements SchedulerService {
     @Transactional
     public boolean deleteSchedule(String jobKey) {
         TimedEvent timedEvent = get(jobKey).orElseThrow();
-        Pair<JobDetail, Trigger> jobAndTrigger = createJobAndTrigger(timedEvent, 0);
+        Pair<JobDetail, Trigger> jobAndTrigger = createJobAndTrigger(timedEvent);
         return quartzScheduler.deleteJob(jobAndTrigger.getLeft().getKey());
     }
 
@@ -144,7 +143,7 @@ public class QuartzSchedulerService implements SchedulerService {
         }
     }
 
-    private Pair<JobDetail, Trigger> createJobAndTrigger(TimedEvent timedEvent, long retryCount) {
+    private Pair<JobDetail, Trigger> createJobAndTrigger(TimedEvent timedEvent) {
 
         JobDataMap data = new JobDataMap(
             new ImmutableMap.Builder<String, String>()
@@ -152,7 +151,6 @@ public class QuartzSchedulerService implements SchedulerService {
                 .put("caseType", timedEvent.getCaseType())
                 .put("caseId", String.valueOf(timedEvent.getCaseId()))
                 .put("event", timedEvent.getEvent().toString())
-                .put("retryCount", String.valueOf(retryCount))
                 .build()
         );
 

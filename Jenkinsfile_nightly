@@ -64,7 +64,7 @@ withNightlyPipeline(type, product, component) {
 
     loadVaultSecrets(secrets)
 
-//    enableFortifyScan()
+    enableFortifyScan()
     enableSecurityScan()
     enableMutationTest()
     enableSlackNotifications('#ia-tech')
@@ -80,8 +80,16 @@ withNightlyPipeline(type, product, component) {
         reportName           : 'Dependency Check Report'
         ])
     }
-    
-    after('fortify-scan') {
+
+    afterAlways('fortify-scan') {
+        publishHTML target: [
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "Fortify Scan",
+                reportFiles          : "FortifyScanReport.html",
+                reportName           : "Fortify Scan Report"
+        ]
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/Fortify Scan/**/*'
     }
 
@@ -97,7 +105,7 @@ withNightlyPipeline(type, product, component) {
                     keepAll              : true,
                     reportDir            : "build/reports/tests/test",
                     reportFiles          : "index.html",
-                    reportName           : "IAC Timed Event Service Unit Test Report"
+                    reportName           : "Unit Test Report"
             ]
             publishHTML target: [
                     allowMissing         : true,
@@ -105,7 +113,7 @@ withNightlyPipeline(type, product, component) {
                     keepAll              : true,
                     reportDir            : "build/reports/tests/smoke",
                     reportFiles          : "index.html",
-                    reportName           : "IAC Timed Event Service Smoke Test Report"
+                    reportName           : "Smoke Test Report"
             ]
             publishHTML target: [
                     allowMissing         : true,
@@ -113,7 +121,7 @@ withNightlyPipeline(type, product, component) {
                     keepAll              : true,
                     reportDir            : "build/reports/tests/integration",
                     reportFiles          : "index.html",
-                    reportName           : "IAC Timed Event Service Integration Test Report"
+                    reportName           : "Integration Test Report"
             ]
             junit '**/test-results/**/*.xml'
         }
@@ -125,7 +133,7 @@ withNightlyPipeline(type, product, component) {
                 keepAll              : true,
                 reportDir            : "build/reports/pitest",
                 reportFiles          : 'index.html',
-                reportName           : 'IAC Timed Event Service Mutation Test Report'
+                reportName           : 'Mutation Test Report'
         ])
     }
     afterAlways('fullFunctionalTest') {
@@ -135,7 +143,7 @@ withNightlyPipeline(type, product, component) {
                 keepAll              : true,
                 reportDir            : "build/reports/tests/functional",
                 reportFiles          : 'index.html',
-                reportName           : 'IAC Timed Event Service Functional Test Report'
+                reportName           : 'Functional Test Report'
         ])
 
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
