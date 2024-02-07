@@ -15,17 +15,15 @@ import uk.gov.hmcts.reform.timedevent.testutils.SpringBootIntegrationTest;
 import uk.gov.hmcts.reform.timedevent.testutils.WithIdamStub;
 import uk.gov.hmcts.reform.timedevent.testutils.WithServiceAuthStub;
 
-public class PostExecuteEventIntegrationTest extends SpringBootIntegrationTest implements WithIdamStub, WithServiceAuthStub {
+class PostExecuteEventIntegrationTest extends SpringBootIntegrationTest implements WithIdamStub, WithServiceAuthStub {
 
-    private String event = "example";
-    private String caseId = "1234";
-    private String jurisdiction = "someJurisdiction";
-    private String caseType = "someCaseType";
-    private String eventToken = "eventToken";
-    private String state = "someState";
+    private final String event = "example";
+    private final String caseId = "1234";
+    private final String jurisdiction = "someJurisdiction";
+    private final String caseType = "someCaseType";
 
     @Test
-    public void executionEndpoint() throws Exception {
+    void executionEndpoint() throws Exception {
 
         addIdamTokenStub(server);
         addUserInfoStub(server);
@@ -38,6 +36,7 @@ public class PostExecuteEventIntegrationTest extends SpringBootIntegrationTest i
                              + "/event-triggers/" + event
                              + "/token?ignore-warning=true";
 
+        String eventToken = "eventToken";
         server.addStubMapping(
             new StubMapping(
                 newRequestPattern(RequestMethod.GET, urlEqualTo(ccdStartUrl))
@@ -56,6 +55,7 @@ public class PostExecuteEventIntegrationTest extends SpringBootIntegrationTest i
                               + "/cases/" + caseId
                               + "/events";
 
+        String state = "someState";
         server.addStubMapping(
             new StubMapping(
                 newRequestPattern(RequestMethod.POST, urlEqualTo(ccdSubmitUrl))
@@ -79,7 +79,7 @@ public class PostExecuteEventIntegrationTest extends SpringBootIntegrationTest i
     }
 
     @Test
-    public void should_return_400_when_event_not_found() throws Exception {
+    void should_return_400_when_event_not_found() throws Exception {
 
         String notExistingEvent = "notExistingEvent";
         String url = String.format("/testing-support/execute/jurisdiction/%s/case-type/%s/cid/%s/event/%s", jurisdiction, caseType, caseId, notExistingEvent);
@@ -93,7 +93,7 @@ public class PostExecuteEventIntegrationTest extends SpringBootIntegrationTest i
     }
 
     @Test
-    public void should_return_400_when_case_does_not_exists() throws Exception {
+    void should_return_400_when_case_does_not_exists() throws Exception {
 
         addIdamTokenStub(server);
         addUserInfoStub(server);
@@ -138,7 +138,7 @@ public class PostExecuteEventIntegrationTest extends SpringBootIntegrationTest i
     }
 
     @Test
-    public void should_return_404_when_event_is_not_defined_in_ccd() throws Exception {
+    void should_return_404_when_event_is_not_defined_in_ccd() throws Exception {
 
         addIdamTokenStub(server);
         addUserInfoStub(server);
@@ -185,7 +185,7 @@ public class PostExecuteEventIntegrationTest extends SpringBootIntegrationTest i
     }
 
     @Test
-    public void should_return_504_when_system_user_does_not_have_access_in_ccd_or_case_api_is_down() throws Exception {
+    void should_return_504_when_system_user_does_not_have_access_in_ccd_or_case_api_is_down() throws Exception {
 
         addIdamTokenStub(server);
         addUserInfoStub(server);
@@ -229,7 +229,7 @@ public class PostExecuteEventIntegrationTest extends SpringBootIntegrationTest i
     }
 
     @Test
-    public void should_return_422_when_case_is_in_wrong_state() throws Exception {
+    void should_return_422_when_case_is_in_wrong_state() throws Exception {
 
         addIdamTokenStub(server);
         addUserInfoStub(server);
@@ -274,7 +274,7 @@ public class PostExecuteEventIntegrationTest extends SpringBootIntegrationTest i
     }
 
     @Test
-    public void should_return_422_when_caseType_is_not_defined_in_ccd() throws Exception {
+    void should_return_422_when_caseType_is_not_defined_in_ccd() throws Exception {
 
         addIdamTokenStub(server);
         addUserInfoStub(server);
@@ -321,7 +321,7 @@ public class PostExecuteEventIntegrationTest extends SpringBootIntegrationTest i
     }
 
     @Test
-    public void should_return_403_when_jurisdiction_is_not_defined_in_ccd() throws Exception {
+    void should_return_403_when_jurisdiction_is_not_defined_in_ccd() throws Exception {
 
         addIdamTokenStub(server);
         addUserInfoStub(server);
