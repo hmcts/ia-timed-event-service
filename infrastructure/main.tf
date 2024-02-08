@@ -7,11 +7,7 @@ provider "azurerm" {
 }
 
 provider "azurerm" {
-  features {
-    resource_group {
-        prevent_deletion_if_contains_resources = false
-    }
-  }
+  features {}
   skip_provider_registration = true
   alias                      = "cft_vnet"
   subscription_id            = var.aks_subscription_id
