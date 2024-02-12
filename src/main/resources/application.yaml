@@ -130,9 +130,9 @@ security:
       - "requestHearingRequirementsFeature"
     caseworker-ia-admofficer:
       - "endAppealAutomatically"
-      - "reTriggerWaTasks"
     caseworker-ia-system:
       - "endAppealAutomatically"
+      - "reTriggerWaTasks"
     citizen:
       - "endAppealAutomatically"
 
