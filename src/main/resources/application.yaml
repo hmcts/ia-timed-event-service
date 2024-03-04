@@ -132,6 +132,7 @@ security:
       - "endAppealAutomatically"
     caseworker-ia-system:
       - "endAppealAutomatically"
+      - "reTriggerWaTasks"
     citizen:
       - "endAppealAutomatically"
 

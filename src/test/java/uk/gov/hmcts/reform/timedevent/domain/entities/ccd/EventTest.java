@@ -18,12 +18,13 @@ class EventTest {
         assertEquals("rollbackPaymentTimeout", Event.ROLLBACK_PAYMENT_TIMEOUT.toString());
         assertEquals("rollbackPaymentTimeoutToPaymentPending", Event.ROLLBACK_PAYMENT_TIMEOUT_TO_PAYMENT_PENDING.toString());
         assertEquals("endAppealAutomatically", Event.END_APPEAL_AUTOMATICALLY.toString());
+        assertEquals("reTriggerWaTasks", Event.RE_TRIGGER_WA_TASKS.toString());
     }
 
     @Test
     void if_this_test_fails_it_is_because_it_needs_updating_with_your_changes() {
 
-        assertEquals(9, Event.values().length);
+        assertEquals(10, Event.values().length);
     }
 
 }
