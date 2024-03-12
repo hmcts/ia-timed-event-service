@@ -133,6 +133,8 @@ security:
     caseworker-ia-system:
       - "endAppealAutomatically"
       - "reTriggerWaTasks"
+    caseworker-ia-retrigger-tasks:
+      - "reTriggerWaTasks"
     citizen:
       - "endAppealAutomatically"
 
