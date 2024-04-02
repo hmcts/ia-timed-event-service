@@ -190,9 +190,6 @@ dependencyManagement {
       entry 'guava'
     }
 
-    //CVE-2021-27568, CVE-2022-45688, CVE-2023-1370
-    dependency group: 'net.minidev', name: 'json-smart', version: '2.5.0'
-
     dependencySet(group: 'commons-fileupload', version: '1.5') {
       entry 'commons-fileupload'
     }
@@ -284,8 +281,6 @@ dependencies {
 
   implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind'
 
-  implementation group: 'net.minidev', name: 'json-smart'
-
   implementation group: 'org.springframework.security', name: 'spring-security-oauth2-client'
   implementation group: 'org.springframework.security', name: 'spring-security-oauth2-resource-server'
   implementation group: 'org.springframework.security', name: 'spring-security-oauth2-jose'
@@ -326,6 +321,8 @@ dependencies {
   testImplementation libraries.junit5
   implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '9.0.83'
   implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: '9.0.83'
+
+  implementation group: 'net.minidev', name: 'json-smart', version: '2.5.0'
 
   testImplementation(group: 'org.springframework.boot', name: 'spring-boot-starter-test') {
     exclude group: 'junit', module: 'junit'
