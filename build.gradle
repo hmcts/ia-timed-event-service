@@ -284,12 +284,14 @@ dependencies {
 
   implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind'
 
+  implementation group: 'net.minidev', name: 'json-smart'
+
   implementation group: 'org.springframework.security', name: 'spring-security-oauth2-client'
   implementation group: 'org.springframework.security', name: 'spring-security-oauth2-resource-server'
   implementation group: 'org.springframework.security', name: 'spring-security-oauth2-jose'
 
   implementation group: 'org.flywaydb', name: 'flyway-core', version: '5.2.4'
-  implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.0'
+  implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.2'
 
   implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: versions.springDoc
 
