@@ -356,6 +356,7 @@ dependencies {
     exclude group: 'commons-io', module: 'commons-io'
     exclude group: 'org.apache.commons', module: 'commons-lang3'
   }
+  testImplementation group: 'net.minidev', name: 'json-smart', version: '2.5.1'
 
   testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junit
 
