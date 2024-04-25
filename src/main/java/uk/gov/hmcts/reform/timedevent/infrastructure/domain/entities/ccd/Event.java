@@ -16,6 +16,7 @@ public enum Event {
     ROLLBACK_PAYMENT_TIMEOUT_TO_PAYMENT_PENDING("rollbackPaymentTimeoutToPaymentPending"),
     END_APPEAL_AUTOMATICALLY("endAppealAutomatically"),
     RE_TRIGGER_WA_TASKS("reTriggerWaTasks"),
+    RECORD_REMISSION_REMINDER("recordRemissionReminder"),
     @JsonEnumDefaultValue
     UNKNOWN("unknown");
 
