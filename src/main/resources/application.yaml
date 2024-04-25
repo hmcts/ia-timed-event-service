@@ -130,10 +130,8 @@ security:
       - "requestHearingRequirementsFeature"
     caseworker-ia-admofficer:
       - "endAppealAutomatically"
-      - "recordRemissionReminder"
     caseworker-ia-system:
       - "endAppealAutomatically"
-      - "recordRemissionReminder"
       - "reTriggerWaTasks"
     caseworker-ia-retrigger-tasks:
       - "reTriggerWaTasks"
