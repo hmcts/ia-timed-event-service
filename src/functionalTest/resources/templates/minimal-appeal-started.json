@@ -8,6 +8,7 @@
   "appellantHasFixedAddress": "No",
   "appealType": "protection",
   "hasNewMatters": "No",
+  "appellantInUk": "Yes",
   "hasOtherAppeals": "No",
   "appealGroundsProtection": {
     "values": [
