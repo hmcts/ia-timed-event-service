@@ -11,5 +11,19 @@ java:
     POSTGRES_USERNAME: "{{ .Values.postgresql.auth.username}}"
     POSTGRES_PASSWORD: "{{ .Values.postgresql.auth.password}}"
     POSTGRES_CONNECTION_OPTIONS: ""
+  keyVaults:
+    ia:
+      resourceGroup: ia
+      secrets:
+        - idam-client-id
+        - idam-secret
+        - idam-redirect-uri
+        - system-username
+        - system-password
+        - s2s-secret
+        - s2s-microservice
+        - AppInsightsInstrumentationKey
+        - app-insights-connection-string
+        - ia-config-validator-secret
   postgresql:
     enabled: true
