@@ -17,6 +17,7 @@ public enum Event {
     END_APPEAL_AUTOMATICALLY("endAppealAutomatically"),
     RE_TRIGGER_WA_TASKS("reTriggerWaTasks"),
     RECORD_REMISSION_REMINDER("recordRemissionReminder"),
+    SEND_PAYMENT_REMINDER_NOTIFICATION("sendPaymentReminderNotification"),
     @JsonEnumDefaultValue
     UNKNOWN("unknown");
 

@@ -133,10 +133,12 @@ security:
     caseworker-ia-admofficer:
       - "endAppealAutomatically"
       - "recordRemissionReminder"
+      - "sendPaymentReminderNotification"
     caseworker-ia-system:
       - "endAppealAutomatically"
       - "recordRemissionReminder"
       - "reTriggerWaTasks"
+      - "sendPaymentReminderNotification"
     caseworker-ia-retrigger-tasks:
       - "reTriggerWaTasks"
     citizen:
