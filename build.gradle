@@ -16,7 +16,7 @@ plugins {
   id 'uk.gov.hmcts.java' version '0.12.50'
   id 'org.owasp.dependencycheck' version '10.0.3'
   id 'com.github.ben-manes.versions' version '0.50.0'
-  id 'org.sonarqube' version '3.5.0.2730'
+  id 'org.sonarqube' version '4.3.0.3225'
   id "io.freefair.lombok" version "6.6.3"
   id 'org.flywaydb.flyway' version '5.2.4'
   id "info.solidsoft.pitest" version '1.15.0'
@@ -128,9 +128,9 @@ pmd {
 jacocoTestReport {
   executionData(test, integration)
   reports {
-    xml.required = true
-    csv.required = false
-    xml.getOutputLocation().set(file("${buildDir}/reports/jacoco/test/jacocoTestReport.xml"))
+    xml.required.set(true)
+    csv.required.set(false)
+    xml.outputLocation.set(layout.buildDirectory.file("reports/jacoco/test/jacocoTestReport.xml"))
   }
 }
 
@@ -138,7 +138,7 @@ sonarqube {
   properties {
     property "sonar.projectName", "Reform :: ia-timed-event-service"
     property "sonar.projectKey", "IATIMEDEVENTSERVICE"
-    property "sonar.coverage.jacoco.xmlReportPaths", "${jacocoTestReport.reports.xml.destination.path}"
+    property "sonar.coverage.jacoco.xmlReportPaths", layout.buildDirectory.file("reports/jacoco/test/jacocoTestReport.xml").get().asFile
     property "sonar.exclusions", "src/main/java/uk/gov/hmcts/reform/timedevent/infrastructure/config/**"
     property "sonar.pitest.mode", "reuseReport"
     property "sonar.pitest.reportsDirectory", "build/reports/pitest"
