@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<included>
-    <logger name="uk.goc.hmcts.reform" level="DEBUG"/>
-    <logger name="uk.goc.hmcts.reform.resources" level="WARN"/>
-</included>
