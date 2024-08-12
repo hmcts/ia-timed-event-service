@@ -13,10 +13,10 @@ plugins {
   id 'jacoco'
   id 'io.spring.dependency-management' version '1.1.4'
   id 'org.springframework.boot' version '2.7.18'
-  id 'uk.gov.hmcts.java' version '0.12.50'
-  id 'org.owasp.dependencycheck' version '9.0.4'
+  id 'uk.gov.hmcts.java' version '0.12.63'
+  id 'org.owasp.dependencycheck' version '10.0.3'
   id 'com.github.ben-manes.versions' version '0.50.0'
-  id 'org.sonarqube' version '3.5.0.2730'
+  id 'org.sonarqube' version '4.3.0.3225'
   id "io.freefair.lombok" version "6.6.3"
   id 'org.flywaydb.flyway' version '5.2.4'
   id "info.solidsoft.pitest" version '1.15.0'
@@ -128,9 +128,9 @@ pmd {
 jacocoTestReport {
   executionData(test, integration)
   reports {
-    xml.required = true
-    csv.required = false
-    xml.getOutputLocation().set(file("${buildDir}/reports/jacoco/test/jacocoTestReport.xml"))
+    xml.required.set(true)
+    csv.required.set(false)
+    xml.outputLocation.set(layout.buildDirectory.file("reports/jacoco/test/jacocoTestReport.xml"))
   }
 }
 
@@ -138,7 +138,7 @@ sonarqube {
   properties {
     property "sonar.projectName", "Reform :: ia-timed-event-service"
     property "sonar.projectKey", "IATIMEDEVENTSERVICE"
-    property "sonar.coverage.jacoco.xmlReportPaths", "${jacocoTestReport.reports.xml.destination.path}"
+    property "sonar.coverage.jacoco.xmlReportPaths", layout.buildDirectory.file("reports/jacoco/test/jacocoTestReport.xml").get().asFile
     property "sonar.exclusions", "src/main/java/uk/gov/hmcts/reform/timedevent/infrastructure/config/**"
     property "sonar.pitest.mode", "reuseReport"
     property "sonar.pitest.reportsDirectory", "build/reports/pitest"
@@ -159,7 +159,7 @@ pitest {
   timestampedReports = false
   failWhenNoMutations = false
   verbose = true
-  mutationThreshold = 55 
+  mutationThreshold = 55
 }
 
 project.tasks['pitest'].group = "Verification"
@@ -222,18 +222,14 @@ dependencyManagement {
 
 repositories {
   mavenLocal()
-  jcenter()
   mavenCentral()
-  maven {
-    url "https://dl.bintray.com/hmcts/hmcts-maven"
-  }
   maven { url 'https://jitpack.io' }
 }
 
 def versions = [
     junit           : '5.10.1',
     junitPlatform   : '1.10.1',
-    reformLogging   : '5.1.7',
+    reformLogging   : '6.0.1',
     springDoc       : '1.7.0',
     serenity        : '3.9.8',
     sonarPitest     : '0.5',
@@ -292,11 +288,13 @@ dependencies {
 
   implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.13'
   implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.2.13'
+  implementation group: 'net.logstash.logback', name: 'logstash-logback-encoder', version: '8.0'
 
-  implementation group: 'uk.gov.hmcts.reform', name: 'logging', version: versions.reformLogging
-  implementation group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: versions.reformLogging
-  implementation(group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: '4.0.0') {
-    exclude group: "org.bouncycastle", module: "bcprov-jdk15on"
+
+  implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: versions.reformLogging
+  implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: versions.reformLogging
+  implementation(group: 'com.github.hmcts', name: 'service-auth-provider-java-client', version: '4.0.2') {
+      exclude group: "org.bouncycastle", module: "bcprov-jdk15on"
   }
   implementation(group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '3.1.8') {
     exclude group: "org.bouncycastle", module: "bcprov-jdk15on"
@@ -332,7 +330,7 @@ dependencies {
 
   testImplementation group: 'org.springframework.security', name: 'spring-security-test'
 
-  testImplementation group: 'uk.gov.hmcts.reform', name: 'document-management-client', version: '4.0.2'
+  testImplementation group: 'com.github.hmcts', name: 'document-management-client', version: '7.0.1'
 
   testImplementation group: 'org.awaitility', name: 'awaitility', version: '4.2.0'
   testImplementation group: 'com.h2database', name: 'h2', version: '1.4.200'
@@ -357,6 +355,8 @@ dependencies {
     exclude group: 'commons-io', module: 'commons-io'
     exclude group: 'org.apache.commons', module: 'commons-lang3'
   }
+  annotationProcessor 'org.projectlombok:lombok:1.18.30'
+  implementation 'org.projectlombok:lombok:1.18.30'
 
   testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: versions.junit
 
