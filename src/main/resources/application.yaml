@@ -139,6 +139,7 @@ security:
       - "recordRemissionReminder"
       - "reTriggerWaTasks"
       - "sendPaymentReminderNotification"
+      - "saveNotificationsToData"
     caseworker-ia-retrigger-tasks:
       - "reTriggerWaTasks"
     citizen:
