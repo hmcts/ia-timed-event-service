@@ -119,15 +119,16 @@ security:
     - "/testing-support/**"
   roleEventAccess:
     caseworker-ia-caseofficer:
-    - "requestHearingRequirementsFeature"
-    - "example"
-    - "unknown"
+      - "requestHearingRequirementsFeature"
+      - "example"
+      - "unknown"
+      - "saveNotificationsToData"
     caseworker-ia-legalrep-solicitor:
-    - "moveToPaymentPending"
-    - "rollbackPayment"
-    - "rollbackPaymentTimeout"
-    - "rollbackPaymentTimeoutToPaymentPending"
-    - "endAppealAutomatically"
+      - "moveToPaymentPending"
+      - "rollbackPayment"
+      - "rollbackPaymentTimeout"
+      - "rollbackPaymentTimeoutToPaymentPending"
+      - "endAppealAutomatically"
     caseworker-ia-iacjudge:
       - "requestHearingRequirementsFeature"
     caseworker-ia-admofficer:
