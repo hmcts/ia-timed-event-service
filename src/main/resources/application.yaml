@@ -132,6 +132,7 @@ security:
       - "saveNotificationsToData"
     caseworker-ia-iacjudge:
       - "requestHearingRequirementsFeature"
+      - "saveNotificationsToData"
     caseworker-ia-admofficer:
       - "endAppealAutomatically"
       - "recordRemissionReminder"
