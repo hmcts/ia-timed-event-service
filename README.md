@@ -1,5 +1,5 @@
 # ia-timed-event-service
-Service to trigger CCD Events in the future
+Service to trigger CCD Events in the future 
 
 ### Background
 There are Business needs to do actions in future with specified period of time like reminders, state change triggers etc.
