@@ -119,30 +119,36 @@ security:
     - "/testing-support/**"
   roleEventAccess:
     caseworker-ia-caseofficer:
-    - "requestHearingRequirementsFeature"
-    - "example"
-    - "unknown"
+      - "requestHearingRequirementsFeature"
+      - "example"
+      - "unknown"
+      - "saveNotificationsToData"
     caseworker-ia-legalrep-solicitor:
-    - "moveToPaymentPending"
-    - "rollbackPayment"
-    - "rollbackPaymentTimeout"
-    - "rollbackPaymentTimeoutToPaymentPending"
-    - "endAppealAutomatically"
+      - "moveToPaymentPending"
+      - "rollbackPayment"
+      - "rollbackPaymentTimeout"
+      - "rollbackPaymentTimeoutToPaymentPending"
+      - "endAppealAutomatically"
+      - "saveNotificationsToData"
     caseworker-ia-iacjudge:
       - "requestHearingRequirementsFeature"
+      - "saveNotificationsToData"
     caseworker-ia-admofficer:
       - "endAppealAutomatically"
       - "recordRemissionReminder"
       - "sendPaymentReminderNotification"
+      - "saveNotificationsToData"
     caseworker-ia-system:
       - "endAppealAutomatically"
       - "recordRemissionReminder"
       - "reTriggerWaTasks"
       - "sendPaymentReminderNotification"
+      - "saveNotificationsToData"
     caseworker-ia-retrigger-tasks:
       - "reTriggerWaTasks"
     citizen:
       - "endAppealAutomatically"
+      - "saveNotificationsToData"
 
 auth.provider.service.client.baseUrl: ${S2S_URL:http://127.0.0.1:4502}
 
