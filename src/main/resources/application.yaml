@@ -144,6 +144,7 @@ security:
       - "reTriggerWaTasks"
       - "sendPaymentReminderNotification"
       - "saveNotificationsToData"
+      - "endApplication"
     caseworker-ia-retrigger-tasks:
       - "reTriggerWaTasks"
     citizen:
