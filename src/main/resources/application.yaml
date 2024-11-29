@@ -138,6 +138,7 @@ security:
       - "recordRemissionReminder"
       - "sendPaymentReminderNotification"
       - "saveNotificationsToData"
+      - "endApplication"
     caseworker-ia-system:
       - "endAppealAutomatically"
       - "recordRemissionReminder"
