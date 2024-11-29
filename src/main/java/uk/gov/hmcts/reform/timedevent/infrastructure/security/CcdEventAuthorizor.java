@@ -25,6 +25,7 @@ public class CcdEventAuthorizor {
 
         List<String> requiredRoles = getRequiredRolesForEvent(event);
         Set<String> userRoles = authorizedRolesProvider.getRoles();
+        // TODO: delete log
         log.info("Required user roles oles for event '{}' - {}, Current user roles: {}",
                 event.name(),
                 String.join(",", requiredRoles),
