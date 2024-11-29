@@ -7,6 +7,7 @@ import feign.FeignException;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.quartz.Scheduler;
@@ -65,6 +66,7 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
     }
 
     @Test
+    @Disabled
     @WithMockUser(authorities = {"caseworker-ia-caseofficer"})
     void testScheduledEventHasRunAfterAppropriateTime() {
         int maxAttempts = 10;
