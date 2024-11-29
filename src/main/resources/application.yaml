@@ -139,6 +139,7 @@ security:
       - "sendPaymentReminderNotification"
       - "saveNotificationsToData"
       - "endApplication"
+      - "testTimedEventSchedule"
     caseworker-ia-system:
       - "endAppealAutomatically"
       - "recordRemissionReminder"
@@ -146,6 +147,7 @@ security:
       - "sendPaymentReminderNotification"
       - "saveNotificationsToData"
       - "endApplication"
+      - "testTimedEventSchedule"
     caseworker-ia-retrigger-tasks:
       - "reTriggerWaTasks"
     citizen:
