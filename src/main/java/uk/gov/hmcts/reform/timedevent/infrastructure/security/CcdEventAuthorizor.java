@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.ccd.Event;
 
+@Slf4j
 public class CcdEventAuthorizor {
 
     private final Map<String, List<Event>> roleEventAccess;
@@ -22,6 +25,11 @@ public class CcdEventAuthorizor {
 
         List<String> requiredRoles = getRequiredRolesForEvent(event);
         Set<String> userRoles = authorizedRolesProvider.getRoles();
+        // TODO: delete log
+        log.info("Required user roles oles for event '{}' - {}, Current user roles: {}",
+                event.name(),
+                String.join(",", requiredRoles),
+                String.join(",", userRoles));
 
         if (requiredRoles.isEmpty()
             || userRoles.isEmpty()

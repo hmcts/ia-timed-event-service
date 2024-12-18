@@ -22,11 +22,12 @@ class EventTest {
         assertEquals("recordRemissionReminder", Event.RECORD_REMISSION_REMINDER.toString());
         assertEquals("sendPaymentReminderNotification", Event.SEND_PAYMENT_REMINDER_NOTIFICATION.toString());
         assertEquals("saveNotificationsToData", Event.SAVE_NOTIFICATIONS_TO_DATA.toString());
+        assertEquals("testTimedEventSchedule", Event.TEST_TIMED_EVENT_SCHEDULE.toString());
     }
 
     @Test
     void if_this_test_fails_it_is_because_it_needs_updating_with_your_changes() {
-        assertEquals(13, Event.values().length);
+        assertEquals(14, Event.values().length);
     }
 
 }
