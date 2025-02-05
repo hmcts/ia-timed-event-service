@@ -3,7 +3,6 @@ package uk.gov.hmcts.reform.timedevent.infrastructure.services.quartz;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.time.Duration;
 import java.time.ZonedDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
