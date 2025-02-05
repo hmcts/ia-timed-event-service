@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.timedevent.infrastructure.services.quartz;
 
+import java.security.SecureRandom;
 import java.time.ZonedDateTime;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobDataMap;
@@ -98,6 +99,8 @@ public class RetryJobListener extends JobListenerSupport {
     }
 
     private ZonedDateTime calculateNextScheduledDate() {
-        return dateTimeProvider.now().plusSeconds(durationInSeconds);
+        int randomSeconds = new SecureRandom().nextInt(0, 120);
+        // To avoid concurrency issues, add random seconds with max 2 minutes
+        return dateTimeProvider.now().plusSeconds(durationInSeconds + randomSeconds);
     }
 }
