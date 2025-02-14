@@ -118,6 +118,10 @@ security:
     - "/csrf"
     - "/testing-support/**"
   roleEventAccess:
+    caseworker-caa:
+      - "saveNotificationsToData"
+    caseworker-approver:
+      - "saveNotificationsToData"
     caseworker-ia-caseofficer:
       - "requestHearingRequirementsFeature"
       - "example"
@@ -150,6 +154,14 @@ security:
       - "reTriggerWaTasks"
     citizen:
       - "endAppealAutomatically"
+      - "saveNotificationsToData"
+    caseworker-ia-homeofficeapc:
+      - "saveNotificationsToData"
+    caseworker-ia-homeofficelart:
+      - "saveNotificationsToData"
+    caseworker-ia-homeofficepou:
+      - "saveNotificationsToData"
+    caseworker-ia-respondentofficer:
       - "saveNotificationsToData"
 
 auth.provider.service.client.baseUrl: ${S2S_URL:http://127.0.0.1:4502}
