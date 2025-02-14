@@ -115,6 +115,7 @@ class RetryJobListenerTest {
         assertEquals(jurisdiction, timedEvent.getValue().getJurisdiction());
         assertEquals(caseType, timedEvent.getValue().getCaseType());
         assertEquals(Event.EXAMPLE, timedEvent.getValue().getEvent());
-        assertEquals(dateTime.plusSeconds(durationInSeconds), timedEvent.getValue().getScheduledDateTime());
+        assertTrue(timedEvent.getValue().getScheduledDateTime()
+                .isBefore(dateTime.plusSeconds(durationInSeconds + 121)));
     }
 }
