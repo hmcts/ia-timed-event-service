@@ -25,12 +25,6 @@ import uk.gov.hmcts.reform.timedevent.testutils.data.*;
 })
 @ActiveProfiles("functional")
 public class FunctionalTest {
-
-    @Value("${idam.redirectUrl}") protected String idamRedirectUrl;
-    @Value("${idam.system.scope}") protected String userScope;
-    @Value("${spring.security.oauth2.client.registration.oidc.client-id}") protected String idamClientId;
-    @Value("${spring.security.oauth2.client.registration.oidc.client-secret}") protected String idamClientSecret;
-
     @Value("classpath:templates/minimal-appeal-started.json")
     protected Resource minimalAppealStarted;
 
@@ -66,13 +60,7 @@ public class FunctionalTest {
             .setRelaxedHTTPSValidation()
             .build();
 
-        idamAuthProvider = new IdamAuthProvider(
-            idamApi,
-            idamRedirectUrl,
-            userScope,
-            idamClientId,
-            idamClientSecret
-        );
+        idamAuthProvider = new IdamAuthProvider();
 
         DocumentManagementUploader documentManagementUploader = new DocumentManagementUploader(
             documentUploadClientApi,
