@@ -63,83 +63,11 @@ public class IdamAuthProvider {
         );
     }
 
-    @Cacheable(value = "adminOfficerTokenCache")
-    public String getAdminOfficerToken() {
-        return getUserToken(
-            System.getenv("TEST_ADMINOFFICER_USERNAME"),
-            System.getenv("TEST_ADMINOFFICER_PASSWORD")
-        );
-    }
-
-    @Cacheable(value = "homeOfficeApcTokenCache")
-    public String getHomeOfficeApcToken() {
-        return getUserToken(
-            System.getenv("TEST_HOMEOFFICE_APC_USERNAME"),
-            System.getenv("TEST_HOMEOFFICE_APC_PASSWORD")
-        );
-    }
-
     @Cacheable(value = "homeOfficeLartTokenCache")
     public String getHomeOfficeLartToken() {
         return getUserToken(
             System.getenv("TEST_HOMEOFFICE_LART_USERNAME"),
             System.getenv("TEST_HOMEOFFICE_LART_PASSWORD")
-        );
-    }
-
-    @Cacheable(value = "homeOfficePouTokenCache")
-    public String getHomeOfficePouToken() {
-        return getUserToken(
-            System.getenv("TEST_HOMEOFFICE_POU_USERNAME"),
-            System.getenv("TEST_HOMEOFFICE_POU_PASSWORD")
-        );
-    }
-
-    @Cacheable(value = "homeOfficeGenericTokenCache")
-    public String getHomeOfficeGenericToken() {
-        return getUserToken(
-            System.getenv("TEST_HOMEOFFICE_GENERIC_USERNAME"),
-            System.getenv("TEST_HOMEOFFICE_GENERIC_PASSWORD")
-        );
-    }
-
-    @Cacheable(value = "legalRepShareCaseATokenCache")
-    public String getLegalRepShareCaseAToken() {
-        return getUserToken(
-            System.getenv("TEST_LAW_FIRM_SHARE_CASE_A_USERNAME"),
-            System.getenv("TEST_LAW_FIRM_SHARE_CASE_A_PASSWORD")
-        );
-    }
-
-    @Cacheable(value = "legalRepOrgSuccessTokenCache")
-    public String getLegalRepOrgSuccessToken() {
-        return getUserToken(
-            System.getenv("TEST_LAW_FIRM_ORG_SUCCESS_USERNAME"),
-            System.getenv("TEST_LAW_FIRM_ORG_SUCCESS_PASSWORD")
-        );
-    }
-
-    @Cacheable(value = "legalRepOrgDeletedTokenCache")
-    public String getLegalRepOrgDeletedToken() {
-        return getUserToken(
-            System.getenv("TEST_LAW_FIRM_ORG_DELETED_USERNAME"),
-            System.getenv("TEST_LAW_FIRM_ORG_DELETED_PASSWORD")
-        );
-    }
-
-    @Cacheable(value = "judgeTokenCache")
-    public String getJudgeToken() {
-        return getUserToken(
-            System.getenv("TEST_JUDGE_X_USERNAME"),
-            System.getenv("TEST_JUDGE_X_PASSWORD")
-        );
-    }
-
-    @Cacheable(value = "citizenTokenCache")
-    public String getCitizenToken() {
-        return getUserToken(
-            System.getenv("TEST_CITIZEN_USERNAME"),
-            System.getenv("TEST_CITIZEN_PASSWORD")
         );
     }
 

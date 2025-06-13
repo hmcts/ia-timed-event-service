@@ -1,6 +1,10 @@
 spring.flyway.enabled: false
 
 spring:
+  cache:
+    cache-names: userInfoCache, accessTokenCache, legalRepATokenCache, caseOfficerTokenCache, homeOfficeLartTokenCache, systemTokenCache
+    caffeine:
+      spec: expireAfterAccess=3600s
   datasource:
     driverClassName: org.h2.Driver
     url: jdbc:h2:mem:ia_timed_event_service
