@@ -1,8 +1,6 @@
 package uk.gov.hmcts.reform.timedevent.testutils.data;
 
 import feign.FeignException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -15,25 +13,31 @@ import uk.gov.hmcts.reform.timedevent.infrastructure.security.oauth2.IdentityMan
 @Service
 public class IdamAuthProvider {
 
-    @Value("${idam.redirectUrl}")
-    protected String idamRedirectUri;
+    private final IdamApi idamApi;
+    private final String idamRedirectUrl;
+    private final String userScope;
+    private final String idamClientId;
+    private final String idamClientSecret;
 
-    protected String userScope = "openid profile roles";
-
-    @Value("${spring.security.oauth2.client.registration.oidc.client-id}")
-    protected String idamClientId;
-
-    @Value("${spring.security.oauth2.client.registration.oidc.client-secret}")
-    protected String idamClientSecret;
-
-    @Autowired
-    private IdamApi idamApi;
+    public IdamAuthProvider(
+        IdamApi idamApi,
+        String idamRedirectUrl,
+        String userScope,
+        String idamClientId,
+        String idamClientSecret
+    ) {
+        this.idamApi = idamApi;
+        this.idamRedirectUrl = idamRedirectUrl;
+        this.userScope = userScope;
+        this.idamClientId = idamClientId;
+        this.idamClientSecret = idamClientSecret;
+    }
 
     public String getUserToken(String username, String password) {
 
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("grant_type", "password");
-        map.add("redirect_uri", idamRedirectUri);
+        map.add("redirect_uri", idamRedirectUrl);
         map.add("client_id", idamClientId);
         map.add("client_secret", idamClientSecret);
         map.add("username", username);
