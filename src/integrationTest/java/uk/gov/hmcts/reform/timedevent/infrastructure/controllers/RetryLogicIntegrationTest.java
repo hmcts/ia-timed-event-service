@@ -111,7 +111,7 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
 
         // When: I wait for enough time to pass
         weirdSleep(5000); // enough for the original invocation
-        weirdSleep(retryIntervalMillis * (maxRetryNumber + 2)*2);  // enough for all the retries plus some
+        weirdSleep(retryIntervalMillis * (maxRetryNumber + 2) * 2);  // enough for all the retries plus some
 
         // Then: the event execution is attempted exactly one time plus the number of retries
         verify(eventExecutor, atLeast(1)).execute(any(EventExecution.class));
