@@ -1,6 +1,7 @@
 package uk.gov.hmcts.reform.timedevent.testutils.data;
 
 import feign.FeignException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -13,6 +14,7 @@ import uk.gov.hmcts.reform.timedevent.infrastructure.security.oauth2.IdentityMan
 @Service
 public class IdamAuthProvider {
 
+    @Autowired
     private final IdamApi idamApi;
     private final String idamRedirectUrl;
     private final String userScope;
