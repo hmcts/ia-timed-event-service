@@ -42,7 +42,6 @@ public class IdamSystemTokenGenerator implements SystemTokenGenerator {
     @Override
     @Cacheable(value = "accessTokenCache")
     public String generate() {
-
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("grant_type", "password");
         map.add("redirect_uri", idamRedirectUrl);
@@ -53,13 +52,9 @@ public class IdamSystemTokenGenerator implements SystemTokenGenerator {
         map.add("scope", systemUserScope);
 
         try {
-
             Token tokenResponse = idamApi.token(map);
-
             return tokenResponse.getAccessToken();
-
         } catch (FeignException ex) {
-
             throw new IdentityManagerResponseException("Could not get system user token from IDAM", ex);
         }
     }
