@@ -1,7 +1,7 @@
-package uk.gov.hmcts.reform.timedevent.infrastructure.domain.services;
+package uk.gov.hmcts.reform.timedevent.domain.services;
 
 import java.util.Optional;
-import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.TimedEvent;
+import uk.gov.hmcts.reform.timedevent.domain.entities.TimedEvent;
 
 public interface SchedulerService {
 

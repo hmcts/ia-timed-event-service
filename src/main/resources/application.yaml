@@ -122,7 +122,17 @@ security:
       - "saveNotificationsToData"
     caseworker-approver:
       - "saveNotificationsToData"
-    caseworker-ia-caseofficer:
+    senior-tribunal-caseworker:
+      - "requestHearingRequirementsFeature"
+      - "example"
+      - "unknown"
+      - "saveNotificationsToData"
+    challenged-access-legal-operations:
+      - "requestHearingRequirementsFeature"
+      - "example"
+      - "unknown"
+      - "saveNotificationsToData"
+    tribunal-caseworker:
       - "requestHearingRequirementsFeature"
       - "example"
       - "unknown"
@@ -134,10 +144,64 @@ security:
       - "rollbackPaymentTimeoutToPaymentPending"
       - "endAppealAutomatically"
       - "saveNotificationsToData"
-    caseworker-ia-iacjudge:
+    judge:
       - "requestHearingRequirementsFeature"
       - "saveNotificationsToData"
-    caseworker-ia-admofficer:
+    senior-judge:
+      - "requestHearingRequirementsFeature"
+      - "saveNotificationsToData"
+    leadership-judge:
+      - "requestHearingRequirementsFeature"
+      - "saveNotificationsToData"
+    fee-paid-judge:
+      - "requestHearingRequirementsFeature"
+      - "saveNotificationsToData"
+    lead-judge:
+      - "requestHearingRequirementsFeature"
+      - "saveNotificationsToData"
+    hearing-judge:
+      - "requestHearingRequirementsFeature"
+      - "saveNotificationsToData"
+    ftpa-judge:
+      - "requestHearingRequirementsFeature"
+      - "saveNotificationsToData"
+    hearing-panel-judge:
+      - "requestHearingRequirementsFeature"
+      - "saveNotificationsToData"
+    challenged-access-judiciary:
+      - "requestHearingRequirementsFeature"
+      - "saveNotificationsToData"
+    hearing-centre-admin:
+      - "endAppealAutomatically"
+      - "recordRemissionReminder"
+      - "sendPaymentReminderNotification"
+      - "saveNotificationsToData"
+      - "testTimedEventSchedule"
+    ctsc:
+      - "endAppealAutomatically"
+      - "recordRemissionReminder"
+      - "sendPaymentReminderNotification"
+      - "saveNotificationsToData"
+      - "testTimedEventSchedule"
+    ctsc-team-leader:
+      - "endAppealAutomatically"
+      - "recordRemissionReminder"
+      - "sendPaymentReminderNotification"
+      - "saveNotificationsToData"
+      - "testTimedEventSchedule"
+    national-business-centre:
+      - "endAppealAutomatically"
+      - "recordRemissionReminder"
+      - "sendPaymentReminderNotification"
+      - "saveNotificationsToData"
+      - "testTimedEventSchedule"
+    challenged-access-ctsc:
+      - "endAppealAutomatically"
+      - "recordRemissionReminder"
+      - "sendPaymentReminderNotification"
+      - "saveNotificationsToData"
+      - "testTimedEventSchedule"
+    challenged-access-admin:
       - "endAppealAutomatically"
       - "recordRemissionReminder"
       - "sendPaymentReminderNotification"
@@ -180,6 +244,8 @@ idam:
   s2s-authorised:
     services: ${IA_S2S_AUTHORIZED_SERVICES:iac}
 
+role-assignment-service:
+  url: ${ROLE_ASSIGNMENT_URL:http://localhost:8991}
 
 ccd:
   case-data-api:

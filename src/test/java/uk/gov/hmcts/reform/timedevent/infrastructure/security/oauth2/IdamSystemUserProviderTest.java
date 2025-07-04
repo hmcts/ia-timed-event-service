@@ -9,22 +9,19 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import uk.gov.hmcts.reform.timedevent.infrastructure.clients.IdamApi;
 import uk.gov.hmcts.reform.timedevent.infrastructure.clients.model.idam.UserInfo;
-import uk.gov.hmcts.reform.timedevent.infrastructure.domain.services.IdamService;
+import uk.gov.hmcts.reform.timedevent.domain.services.IdamService;
 
 @ExtendWith(MockitoExtension.class)
 class IdamSystemUserProviderTest {
 
-    @Mock
-    private IdamApi idamApi;
     @Mock
     private IdamService idamService;
 
     @Mock
     private UserInfo userInfo;
 
-    private String token = "Bearer someHash";
+    private final String token = "Bearer someHash";
 
     @Test
     public void should_return_correct_user_id() {
@@ -33,7 +30,7 @@ class IdamSystemUserProviderTest {
         when(userInfo.getUid()).thenReturn(expectedUserId);
         when(idamService.getUserInfo(token)).thenReturn(userInfo);
 
-        IdamSystemUserProvider idamSystemUserProvider = new IdamSystemUserProvider(idamApi,idamService);
+        IdamSystemUserProvider idamSystemUserProvider = new IdamSystemUserProvider(idamService);
 
         String userId = idamSystemUserProvider.getSystemUserId(token);
 
@@ -47,7 +44,7 @@ class IdamSystemUserProviderTest {
 
         when(idamService.getUserInfo(token)).thenThrow(FeignException.class);
 
-        IdamSystemUserProvider idamSystemUserProvider = new IdamSystemUserProvider(idamApi,idamService);
+        IdamSystemUserProvider idamSystemUserProvider = new IdamSystemUserProvider(idamService);
 
         IdentityManagerResponseException thrown = assertThrows(
             IdentityManagerResponseException.class,

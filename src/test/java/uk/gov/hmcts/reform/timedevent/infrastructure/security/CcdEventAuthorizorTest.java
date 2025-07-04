@@ -14,7 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.access.AccessDeniedException;
-import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.ccd.Event;
+import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Event;
 
 @ExtendWith(MockitoExtension.class)
 class CcdEventAuthorizorTest {
@@ -22,8 +22,8 @@ class CcdEventAuthorizorTest {
     @Mock
     private AuthorizedRolesProvider authorizedRolesProvider;
 
-    private String role = "caseworker-ia";
-    private Map<String, List<Event>> roleEventAccess = new ImmutableMap.Builder<String, List<Event>>()
+    private final String role = "caseworker-ia";
+    private final Map<String, List<Event>> roleEventAccess = new ImmutableMap.Builder<String, List<Event>>()
         .put(role, newArrayList(Event.UNKNOWN))
         .build();
 
