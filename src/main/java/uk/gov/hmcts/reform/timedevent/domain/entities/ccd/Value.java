@@ -1,6 +1,5 @@
 package uk.gov.hmcts.reform.timedevent.domain.entities.ccd;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
