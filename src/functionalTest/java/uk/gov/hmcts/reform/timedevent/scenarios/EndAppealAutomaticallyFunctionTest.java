@@ -31,7 +31,7 @@ public class EndAppealAutomaticallyFunctionTest extends FunctionalTest {
     public void createCase() {
 
         systemUserToken = idamAuthProvider.getSystemUserToken();
-        systemUserId = idamApi.userInfo(systemUserToken).getUid();
+        systemUserId = idamService.getUserInfo(systemUserToken).getUid();
 
         caseDataFixture = new CaseDataFixture(
             ccdApi,

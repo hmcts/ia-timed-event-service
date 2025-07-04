@@ -27,7 +27,7 @@ public class RetriggerWaTasksFunctionTest extends FunctionalTest {
     public void createCase() {
 
         systemUserToken = idamAuthProvider.getSystemUserToken();
-        systemUserId = idamApi.userInfo(systemUserToken).getUid();
+        systemUserId = idamService.getUserInfo(systemUserToken).getUid();
 
         caseDataFixture = new CaseDataFixture(
             ccdApi,
@@ -44,7 +44,7 @@ public class RetriggerWaTasksFunctionTest extends FunctionalTest {
     }
 
     @Test
-    public void should_trigger_endAppealAutomatically_event() {
+    public void should_trigger_reTriggerWaTasks_event() {
 
         long caseId = caseDataFixture.getCaseId();
 
