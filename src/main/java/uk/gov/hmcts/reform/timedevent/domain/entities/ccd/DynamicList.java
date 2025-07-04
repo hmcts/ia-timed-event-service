@@ -3,9 +3,11 @@ package uk.gov.hmcts.reform.timedevent.domain.entities.ccd;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import java.util.List;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
+@EqualsAndHashCode
 @ToString
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @Getter
