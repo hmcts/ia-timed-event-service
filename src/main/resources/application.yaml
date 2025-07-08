@@ -240,7 +240,7 @@ idam:
   system:
     username: ${IA_SYSTEM_USERNAME:ia-system-user@fake.hmcts.net}
     password: ${IA_SYSTEM_PASSWORD:London05}
-    scope: "openid profile roles"
+    scope: "openid profile authorities acr roles search-user manage-user create-user"
   s2s-auth:
     totp_secret: ${IA_S2S_SECRET:AAAAAAAAAAAAAAAC}
     microservice: ${IA_S2S_MICROSERVICE:ia}
