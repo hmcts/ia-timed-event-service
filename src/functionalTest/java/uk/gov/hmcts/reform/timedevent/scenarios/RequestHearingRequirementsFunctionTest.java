@@ -67,7 +67,7 @@ public class RequestHearingRequirementsFunctionTest extends FunctionalTest {
                 response = scheduleEventNow(caseId, auth, serviceAuth);
                 break;
             } catch (Exception fe) {
-                log.error("Response returned error with " + fe.getMessage() + ". Retrying test.");
+                log.error("Response returned error with {}. Retrying test.", fe.getMessage());
             }
         }
         assertNotNull(response);

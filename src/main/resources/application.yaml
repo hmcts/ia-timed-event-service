@@ -90,6 +90,10 @@ retry:
   durationInSeconds: ${IA_SCHEDULER_RETRY_DURATION:7200}
   maxRetryNumber: ${IA_SCHEDULER_MAX_RETRY_NUMBER:13}
 
+feign:
+  decoder:
+    default-to-unknown-enum-value: true
+
 health:
   probes:
     enabled: true

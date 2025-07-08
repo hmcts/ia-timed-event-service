@@ -48,7 +48,9 @@ public class FunctionalTest {
 
     protected IdamAuthProvider idamAuthProvider;
 
-    protected ObjectMapper objectMapper = new ObjectMapper();
+    @Autowired
+    protected ObjectMapper objectMapper;
+
     protected final String targetInstance =
         StringUtils.defaultIfBlank(
             System.getenv("TEST_URL"),
