@@ -4,7 +4,7 @@ import static io.restassured.RestAssured.given;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import io.restassured.http.Header;
 import io.restassured.response.Response;
@@ -65,6 +65,8 @@ public class RequestHearingRequirementsFunctionTest extends FunctionalTest {
             try {
                 // execute Timed Event now
                 response = scheduleEventNow(caseId, auth, serviceAuth);
+                assertNotNull(response);
+                assertThat(response.getStatusCode()).isEqualTo(201);
                 break;
             } catch (Exception fe) {
                 log.error("Response returned error with " + fe.getMessage() + ". Retrying test.");

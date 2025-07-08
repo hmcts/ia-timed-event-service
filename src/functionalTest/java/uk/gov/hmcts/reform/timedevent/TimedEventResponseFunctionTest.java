@@ -2,12 +2,14 @@ package uk.gov.hmcts.reform.timedevent;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
 import java.time.ZonedDateTime;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import uk.gov.hmcts.reform.timedevent.domain.entities.TimedEvent;
 import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Event;
 import uk.gov.hmcts.reform.timedevent.testutils.FunctionalTest;
 
+@Slf4j
 public class TimedEventResponseFunctionTest extends FunctionalTest {
 
     private String userToken;
@@ -43,18 +46,28 @@ public class TimedEventResponseFunctionTest extends FunctionalTest {
         );
 
         String requestBody = objectMapper.writeValueAsString(timedEvent);
+        Response response = null;
+        for (int i = 0; i < 5; i++) {
+            try {
+                response = given(requestSpecification)
+                    .when()
+                    .header(new Header("Authorization", userToken))
+                    .header(new Header("ServiceAuthorization", s2sToken))
+                    .contentType("application/json")
+                    .body(requestBody)
+                    .post("/timed-event")
+                    .then()
+                    .extract().response();
 
-        Response response = given(requestSpecification)
-            .when()
-            .header(new Header("Authorization", userToken))
-            .header(new Header("ServiceAuthorization", s2sToken))
-            .contentType("application/json")
-            .body(requestBody)
-            .post("/timed-event")
-            .then()
-            .extract().response();
+                assertNotNull(response);
+                assertThat(response.getStatusCode()).isEqualTo(201);
+            } catch (Exception e) {
+                log.error("Response returned error with " + e.getMessage() + ". Retrying test.");
+            }
+            assertNotNull(response);
+            assertThat(response.getStatusCode()).isEqualTo(201);
 
-        assertThat(response.getStatusCode()).isEqualTo(201);
+        }
     }
 
     @Test
@@ -123,32 +136,48 @@ public class TimedEventResponseFunctionTest extends FunctionalTest {
         );
 
         String requestBody = objectMapper.writeValueAsString(timedEvent);
+        Response response = null;
+        for (int i = 0; i < 5; i++) {
+            try {
+                response = given(requestSpecification)
+                    .when()
+                    .header(new Header("Authorization", userToken))
+                    .header(new Header("ServiceAuthorization", s2sToken))
+                    .contentType("application/json")
+                    .body(requestBody)
+                    .post("/timed-event ")
+                    .then()
+                    .extract().response();
 
-        Response response = given(requestSpecification)
-            .when()
-            .header(new Header("Authorization", userToken))
-            .header(new Header("ServiceAuthorization", s2sToken))
-            .contentType("application/json")
-            .body(requestBody)
-            .post("/timed-event ")
-            .then()
-            .extract().response();
-
-        assertThat(response.getStatusCode()).isEqualTo(201);
+                assertThat(response.getStatusCode()).isEqualTo(201);
+                break;
+            } catch (Exception e) {
+                log.error("Response returned error with " + e.getMessage() + ". Retrying test.");
+            }
+            assertNotNull(response);
+            assertThat(response.getStatusCode()).isEqualTo(201);
+        }
 
         TimedEvent body = objectMapper.readValue(response.getBody().asString(), TimedEvent.class);
 
-        response = given(requestSpecification)
-            .when()
-            .header(new Header("Authorization", userToken))
-            .header(new Header("ServiceAuthorization", s2sToken))
-            .contentType("application/json")
-            .get("/timed-event/" + body.getId())
-            .then()
-            .extract().response();
+        for (int i = 0; i < 5; i++) {
+            try {
+                response = given(requestSpecification)
+                    .when()
+                    .header(new Header("Authorization", userToken))
+                    .header(new Header("ServiceAuthorization", s2sToken))
+                    .contentType("application/json")
+                    .get("/timed-event/" + body.getId())
+                    .then()
+                    .extract().response();
 
+                assertThat(response.getStatusCode()).isEqualTo(200);
+                break;
+            } catch (Exception e) {
+                log.error("Response returned error with " + e.getMessage() + ". Retrying test.");
+            }
+        }
         assertThat(response.getStatusCode()).isEqualTo(200);
-
     }
 
     @Test
