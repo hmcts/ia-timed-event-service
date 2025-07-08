@@ -13,7 +13,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.test.context.ActiveProfiles;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.document.DocumentUploadClientApi;
-import uk.gov.hmcts.reform.timedevent.domain.services.IdamService;
 import uk.gov.hmcts.reform.timedevent.infrastructure.clients.IdamApi;
 import uk.gov.hmcts.reform.timedevent.infrastructure.config.ServiceTokenGeneratorConfiguration;
 import uk.gov.hmcts.reform.timedevent.testutils.clients.*;
@@ -37,9 +36,6 @@ public class FunctionalTest {
 
     @Autowired
     protected IdamApi idamApi;
-
-    @Autowired
-    protected IdamService idamService;
 
     @Autowired
     protected AuthTokenGenerator s2sAuthTokenGenerator;

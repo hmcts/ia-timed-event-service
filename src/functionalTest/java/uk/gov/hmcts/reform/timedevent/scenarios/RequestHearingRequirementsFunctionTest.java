@@ -32,7 +32,7 @@ public class RequestHearingRequirementsFunctionTest extends FunctionalTest {
     public void createCase() {
 
         systemUserToken = idamAuthProvider.getSystemUserToken();
-        systemUserId = idamService.getUserInfo(systemUserToken).getUid();
+        systemUserId = idamAuthProvider.getUserId(systemUserToken);
 
         caseDataFixture = new CaseDataFixture(
             ccdApi,
