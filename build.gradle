@@ -190,7 +190,7 @@ dependencyManagement {
       entry 'guava'
     }
 
-    dependencySet(group: 'commons-fileupload', version: '1.5') {
+    dependencySet(group: 'commons-fileupload', version: '1.6.0') {
       entry 'commons-fileupload'
     }
 
@@ -323,7 +323,7 @@ dependencies {
 
   implementation group: 'com.nimbusds', name: 'nimbus-jose-jwt', version: '9.37.3'
 
-  implementation group: 'net.minidev', name: 'json-smart', version: '2.5.0'
+  implementation group: 'net.minidev', name: 'json-smart', version: '2.5.2'
 
   testImplementation(group: 'org.springframework.boot', name: 'spring-boot-starter-test') {
     exclude group: 'junit', module: 'junit'
