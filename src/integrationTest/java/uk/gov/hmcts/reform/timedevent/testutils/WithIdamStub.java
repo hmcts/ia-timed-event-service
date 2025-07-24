@@ -25,7 +25,7 @@ public interface WithIdamStub {
                                 + "&client_secret=something"
                                 + "&username=ia-system-user%40fake.hmcts.net"
                                 + "&password=London05"
-                                + "&scope=openid+profile+roles"
+                                + "&scope=openid+profile+authorities+acr+roles+search-user+manage-user+create-user"
                         )
                     )
                     .build(),
