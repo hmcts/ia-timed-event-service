@@ -1,11 +1,11 @@
-package uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities;
+package uk.gov.hmcts.reform.timedevent.domain.entities;
 
 import java.time.ZonedDateTime;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.ccd.Event;
+import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Event;
 
 @AllArgsConstructor
 @Getter

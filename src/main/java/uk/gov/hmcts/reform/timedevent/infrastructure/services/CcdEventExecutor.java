@@ -9,8 +9,8 @@ import uk.gov.hmcts.reform.timedevent.infrastructure.clients.model.ccd.CaseDataC
 import uk.gov.hmcts.reform.timedevent.infrastructure.clients.model.ccd.CaseDetails;
 import uk.gov.hmcts.reform.timedevent.infrastructure.clients.model.ccd.Event;
 import uk.gov.hmcts.reform.timedevent.infrastructure.clients.model.ccd.StartEventTrigger;
-import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.EventExecution;
-import uk.gov.hmcts.reform.timedevent.infrastructure.domain.services.EventExecutor;
+import uk.gov.hmcts.reform.timedevent.domain.entities.EventExecution;
+import uk.gov.hmcts.reform.timedevent.domain.services.EventExecutor;
 import uk.gov.hmcts.reform.timedevent.infrastructure.security.SystemTokenGenerator;
 import uk.gov.hmcts.reform.timedevent.infrastructure.security.SystemUserProvider;
 import uk.gov.hmcts.reform.timedevent.infrastructure.security.oauth2.IdentityManagerResponseException;

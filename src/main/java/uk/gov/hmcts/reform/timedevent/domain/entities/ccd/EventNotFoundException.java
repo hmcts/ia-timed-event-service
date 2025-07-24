@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.ccd;
+package uk.gov.hmcts.reform.timedevent.domain.entities.ccd;
 
 public class EventNotFoundException extends IllegalArgumentException {
 

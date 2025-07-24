@@ -13,15 +13,15 @@ import org.apache.logging.log4j.util.Strings;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.TimedEvent;
-import uk.gov.hmcts.reform.timedevent.infrastructure.domain.services.SchedulerService;
+import uk.gov.hmcts.reform.timedevent.domain.entities.TimedEvent;
+import uk.gov.hmcts.reform.timedevent.domain.services.SchedulerService;
 import uk.gov.hmcts.reform.timedevent.infrastructure.security.CcdEventAuthorizor;
 
 @RestController
 public class TimedEventController {
 
-    private CcdEventAuthorizor ccdEventAuthorizor;
-    private SchedulerService schedulerService;
+    private final CcdEventAuthorizor ccdEventAuthorizor;
+    private final SchedulerService schedulerService;
 
     public TimedEventController(CcdEventAuthorizor ccdEventAuthorizor, SchedulerService timedEventService) {
         this.ccdEventAuthorizor = ccdEventAuthorizor;
@@ -68,7 +68,7 @@ public class TimedEventController {
 
         ccdEventAuthorizor.throwIfNotAuthorized(timedEvent.getEvent());
 
-        String identity = "";
+        String identity;
         if (StringUtils.isBlank(timedEvent.getId())) {
             identity = schedulerService.schedule(timedEvent);
         } else {

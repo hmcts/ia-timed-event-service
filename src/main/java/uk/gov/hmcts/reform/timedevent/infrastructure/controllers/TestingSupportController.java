@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.EventExecution;
-import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.ccd.Event;
-import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.ccd.EventNotFoundException;
-import uk.gov.hmcts.reform.timedevent.infrastructure.domain.services.EventExecutor;
+import uk.gov.hmcts.reform.timedevent.domain.entities.EventExecution;
+import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Event;
+import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.EventNotFoundException;
+import uk.gov.hmcts.reform.timedevent.domain.services.EventExecutor;
 import uk.gov.hmcts.reform.timedevent.infrastructure.security.SystemTokenGenerator;
 import uk.gov.hmcts.reform.timedevent.infrastructure.security.SystemUserProvider;
 

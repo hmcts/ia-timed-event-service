@@ -10,9 +10,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
-import uk.gov.hmcts.reform.timedevent.infrastructure.clients.IdamApi;
 import uk.gov.hmcts.reform.timedevent.infrastructure.clients.model.idam.UserInfo;
-import uk.gov.hmcts.reform.timedevent.infrastructure.domain.services.IdamService;
+import uk.gov.hmcts.reform.timedevent.domain.services.IdamService;
 
 @Component
 public class IdamAuthoritiesConverter implements Converter<Jwt, Collection<GrantedAuthority>> {
@@ -21,12 +20,9 @@ public class IdamAuthoritiesConverter implements Converter<Jwt, Collection<Grant
 
     static final String TOKEN_NAME = "tokenName";
 
-    private final IdamApi idamApi;
     private final IdamService idamService;
 
-    public IdamAuthoritiesConverter(IdamApi idamApi,
-        IdamService idamService) {
-        this.idamApi = idamApi;
+    public IdamAuthoritiesConverter(IdamService idamService) {
         this.idamService = idamService;
     }
 
