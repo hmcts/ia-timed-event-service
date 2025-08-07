@@ -1,6 +1,7 @@
 package uk.gov.hmcts.reform.timedevent.testutils.data;
 
 import feign.FeignException;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import uk.gov.hmcts.reform.timedevent.infrastructure.clients.IdamApi;
@@ -30,75 +31,62 @@ public class IdamAuthProvider {
         this.idamClientSecret = idamClientSecret;
     }
 
-    public String getSystemUserToken() {
+    public String getUserToken(String username, String password) {
 
-        return getUserToken(
-            System.getenv("IA_SYSTEM_USERNAME"),
-            System.getenv("IA_SYSTEM_PASSWORD")
-        );
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        map.add("grant_type", "password");
+        map.add("redirect_uri", idamRedirectUrl);
+        map.add("client_id", idamClientId);
+        map.add("client_secret", idamClientSecret);
+        map.add("username", username);
+        map.add("password", password);
+        map.add("scope", userScope);
+        try {
+            Token tokenResponse = idamApi.token(map);
+            return "Bearer " + tokenResponse.getAccessToken();
+        } catch (FeignException ex) {
+            throw new IdentityManagerResponseException("Could not get user token from IDAM", ex);
+        }
     }
 
+    @Cacheable(value = "legalRepATokenCache")
     public String getLegalRepToken() {
-
         return getUserToken(
             System.getenv("TEST_LAW_FIRM_A_USERNAME"),
             System.getenv("TEST_LAW_FIRM_A_PASSWORD")
         );
     }
 
+    @Cacheable(value = "caseOfficerTokenCache")
     public String getCaseOfficerToken() {
-
         return getUserToken(
             System.getenv("TEST_CASEOFFICER_USERNAME"),
             System.getenv("TEST_CASEOFFICER_PASSWORD")
         );
     }
 
+    @Cacheable(value = "homeOfficeLartTokenCache")
     public String getHomeOfficeLartToken() {
-
         return getUserToken(
             System.getenv("TEST_HOMEOFFICE_LART_USERNAME"),
             System.getenv("TEST_HOMEOFFICE_LART_PASSWORD")
         );
     }
 
-    public String getUserId(String token) {
-
-        try {
-
-            UserInfo userInfo = idamApi.userInfo(token);
-
-            return userInfo.getUid();
-
-        } catch (FeignException ex) {
-
-            throw new IdentityManagerResponseException("Could not get system user token from IDAM", ex);
-        }
+    @Cacheable(value = "systemTokenCache")
+    public String getSystemUserToken() {
+        return getUserToken(
+            System.getenv("IA_SYSTEM_USERNAME"),
+            System.getenv("IA_SYSTEM_PASSWORD")
+        );
     }
 
-    private String getUserToken(String userName, String password) {
-        Throwable ex = new Throwable();
-        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        map.add("grant_type", "password");
-        map.add("redirect_uri", idamRedirectUrl);
-        map.add("client_id", idamClientId);
-        map.add("client_secret", idamClientSecret);
-        map.add("username", userName);
-        map.add("password", password);
-        map.add("scope", userScope);
-
-        for (int i = 0; i < 5; i++) {
-            try {
-
-                Token tokenResponse = idamApi.token(map);
-
-                return "Bearer " + tokenResponse.getAccessToken();
-
-            } catch (FeignException e) {
-                System.out.println("Could not get user token from IDAM, trying again, attempt " + i + " of 5.");
-                ex = e;
-            }
+    public String getUserId(String token) {
+        try {
+            UserInfo userInfo = idamApi.userInfo(token);
+            return userInfo.getUid();
+        } catch (FeignException ex) {
+            throw new IdentityManagerResponseException("Could not get system user token from IDAM", ex);
         }
-        throw new IdentityManagerResponseException("Could not get user token from IDAM", ex);
     }
 }
