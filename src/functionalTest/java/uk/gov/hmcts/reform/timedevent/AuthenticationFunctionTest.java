@@ -126,7 +126,7 @@ public class AuthenticationFunctionTest extends FunctionalTest {
                + "\"caseType\": \"Asylum\","
                + "\"caseId\": 12345,"
                + "\"event\": \"requestHearingRequirementsFeature\","
-               + "\"scheduledDateTime\": \"" + ZonedDateTime.now().plusDays(3) + "\""
+               + "\"scheduledDateTime\": \"" + ZonedDateTime.now().plusDays(3).toString() + "\""
                + "}";
     }
 }

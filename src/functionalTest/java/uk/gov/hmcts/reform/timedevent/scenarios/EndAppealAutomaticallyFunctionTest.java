@@ -22,10 +22,17 @@ public class EndAppealAutomaticallyFunctionTest extends FunctionalTest {
     private String caseType = "Asylum";
     private String event = "endAppealAutomatically";
 
+    private String systemUserToken;
+    private String systemUserId;
+
     private CaseDataFixture caseDataFixture;
 
     @BeforeEach
     public void createCase() {
+
+        systemUserToken = idamAuthProvider.getSystemUserToken();
+        systemUserId = idamApi.userInfo(systemUserToken).getUid();
+
         caseDataFixture = new CaseDataFixture(
             ccdApi,
             objectMapper,

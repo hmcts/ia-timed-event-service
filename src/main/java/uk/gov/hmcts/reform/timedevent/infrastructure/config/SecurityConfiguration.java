@@ -4,7 +4,6 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 
 import com.google.common.collect.ImmutableMap;
 import java.util.*;
-import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +18,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 import uk.gov.hmcts.reform.authorisation.filters.ServiceAuthFilter;
-import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Event;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.ccd.Event;
 import uk.gov.hmcts.reform.timedevent.infrastructure.security.AuthorizedRolesProvider;
 import uk.gov.hmcts.reform.timedevent.infrastructure.security.CcdEventAuthorizor;
 import uk.gov.hmcts.reform.timedevent.infrastructure.security.SpringAuthorizedRolesProvider;
@@ -30,9 +29,7 @@ import uk.gov.hmcts.reform.timedevent.infrastructure.security.SpringAuthorizedRo
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfiguration  {
 
-    @Getter
     private final List<String> anonymousPaths = new ArrayList<>();
-    @Getter
     private final Map<String, List<Event>> roleEventAccess = new HashMap<>();
 
     private final Converter<Jwt, Collection<GrantedAuthority>> idamAuthoritiesConverter;
@@ -47,7 +44,9 @@ public class SecurityConfiguration  {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().mvcMatchers(
-            anonymousPaths.toArray(String[]::new)
+            anonymousPaths
+                .stream()
+                .toArray(String[]::new)
         );
     }
 
@@ -93,4 +92,11 @@ public class SecurityConfiguration  {
         );
     }
 
+    public Map<String, List<Event>> getRoleEventAccess() {
+        return roleEventAccess;
+    }
+
+    public List<String> getAnonymousPaths() {
+        return anonymousPaths;
+    }
 }
