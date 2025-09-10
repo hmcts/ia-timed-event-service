@@ -90,10 +90,6 @@ retry:
   durationInSeconds: ${IA_SCHEDULER_RETRY_DURATION:7200}
   maxRetryNumber: ${IA_SCHEDULER_MAX_RETRY_NUMBER:13}
 
-feign:
-  decoder:
-    default-to-unknown-enum-value: true
-
 health:
   probes:
     enabled: true
@@ -126,17 +122,7 @@ security:
       - "saveNotificationsToData"
     caseworker-approver:
       - "saveNotificationsToData"
-    senior-tribunal-caseworker:
-      - "requestHearingRequirementsFeature"
-      - "example"
-      - "unknown"
-      - "saveNotificationsToData"
-    challenged-access-legal-operations:
-      - "requestHearingRequirementsFeature"
-      - "example"
-      - "unknown"
-      - "saveNotificationsToData"
-    tribunal-caseworker:
+    caseworker-ia-caseofficer:
       - "requestHearingRequirementsFeature"
       - "example"
       - "unknown"
@@ -148,64 +134,10 @@ security:
       - "rollbackPaymentTimeoutToPaymentPending"
       - "endAppealAutomatically"
       - "saveNotificationsToData"
-    judge:
+    caseworker-ia-iacjudge:
       - "requestHearingRequirementsFeature"
       - "saveNotificationsToData"
-    senior-judge:
-      - "requestHearingRequirementsFeature"
-      - "saveNotificationsToData"
-    leadership-judge:
-      - "requestHearingRequirementsFeature"
-      - "saveNotificationsToData"
-    fee-paid-judge:
-      - "requestHearingRequirementsFeature"
-      - "saveNotificationsToData"
-    lead-judge:
-      - "requestHearingRequirementsFeature"
-      - "saveNotificationsToData"
-    hearing-judge:
-      - "requestHearingRequirementsFeature"
-      - "saveNotificationsToData"
-    ftpa-judge:
-      - "requestHearingRequirementsFeature"
-      - "saveNotificationsToData"
-    hearing-panel-judge:
-      - "requestHearingRequirementsFeature"
-      - "saveNotificationsToData"
-    challenged-access-judiciary:
-      - "requestHearingRequirementsFeature"
-      - "saveNotificationsToData"
-    hearing-centre-admin:
-      - "endAppealAutomatically"
-      - "recordRemissionReminder"
-      - "sendPaymentReminderNotification"
-      - "saveNotificationsToData"
-      - "testTimedEventSchedule"
-    ctsc:
-      - "endAppealAutomatically"
-      - "recordRemissionReminder"
-      - "sendPaymentReminderNotification"
-      - "saveNotificationsToData"
-      - "testTimedEventSchedule"
-    ctsc-team-leader:
-      - "endAppealAutomatically"
-      - "recordRemissionReminder"
-      - "sendPaymentReminderNotification"
-      - "saveNotificationsToData"
-      - "testTimedEventSchedule"
-    national-business-centre:
-      - "endAppealAutomatically"
-      - "recordRemissionReminder"
-      - "sendPaymentReminderNotification"
-      - "saveNotificationsToData"
-      - "testTimedEventSchedule"
-    challenged-access-ctsc:
-      - "endAppealAutomatically"
-      - "recordRemissionReminder"
-      - "sendPaymentReminderNotification"
-      - "saveNotificationsToData"
-      - "testTimedEventSchedule"
-    challenged-access-admin:
+    caseworker-ia-admofficer:
       - "endAppealAutomatically"
       - "recordRemissionReminder"
       - "sendPaymentReminderNotification"
@@ -240,7 +172,7 @@ idam:
   system:
     username: ${IA_SYSTEM_USERNAME:ia-system-user@fake.hmcts.net}
     password: ${IA_SYSTEM_PASSWORD:London05}
-    scope: "openid profile authorities acr roles search-user manage-user create-user"
+    scope: "openid profile roles"
   s2s-auth:
     totp_secret: ${IA_S2S_SECRET:AAAAAAAAAAAAAAAC}
     microservice: ${IA_S2S_MICROSERVICE:ia}
@@ -248,8 +180,6 @@ idam:
   s2s-authorised:
     services: ${IA_S2S_AUTHORIZED_SERVICES:iac}
 
-role-assignment-service:
-  url: ${ROLE_ASSIGNMENT_URL:http://localhost:8991}
 
 ccd:
   case-data-api:

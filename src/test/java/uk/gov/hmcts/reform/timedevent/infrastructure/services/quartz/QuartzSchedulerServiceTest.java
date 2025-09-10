@@ -13,8 +13,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.quartz.*;
-import uk.gov.hmcts.reform.timedevent.domain.entities.TimedEvent;
-import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Event;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.TimedEvent;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.ccd.Event;
 import uk.gov.hmcts.reform.timedevent.infrastructure.services.IdentityProvider;
 import uk.gov.hmcts.reform.timedevent.infrastructure.services.exceptions.SchedulerProcessingException;
 
@@ -27,11 +27,11 @@ class QuartzSchedulerServiceTest {
     @Mock
     private IdentityProvider identityProvider;
 
-    private final String identity = "someIdentity";
-    private final String jurisdiction = "IA";
-    private final String caseType = "Asylum";
-    private final ZonedDateTime scheduledDateTime = ZonedDateTime.now();
-    private final long caseId = 12345;
+    private String identity = "someIdentity";
+    private String jurisdiction = "IA";
+    private String caseType = "Asylum";
+    private ZonedDateTime scheduledDateTime = ZonedDateTime.now();
+    private long caseId = 12345;
 
     @Test
     public void should_schedule_event() throws SchedulerException {

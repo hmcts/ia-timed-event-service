@@ -14,9 +14,9 @@ import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import uk.gov.hmcts.reform.timedevent.domain.entities.EventExecution;
-import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Event;
-import uk.gov.hmcts.reform.timedevent.domain.services.EventExecutor;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.EventExecution;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.ccd.Event;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.services.EventExecutor;
 import uk.gov.hmcts.reform.timedevent.infrastructure.services.RetryableExceptionHandler;
 import uk.gov.hmcts.reform.timedevent.infrastructure.services.exceptions.NonRetryableException;
 import uk.gov.hmcts.reform.timedevent.infrastructure.services.exceptions.RetryableException;
@@ -39,9 +39,9 @@ class TimedEventJobTest {
     @Mock
     private JobDataMap jobDataMap;
 
-    private final String jurisdiction = "IA";
-    private final String caseType = "Asylum";
-    private final long caseId = 12345;
+    private String jurisdiction = "IA";
+    private String caseType = "Asylum";
+    private long caseId = 12345;
 
     @BeforeEach
     public void setUp() {

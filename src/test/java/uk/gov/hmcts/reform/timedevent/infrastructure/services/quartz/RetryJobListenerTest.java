@@ -14,9 +14,9 @@ import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobKey;
-import uk.gov.hmcts.reform.timedevent.domain.entities.TimedEvent;
-import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Event;
-import uk.gov.hmcts.reform.timedevent.domain.services.SchedulerService;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.TimedEvent;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.ccd.Event;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.services.SchedulerService;
 import uk.gov.hmcts.reform.timedevent.infrastructure.services.DateTimeProvider;
 import uk.gov.hmcts.reform.timedevent.infrastructure.services.exceptions.NonRetryableException;
 import uk.gov.hmcts.reform.timedevent.infrastructure.services.exceptions.RetryableException;
@@ -24,11 +24,13 @@ import uk.gov.hmcts.reform.timedevent.infrastructure.services.exceptions.Retryab
 @ExtendWith(MockitoExtension.class)
 class RetryJobListenerTest {
 
-    private final long durationInSeconds = 30;
-    private final long maxRetryNumber = 5;
-    private final ZonedDateTime dateTime = ZonedDateTime.now();
-    private final long caseId = 12345;
-    private final String identity = "someId";
+    private long durationInSeconds = 30;
+    private long maxRetryNumber = 5;
+    private ZonedDateTime dateTime = ZonedDateTime.now();
+    private String jurisdiction = "IA";
+    private String caseType = "Asylum";
+    private long caseId = 12345;
+    private String identity = "someId";
 
     @Mock
     private SchedulerService quartzSchedulerService;
@@ -93,9 +95,7 @@ class RetryJobListenerTest {
     @Test
     public void should_re_schedule_event_when_exception_is_retryable_and_retries_number_lower_than_max() {
 
-        String jurisdiction = "IA";
         when(jobDataMap.getString("jurisdiction")).thenReturn(jurisdiction);
-        String caseType = "Asylum";
         when(jobDataMap.getString("caseType")).thenReturn(caseType);
         when(jobDataMap.getOrDefault("attempts", 0L)).thenReturn(0L);
 

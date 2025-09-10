@@ -16,10 +16,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MvcResult;
-import uk.gov.hmcts.reform.timedevent.domain.entities.EventExecution;
-import uk.gov.hmcts.reform.timedevent.domain.entities.TimedEvent;
-import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Event;
-import uk.gov.hmcts.reform.timedevent.domain.services.EventExecutor;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.EventExecution;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.TimedEvent;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.ccd.Event;
+import uk.gov.hmcts.reform.timedevent.infrastructure.domain.services.EventExecutor;
 import uk.gov.hmcts.reform.timedevent.testutils.SpringBootIntegrationTest;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -65,7 +65,7 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
     }
 
     @Test
-    @WithMockUser(authorities = {"tribunal-caseworker"})
+    @WithMockUser(authorities = {"caseworker-ia-caseofficer"})
     void testScheduledEventHasRunAfterAppropriateTime() {
         int maxAttempts = 10;
         for (int i = 0; i < maxAttempts; i++) {
@@ -89,7 +89,7 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
     }
 
     @Test
-    @WithMockUser(authorities = {"tribunal-caseworker"})
+    @WithMockUser(authorities = {"caseworker-ia-caseofficer"})
     void testScheduledEventHasNotRunBeforeTime() {
         // Given: an event scheduled in the future
         scheduleEvent(ZonedDateTime.now().plusSeconds(5), CASE_ID2);
@@ -102,7 +102,7 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
     }
 
     @Test
-    @WithMockUser(authorities = {"tribunal-caseworker"})
+    @WithMockUser(authorities = {"caseworker-ia-caseofficer"})
     void testExecutionFailureMaximumAttemptLimitIsRespected() {
         // Given: an event scheduled in the future that is destined to fail
         doThrow(FeignException.GatewayTimeout.class).when(eventExecutor).execute(any(EventExecution.class));

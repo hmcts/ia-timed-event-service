@@ -32,7 +32,7 @@ public class RequestHearingRequirementsFunctionTest extends FunctionalTest {
     public void createCase() {
 
         systemUserToken = idamAuthProvider.getSystemUserToken();
-        systemUserId = idamAuthProvider.getUserId(systemUserToken);
+        systemUserId = idamApi.userInfo(systemUserToken).getUid();
 
         caseDataFixture = new CaseDataFixture(
             ccdApi,
@@ -67,7 +67,7 @@ public class RequestHearingRequirementsFunctionTest extends FunctionalTest {
                 response = scheduleEventNow(caseId, auth, serviceAuth);
                 break;
             } catch (Exception fe) {
-                log.error("Response returned error with {}. Retrying test.", fe.getMessage());
+                log.error("Response returned error with " + fe.getMessage() + ". Retrying test.");
             }
         }
         assertNotNull(response);
