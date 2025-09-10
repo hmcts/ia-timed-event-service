@@ -20,7 +20,7 @@ class PostTimedEventIntegrationTest extends SpringBootIntegrationTest {
     IdentityProvider identityProvider;
 
     @Test
-    @WithMockUser(authorities = {"caseworker-ia-caseofficer"})
+    @WithMockUser(authorities = {"tribunal-caseworker"})
     void timedEventEndpoint() throws Exception {
 
         String identity = "cee88160-78f4-4d24-87ff-91fd3b131034";
@@ -75,7 +75,7 @@ class PostTimedEventIntegrationTest extends SpringBootIntegrationTest {
     }
 
     @Test
-    @WithMockUser(authorities = {"caseworker-ia-caseofficer"})
+    @WithMockUser(authorities = {"tribunal-caseworker"})
     void deleteTimedEventEndpoint() throws Exception {
 
         // Given: a task has been scheduled

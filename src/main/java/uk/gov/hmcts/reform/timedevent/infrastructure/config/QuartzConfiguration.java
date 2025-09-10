@@ -6,7 +6,7 @@ import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import uk.gov.hmcts.reform.timedevent.infrastructure.domain.services.SchedulerService;
+import uk.gov.hmcts.reform.timedevent.domain.services.SchedulerService;
 import uk.gov.hmcts.reform.timedevent.infrastructure.services.DateTimeProvider;
 import uk.gov.hmcts.reform.timedevent.infrastructure.services.quartz.RetryJobListener;
 

@@ -3,7 +3,6 @@ package uk.gov.hmcts.reform.timedevent.domain.entities.ccd;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.ccd.Event;
 
 class EventTest {
 

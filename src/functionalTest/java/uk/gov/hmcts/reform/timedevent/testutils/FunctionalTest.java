@@ -27,7 +27,7 @@ import uk.gov.hmcts.reform.timedevent.testutils.data.*;
 public class FunctionalTest {
 
     @Value("${idam.redirectUrl}") protected String idamRedirectUrl;
-    @Value("${idam.system.scope}") protected String userScope;
+    @Value("${idam.scope}") protected String userScope;
     @Value("${spring.security.oauth2.client.registration.oidc.client-id}") protected String idamClientId;
     @Value("${spring.security.oauth2.client.registration.oidc.client-secret}") protected String idamClientSecret;
 
@@ -48,7 +48,9 @@ public class FunctionalTest {
 
     protected IdamAuthProvider idamAuthProvider;
 
-    protected ObjectMapper objectMapper = new ObjectMapper();
+    @Autowired
+    protected ObjectMapper objectMapper;
+
     protected final String targetInstance =
         StringUtils.defaultIfBlank(
             System.getenv("TEST_URL"),

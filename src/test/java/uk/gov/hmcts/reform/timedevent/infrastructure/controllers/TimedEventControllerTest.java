@@ -12,9 +12,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
-import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.TimedEvent;
-import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.ccd.Event;
-import uk.gov.hmcts.reform.timedevent.infrastructure.domain.services.SchedulerService;
+import uk.gov.hmcts.reform.timedevent.domain.entities.TimedEvent;
+import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Event;
+import uk.gov.hmcts.reform.timedevent.domain.services.SchedulerService;
 import uk.gov.hmcts.reform.timedevent.infrastructure.security.CcdEventAuthorizor;
 
 @ExtendWith(MockitoExtension.class)
@@ -28,7 +28,7 @@ class TimedEventControllerTest {
 
     private TimedEventController timedEventController;
 
-    private TimedEvent timedEvent = new TimedEvent(
+    private final TimedEvent timedEvent = new TimedEvent(
         "",
         Event.UNKNOWN,
         ZonedDateTime.now(),
@@ -37,7 +37,7 @@ class TimedEventControllerTest {
         1234
     );
 
-    private String identity = "someId";
+    private final String identity = "someId";
 
     @Test
     void should_return_scheduled_timed_event_on_post() {
@@ -49,6 +49,7 @@ class TimedEventControllerTest {
         ResponseEntity<TimedEvent> response = timedEventController.post(timedEvent);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertNotNull(response.getBody());
         assertEquals(timedEvent.getEvent(), response.getBody().getEvent());
         assertEquals(timedEvent.getScheduledDateTime(), response.getBody().getScheduledDateTime());
         assertEquals(timedEvent.getJurisdiction(), response.getBody().getJurisdiction());
@@ -81,6 +82,7 @@ class TimedEventControllerTest {
         ResponseEntity<TimedEvent> response = timedEventController.post(timedEvent);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertNotNull(response.getBody());
         assertEquals(timedEvent.getEvent(), response.getBody().getEvent());
         assertEquals(timedEvent.getScheduledDateTime(), response.getBody().getScheduledDateTime());
         assertEquals(timedEvent.getJurisdiction(), response.getBody().getJurisdiction());
@@ -204,6 +206,7 @@ class TimedEventControllerTest {
         ResponseEntity<TimedEvent> response = timedEventController.get(timedEvent.getId());
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
         assertEquals(timedEvent.getEvent(), response.getBody().getEvent());
         assertEquals(timedEvent.getScheduledDateTime(), response.getBody().getScheduledDateTime());
         assertEquals(timedEvent.getJurisdiction(), response.getBody().getJurisdiction());

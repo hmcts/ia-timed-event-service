@@ -15,9 +15,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.EventExecution;
-import uk.gov.hmcts.reform.timedevent.infrastructure.domain.entities.ccd.Event;
-import uk.gov.hmcts.reform.timedevent.infrastructure.domain.services.EventExecutor;
+import uk.gov.hmcts.reform.timedevent.domain.entities.EventExecution;
+import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Event;
+import uk.gov.hmcts.reform.timedevent.domain.services.EventExecutor;
 import uk.gov.hmcts.reform.timedevent.infrastructure.security.SystemTokenGenerator;
 import uk.gov.hmcts.reform.timedevent.infrastructure.security.SystemUserProvider;
 
@@ -33,7 +33,7 @@ class TestingSupportControllerTest {
     @Mock
     private EventExecutor eventExecutor;
 
-    private Request request = Request.create(
+    private final Request request = Request.create(
         Request.HttpMethod.GET,
         "",
         Collections.emptyMap(),
