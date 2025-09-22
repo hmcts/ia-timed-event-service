@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.quartz.*;
+import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uk.gov.hmcts.reform.timedevent.domain.entities.TimedEvent;
@@ -50,6 +51,11 @@ public class QuartzSchedulerService implements SchedulerService {
         );
 
         try {
+            for (String groupName : quartzScheduler.getJobGroupNames()) {
+                for (JobKey jobKey : quartzScheduler.getJobKeys(GroupMatcher.jobGroupEquals(groupName))) {
+                    log.info("-----Found job: " + jobKey.getName() + " in group: " + jobKey.getGroup());
+                }
+            }
 
             quartzScheduler.scheduleJob(jobAndTrigger.getLeft(), jobAndTrigger.getRight());
 
