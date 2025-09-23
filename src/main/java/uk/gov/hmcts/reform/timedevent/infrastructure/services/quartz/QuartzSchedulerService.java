@@ -51,11 +51,13 @@ public class QuartzSchedulerService implements SchedulerService {
         );
 
         try {
+            log.info("=====Found job start===============");
             for (String groupName : quartzScheduler.getJobGroupNames()) {
                 for (JobKey jobKey : quartzScheduler.getJobKeys(GroupMatcher.jobGroupEquals(groupName))) {
                     log.info("-----Found job: " + jobKey.getName() + " in group: " + jobKey.getGroup());
                 }
             }
+            log.info("=====Found job end===============");
 
             quartzScheduler.scheduleJob(jobAndTrigger.getLeft(), jobAndTrigger.getRight());
 
