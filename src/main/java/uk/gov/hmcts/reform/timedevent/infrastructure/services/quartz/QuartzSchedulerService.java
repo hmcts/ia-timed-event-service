@@ -55,6 +55,12 @@ public class QuartzSchedulerService implements SchedulerService {
             for (String groupName : quartzScheduler.getJobGroupNames()) {
                 for (JobKey jobKey : quartzScheduler.getJobKeys(GroupMatcher.jobGroupEquals(groupName))) {
                     log.info("-----Found job: " + jobKey.getName() + " in group: " + jobKey.getGroup());
+                    JobDetail jobDetail = quartzScheduler.getJobDetail(jobKey);
+                    log.info(jobDetail.getDescription());
+                    JobDataMap jobDataMap = jobDetail.getJobDataMap();
+                    jobDataMap.keySet().forEach(key -> {
+                        log.info("-----key: {}, value: {}", key, jobDataMap.get(key));
+                    });
                 }
             }
             log.info("=====Found job end===============");
