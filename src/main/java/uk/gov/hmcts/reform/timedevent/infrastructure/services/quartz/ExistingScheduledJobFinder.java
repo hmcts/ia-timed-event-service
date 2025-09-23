@@ -28,10 +28,12 @@ public class ExistingScheduledJobFinder {
                     for (JobKey jobKey : quartzScheduler.getJobKeys(GroupMatcher.jobGroupEquals(groupName))) {
                         log.info("-----Found job: " + jobKey.getName() + " in group: " + jobKey.getGroup());
                         JobDetail jobDetail = quartzScheduler.getJobDetail(jobKey);
-                        log.info("----Description: {}", jobDetail.getDescription());
                         JobDataMap jobDataMap = jobDetail.getJobDataMap();
                         String event = jobDataMap.get("event").toString();
                         String caseId = jobDataMap.get("caseId").toString();
+                        jobDataMap.keySet().forEach(key -> {
+                            log.info("----key: {}, value: {}", key, jobDataMap.get(key));
+                        });
                         if (event.equals(SAVE_NOTIFICATIONS_TO_DATA.toString())
                                 && caseId.equals(String.valueOf(timedEvent.getCaseId()))) {
                             return Optional.of(jobDataMap.get("timedEventId").toString());
