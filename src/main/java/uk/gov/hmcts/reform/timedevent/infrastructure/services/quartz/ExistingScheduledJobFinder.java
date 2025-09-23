@@ -23,24 +23,18 @@ public class ExistingScheduledJobFinder {
     public Optional<String> getExistingSaveNotificationsToDataScheduledJob(TimedEvent timedEvent) {
         if (timedEvent.getEvent().toString().equals(SAVE_NOTIFICATIONS_TO_DATA.toString())) {
             try {
-                log.info("=====Found job start===============");
                 for (String groupName : quartzScheduler.getJobGroupNames()) {
                     for (JobKey jobKey : quartzScheduler.getJobKeys(GroupMatcher.jobGroupEquals(groupName))) {
-                        log.info("-----Found job: " + jobKey.getName() + " in group: " + jobKey.getGroup());
                         JobDetail jobDetail = quartzScheduler.getJobDetail(jobKey);
                         JobDataMap jobDataMap = jobDetail.getJobDataMap();
                         String event = jobDataMap.get("event").toString();
                         String caseId = jobDataMap.get("caseId").toString();
-                        jobDataMap.keySet().forEach(key -> {
-                            log.info("----key: {}, value: {}", key, jobDataMap.get(key));
-                        });
                         if (event.equals(SAVE_NOTIFICATIONS_TO_DATA.toString())
                                 && caseId.equals(String.valueOf(timedEvent.getCaseId()))) {
                             return Optional.of(jobKey.getName());
                         }
                     }
                 }
-                log.info("=====Found job end===============");
             } catch (SchedulerException e) {
                 throw new SchedulerProcessingException(e);
             }
