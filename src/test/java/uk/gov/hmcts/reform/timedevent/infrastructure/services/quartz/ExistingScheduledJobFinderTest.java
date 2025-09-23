@@ -42,7 +42,6 @@ class ExistingScheduledJobFinderTest {
         JobDataMap jobDataMap = new JobDataMap();
         jobDataMap.put("event", SAVE_NOTIFICATIONS_TO_DATA.toString());
         jobDataMap.put("caseId", caseId);
-        jobDataMap.put("timedEventId", "timed-evt-001");
 
         JobDetail jobDetail = mock(JobDetail.class);
         when(jobDetail.getJobDataMap()).thenReturn(jobDataMap);
@@ -66,7 +65,7 @@ class ExistingScheduledJobFinderTest {
 
         // then
         assertThat(result).isPresent();
-        assertThat(result.get()).isEqualTo("timed-evt-001");
+        assertThat(result.get()).isEqualTo("job1");
     }
 
     @Test

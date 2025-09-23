@@ -36,7 +36,7 @@ public class ExistingScheduledJobFinder {
                         });
                         if (event.equals(SAVE_NOTIFICATIONS_TO_DATA.toString())
                                 && caseId.equals(String.valueOf(timedEvent.getCaseId()))) {
-                            return Optional.of(jobDataMap.get("timedEventId").toString());
+                            return Optional.of(jobKey.getName());
                         }
                     }
                 }
