@@ -104,6 +104,39 @@ class ExistingScheduledJobFinderTest {
     }
 
     @Test
+    void shouldNotReturnTimedEventId_whenMatchingJobWithDateDoesNotExist() throws Exception {
+        // given
+        JobDataMap jobDataMap = new JobDataMap();
+        jobDataMap.put("event", SAVE_NOTIFICATIONS_TO_DATA.toString());
+        jobDataMap.put("caseId", caseId);
+        jobDataMap.put("scheduledDateTime", null);
+
+        JobDetail jobDetail = mock(JobDetail.class);
+        when(jobDetail.getJobDataMap()).thenReturn(jobDataMap);
+
+        String groupName = "testGroup";
+        JobKey jobKey = new JobKey("job1", groupName);
+        when(quartzScheduler.getJobGroupNames()).thenReturn(List.of(groupName));
+        when(quartzScheduler.getJobKeys(GroupMatcher.jobGroupEquals(groupName))).thenReturn(Set.of(jobKey));
+        when(quartzScheduler.getJobDetail(jobKey)).thenReturn(jobDetail);
+
+        // when
+        TimedEvent timedEvent = new TimedEvent(
+                "",
+                SAVE_NOTIFICATIONS_TO_DATA,
+                scheduledDateTime,
+                jurisdiction,
+                caseType,
+                caseId
+        );
+
+        Optional<String> result = jobFinder.getExistingSaveNotificationsToDataScheduledJob(timedEvent);
+
+        // then
+        assertThat(result).isEmpty();
+    }
+
+    @Test
     void shouldReturnEmpty_whenNoMatchingJob() throws Exception {
         TimedEvent timedEvent = new TimedEvent(
                 "",

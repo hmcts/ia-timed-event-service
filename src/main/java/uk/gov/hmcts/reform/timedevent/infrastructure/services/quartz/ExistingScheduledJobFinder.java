@@ -29,15 +29,13 @@ public class ExistingScheduledJobFinder {
                     for (JobKey jobKey : quartzScheduler.getJobKeys(GroupMatcher.jobGroupEquals(groupName))) {
                         JobDetail jobDetail = quartzScheduler.getJobDetail(jobKey);
                         JobDataMap jobDataMap = jobDetail.getJobDataMap();
-                        String event = jobDataMap.get("event").toString();
-                        String caseId = jobDataMap.get("caseId").toString();
-                        ZonedDateTime scheduledDateTime = ZonedDateTime.parse(
-                                jobDataMap.get("scheduledDateTime").toString());
-                        LocalDate today = LocalDate.now(scheduledDateTime.getZone());
+                        ZonedDateTime scheduledDateTime = jobDataMap.get("scheduledDateTime") != null ? ZonedDateTime.parse(
+                                jobDataMap.get("scheduledDateTime").toString()) : null;
 
-                        if (event.equals(SAVE_NOTIFICATIONS_TO_DATA.toString())
-                                && caseId.equals(String.valueOf(timedEvent.getCaseId()))
-                                && scheduledDateTime.toLocalDate().equals(today)) {
+                        if (String.valueOf(jobDataMap.get("event")).equals(SAVE_NOTIFICATIONS_TO_DATA.toString())
+                                && String.valueOf(jobDataMap.get("caseId")).equals(String.valueOf(timedEvent.getCaseId()))
+                                && scheduledDateTime != null
+                                && scheduledDateTime.toLocalDate().equals(LocalDate.now(scheduledDateTime.getZone()))) {
                             return Optional.of(jobKey.getName());
                         }
                     }
