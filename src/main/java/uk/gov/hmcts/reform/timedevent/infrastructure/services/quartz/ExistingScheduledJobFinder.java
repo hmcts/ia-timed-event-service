@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import uk.gov.hmcts.reform.timedevent.domain.entities.TimedEvent;
 import uk.gov.hmcts.reform.timedevent.infrastructure.services.exceptions.SchedulerProcessingException;
 
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 
 import static uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Event.SAVE_NOTIFICATIONS_TO_DATA;
@@ -29,8 +31,13 @@ public class ExistingScheduledJobFinder {
                         JobDataMap jobDataMap = jobDetail.getJobDataMap();
                         String event = jobDataMap.get("event").toString();
                         String caseId = jobDataMap.get("caseId").toString();
+                        ZonedDateTime scheduledDateTime = ZonedDateTime.parse(
+                                jobDataMap.get("scheduledDateTime").toString());
+                        LocalDate today = LocalDate.now(scheduledDateTime.getZone());
+
                         if (event.equals(SAVE_NOTIFICATIONS_TO_DATA.toString())
-                                && caseId.equals(String.valueOf(timedEvent.getCaseId()))) {
+                                && caseId.equals(String.valueOf(timedEvent.getCaseId()))
+                                && scheduledDateTime.toLocalDate().equals(today)) {
                             return Optional.of(jobKey.getName());
                         }
                     }
