@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.timedevent.domain.entities.roleassignment.Assignment;
+import uk.gov.hmcts.reform.timedevent.domain.entities.roleassignment.QueryRequest;
 import uk.gov.hmcts.reform.timedevent.domain.entities.roleassignment.RoleAssignmentResource;
 import uk.gov.hmcts.reform.timedevent.domain.entities.roleassignment.RoleName;
 import uk.gov.hmcts.reform.timedevent.domain.entities.roleassignment.RoleType;
@@ -59,20 +61,23 @@ class RoleAssignmentServiceTest {
             .roleType(RoleType.CASE)
             .actorId(userId)
             .build();
-
+        QueryRequest queryRequest = QueryRequest.builder()
+            .actorId(Collections.singletonList(userId))
+            .roleType(Collections.singletonList(RoleType.ORGANISATION))
+            .build();
         String accessToken = "accessToken";
-        when(roleAssignmentApi.getRoleAssignments(
+        when(roleAssignmentApi.queryRoleAssignments(
             accessToken,
             serviceToken,
-            userId
+            queryRequest
         )).thenReturn(new RoleAssignmentResource(List.of(assignment1, assignment2, assignment3)));
 
         List<String> roles = roleAssignmentService.getAmRolesFromUser(userId, accessToken);
 
-        verify(roleAssignmentApi).getRoleAssignments(
+        verify(roleAssignmentApi).queryRoleAssignments(
             accessToken,
             serviceToken,
-            userId
+            queryRequest
         );
         assertTrue(roles.contains(RoleName.CTSC_TEAM_LEADER.getValue()));
         assertTrue(roles.contains(RoleName.CTSC.getValue()));
