@@ -36,7 +36,9 @@ public class ExistingScheduledJobFinder {
                             log.info("----key: {}, value: {}", key, jobDataMap.get(key));
                         });
                         List<? extends Trigger> jobTriggers = quartzScheduler.getTriggersOfJob(jobKey);
+                        log.info("----triggers.size(): {}", jobTriggers.size());
                         jobTriggers.forEach(trigger -> {
+                            log.info("----LocalDate.now(): {}", LocalDate.now());
                             log.info("----trigger: {}, value: {}", trigger, trigger.getStartTime());
                         });
                         ZonedDateTime scheduledDateTime = jobDataMap.get("scheduledDateTime") != null ? ZonedDateTime.parse(
