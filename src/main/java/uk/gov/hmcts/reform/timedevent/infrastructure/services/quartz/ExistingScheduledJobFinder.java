@@ -8,6 +8,7 @@ import uk.gov.hmcts.reform.timedevent.domain.entities.TimedEvent;
 import uk.gov.hmcts.reform.timedevent.infrastructure.services.exceptions.SchedulerProcessingException;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +39,7 @@ public class ExistingScheduledJobFinder {
                         List<? extends Trigger> jobTriggers = quartzScheduler.getTriggersOfJob(jobKey);
                         log.info("----triggers.size(): {}", jobTriggers.size());
                         jobTriggers.forEach(trigger -> {
-                            log.info("----LocalDate.now(): {}", LocalDate.now());
+                            log.info("----LocalDateTime.now(): {}", LocalDateTime.now());
                             log.info("----trigger: {}, value: {}", trigger, trigger.getStartTime());
                         });
                         ZonedDateTime scheduledDateTime = jobDataMap.get("scheduledDateTime") != null ? ZonedDateTime.parse(
