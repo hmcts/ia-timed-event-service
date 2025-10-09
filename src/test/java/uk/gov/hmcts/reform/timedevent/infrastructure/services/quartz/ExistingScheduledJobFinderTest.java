@@ -15,6 +15,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.*;
 
+import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Event.SAVE_NOTIFICATIONS_TO_DATA;
@@ -86,6 +87,7 @@ class ExistingScheduledJobFinderTest {
         when(quartzScheduler.getJobGroupNames()).thenReturn(List.of(groupName));
         when(quartzScheduler.getJobKeys(GroupMatcher.jobGroupEquals(groupName))).thenReturn(Set.of(jobKey));
         when(quartzScheduler.getJobDetail(jobKey)).thenReturn(jobDetail);
+        when(quartzScheduler.getTriggersOfJob(jobKey)).thenReturn(emptyList());
 
         // when
         TimedEvent timedEvent = new TimedEvent(
