@@ -11,16 +11,17 @@ import uk.gov.hmcts.reform.timedevent.domain.entities.TimedEvent;
 import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Event;
 import uk.gov.hmcts.reform.timedevent.infrastructure.services.exceptions.SchedulerProcessingException;
 
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.*;
 
 import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Event.SAVE_NOTIFICATIONS_TO_DATA;
 
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings({"unchecked", "rawtypes"})
 class ExistingScheduledJobFinderTest {
 
     @Mock
@@ -39,12 +40,11 @@ class ExistingScheduledJobFinderTest {
     }
 
     @Test
-    void shouldReturnTimedEventId_whenMatchingJobExists() throws Exception {
+    void shouldReturnTimedEventId_whenMatchingJobExistsAndIsScheduled() throws Exception {
         // given
         JobDataMap jobDataMap = new JobDataMap();
         jobDataMap.put("event", SAVE_NOTIFICATIONS_TO_DATA.toString());
         jobDataMap.put("caseId", caseId);
-        jobDataMap.put("scheduledDateTime", ZonedDateTime.now(ZoneId.systemDefault()));
 
         JobDetail jobDetail = mock(JobDetail.class);
         when(jobDetail.getJobDataMap()).thenReturn(jobDataMap);
@@ -54,6 +54,8 @@ class ExistingScheduledJobFinderTest {
         when(quartzScheduler.getJobGroupNames()).thenReturn(List.of(groupName));
         when(quartzScheduler.getJobKeys(GroupMatcher.jobGroupEquals(groupName))).thenReturn(Set.of(jobKey));
         when(quartzScheduler.getJobDetail(jobKey)).thenReturn(jobDetail);
+        List<? extends Trigger> triggers = singletonList(mock(Trigger.class));
+        when(quartzScheduler.getTriggersOfJob(jobKey)).thenReturn((List)triggers);
 
         // when
         TimedEvent timedEvent = new TimedEvent(
@@ -72,12 +74,11 @@ class ExistingScheduledJobFinderTest {
     }
 
     @Test
-    void shouldNotReturnTimedEventId_whenMatchingJobExistsWithPreviousDay() throws Exception {
+    void shouldReturnTimedEventId_whenMatchingJobExistsAndIsNotScheduled() throws Exception {
         // given
         JobDataMap jobDataMap = new JobDataMap();
         jobDataMap.put("event", SAVE_NOTIFICATIONS_TO_DATA.toString());
         jobDataMap.put("caseId", caseId);
-        jobDataMap.put("scheduledDateTime", ZonedDateTime.now(ZoneId.systemDefault()).minusDays(1));
 
         JobDetail jobDetail = mock(JobDetail.class);
         when(jobDetail.getJobDataMap()).thenReturn(jobDataMap);
@@ -98,40 +99,6 @@ class ExistingScheduledJobFinderTest {
                 caseType,
                 caseId
         );
-
-        Optional<String> result = jobFinder.getExistingSaveNotificationsToDataScheduledJob(timedEvent);
-
-        // then
-        assertThat(result).isEmpty();
-    }
-
-    @Test
-    void shouldNotReturnTimedEventId_whenMatchingJobWithDateDoesNotExist() throws Exception {
-        // given
-        JobDataMap jobDataMap = new JobDataMap();
-        jobDataMap.put("event", SAVE_NOTIFICATIONS_TO_DATA.toString());
-        jobDataMap.put("caseId", caseId);
-        jobDataMap.put("scheduledDateTime", null);
-
-        JobDetail jobDetail = mock(JobDetail.class);
-        when(jobDetail.getJobDataMap()).thenReturn(jobDataMap);
-
-        String groupName = "testGroup";
-        JobKey jobKey = new JobKey("job1", groupName);
-        when(quartzScheduler.getJobGroupNames()).thenReturn(List.of(groupName));
-        when(quartzScheduler.getJobKeys(GroupMatcher.jobGroupEquals(groupName))).thenReturn(Set.of(jobKey));
-        when(quartzScheduler.getJobDetail(jobKey)).thenReturn(jobDetail);
-
-        // when
-        TimedEvent timedEvent = new TimedEvent(
-                "",
-                SAVE_NOTIFICATIONS_TO_DATA,
-                scheduledDateTime,
-                jurisdiction,
-                caseType,
-                caseId
-        );
-
         Optional<String> result = jobFinder.getExistingSaveNotificationsToDataScheduledJob(timedEvent);
 
         // then
