@@ -25,10 +25,15 @@ public class ExistingScheduledJobFinder {
     public Optional<String> getExistingSaveNotificationsToDataScheduledJob(TimedEvent timedEvent) {
         if (timedEvent.getEvent().toString().equals(SAVE_NOTIFICATIONS_TO_DATA.toString())) {
             try {
+                log.info("=====Found job start===============");
                 for (String groupName : quartzScheduler.getJobGroupNames()) {
                     for (JobKey jobKey : quartzScheduler.getJobKeys(GroupMatcher.jobGroupEquals(groupName))) {
+                        log.info("-----Found job: " + jobKey.getName() + " in group: " + jobKey.getGroup());
                         JobDetail jobDetail = quartzScheduler.getJobDetail(jobKey);
                         JobDataMap jobDataMap = jobDetail.getJobDataMap();
+                        jobDataMap.keySet().forEach(key -> {
+                            log.info("----key: {}, value: {}", key, jobDataMap.get(key));
+                        });
                         ZonedDateTime scheduledDateTime = jobDataMap.get("scheduledDateTime") != null ? ZonedDateTime.parse(
                                 jobDataMap.get("scheduledDateTime").toString()) : null;
 
@@ -40,6 +45,7 @@ public class ExistingScheduledJobFinder {
                         }
                     }
                 }
+                log.info("=====Found job end===============");
             } catch (SchedulerException e) {
                 throw new SchedulerProcessingException(e);
             }
