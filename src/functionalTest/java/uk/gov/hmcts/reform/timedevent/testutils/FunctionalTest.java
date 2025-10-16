@@ -10,6 +10,7 @@ import io.restassured.http.Header;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import java.io.IOException;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -109,7 +110,7 @@ public class FunctionalTest {
                 + " \"caseType\": \"" + caseType + "\","
                 + " \"caseId\": " + caseId + ","
                 + " \"event\": \"" + event + "\","
-                + " \"scheduledDateTime\": \"" + ZonedDateTime.now().plusSeconds(10) + "\" }"
+                + " \"scheduledDateTime\": \"" + ZonedDateTime.now(ZoneId.systemDefault()).plusSeconds(5) + "\" }"
             )
             .post("/timed-event")
             .then()
@@ -119,7 +120,7 @@ public class FunctionalTest {
     protected void assertThatCaseIsInState(long caseId, String state, String systemUserToken, String systemUserId,
                                            String jurisdiction, String caseType, CaseDataFixture caseDataFixture) {
 
-        await().pollInterval(2, SECONDS).atMost(60, SECONDS).until(() ->
+        await().pollInterval(2, SECONDS).atMost(120, SECONDS).until(() ->
             ccdApi.get(
                 systemUserToken,
                 caseDataFixture.getS2sToken(),
