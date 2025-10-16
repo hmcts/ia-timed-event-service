@@ -1,9 +1,16 @@
 package uk.gov.hmcts.reform.timedevent.testutils;
 
+import static io.restassured.RestAssured.given;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.awaitility.Awaitility.await;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.http.Header;
+import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import java.io.IOException;
+import java.time.ZonedDateTime;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +33,14 @@ import uk.gov.hmcts.reform.timedevent.testutils.data.*;
 @ActiveProfiles("functional")
 public class FunctionalTest {
 
-    @Value("${idam.redirectUrl}") protected String idamRedirectUrl;
-    @Value("${idam.scope}") protected String userScope;
-    @Value("${spring.security.oauth2.client.registration.oidc.client-id}") protected String idamClientId;
-    @Value("${spring.security.oauth2.client.registration.oidc.client-secret}") protected String idamClientSecret;
+    @Value("${idam.redirectUrl}")
+    protected String idamRedirectUrl;
+    @Value("${idam.scope}")
+    protected String userScope;
+    @Value("${spring.security.oauth2.client.registration.oidc.client-id}")
+    protected String idamClientId;
+    @Value("${spring.security.oauth2.client.registration.oidc.client-secret}")
+    protected String idamClientSecret;
 
     @Value("classpath:templates/minimal-appeal-started.json")
     protected Resource minimalAppealStarted;
@@ -86,7 +97,37 @@ public class FunctionalTest {
         documentManagementFilesFixture.prepare();
 
         mapValueExpander = new MapValueExpander(documentManagementFilesFixture);
-
     }
 
+    protected Response scheduleEventSoon(long caseId, String auth, String serviceAuth, String event, String jurisdiction, String caseType) {
+        return given(requestSpecification)
+            .when()
+            .header(new Header("Authorization", auth))
+            .header(new Header("ServiceAuthorization", serviceAuth))
+            .contentType("application/json")
+            .body("{ \"jurisdiction\": \"" + jurisdiction + "\","
+                + " \"caseType\": \"" + caseType + "\","
+                + " \"caseId\": " + caseId + ","
+                + " \"event\": \"" + event + "\","
+                + " \"scheduledDateTime\": \"" + ZonedDateTime.now().plusSeconds(10) + "\" }"
+            )
+            .post("/timed-event")
+            .then()
+            .extract().response();
+    }
+
+    protected void assertThatCaseIsInState(long caseId, String state, String systemUserToken, String systemUserId,
+                                           String jurisdiction, String caseType, CaseDataFixture caseDataFixture) {
+
+        await().pollInterval(2, SECONDS).atMost(60, SECONDS).until(() ->
+            ccdApi.get(
+                systemUserToken,
+                caseDataFixture.getS2sToken(),
+                systemUserId,
+                jurisdiction,
+                caseType,
+                String.valueOf(caseId)
+            ).getState().equals(state)
+        );
+    }
 }
