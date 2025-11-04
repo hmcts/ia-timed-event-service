@@ -1,13 +1,10 @@
 package uk.gov.hmcts.reform.timedevent.scenarios;
 
-import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
 
 import feign.FeignException;
-import io.restassured.http.Header;
 import io.restassured.response.Response;
-import java.time.ZonedDateTime;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,10 +19,15 @@ public class EndAppealAutomaticallyFunctionTest extends FunctionalTest {
     private String caseType = "Asylum";
     private String event = "endAppealAutomatically";
 
+    private String systemUserToken;
+    private String systemUserId;
+
     private CaseDataFixture caseDataFixture;
 
     @BeforeEach
     public void createCase() {
+        systemUserToken = idamAuthProvider.getSystemUserToken();
+        systemUserId = idamAuthProvider.getUserId(systemUserToken);
         caseDataFixture = new CaseDataFixture(
             ccdApi,
             objectMapper,
@@ -37,7 +39,6 @@ public class EndAppealAutomaticallyFunctionTest extends FunctionalTest {
 
         caseDataFixture.startAppeal();
         caseDataFixture.submitAppeal();
-
     }
 
     @Test
@@ -50,7 +51,7 @@ public class EndAppealAutomaticallyFunctionTest extends FunctionalTest {
         for (int i = 0; i < 5; i++) {
             try {
                 // execute Timed Event now
-                response = scheduleEventNow(caseId, auth, serviceAuth);
+                response = scheduleEventSoon(caseId, auth, serviceAuth, event, jurisdiction, caseType);
                 break;
             } catch (FeignException fe) {
                 log.error("Response returned error with " + fe.getMessage() + ". Retrying test.");
@@ -58,23 +59,9 @@ public class EndAppealAutomaticallyFunctionTest extends FunctionalTest {
         }
         assertNotNull(response);
         assertThat(response.getStatusCode()).isEqualTo(201);
-    }
 
-    private Response scheduleEventNow(long caseId, String auth, String serviceAuth) {
-
-        return given(requestSpecification)
-            .when()
-            .header(new Header("Authorization", auth))
-            .header(new Header("ServiceAuthorization", serviceAuth))
-            .contentType("application/json")
-            .body("{ \"jurisdiction\": \"" + jurisdiction + "\","
-                  + " \"caseType\": \"" + caseType + "\","
-                  + " \"caseId\": " + caseId + ","
-                  + " \"event\": \"" + event + "\","
-                  + " \"scheduledDateTime\": \"" + ZonedDateTime.now().toString() + "\" }"
-            )
-            .post("/timed-event")
-            .then()
-            .extract().response();
+        // assert that Timed Event execution changed case state
+        assertThatCaseIsInState(caseId, "ended",
+            systemUserToken, systemUserId, jurisdiction, caseType, caseDataFixture);
     }
 }
