@@ -7,6 +7,9 @@ import static org.mockito.Mockito.*;
 
 import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.Optional;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -27,18 +30,26 @@ class QuartzSchedulerServiceTest {
     @Mock
     private IdentityProvider identityProvider;
 
+    @Mock
+    private ExistingScheduledJobFinder existingScheduledJobFinder;
+
+    private QuartzSchedulerService schedulerService;
+
     private final String identity = "someIdentity";
     private final String jurisdiction = "IA";
     private final String caseType = "Asylum";
     private final ZonedDateTime scheduledDateTime = ZonedDateTime.now();
     private final long caseId = 12345;
 
+    @BeforeEach
+    void setUp() {
+        schedulerService = new QuartzSchedulerService(scheduler, identityProvider, existingScheduledJobFinder);
+    }
+
     @Test
-    public void should_schedule_event() throws SchedulerException {
+    public void should_schedule_event_if_does_not_already_exist() throws SchedulerException {
 
         when(identityProvider.identity()).thenReturn(identity);
-
-        QuartzSchedulerService schedulerService = new QuartzSchedulerService(scheduler, identityProvider);
 
         TimedEvent timedEvent = new TimedEvent(
             "",
@@ -48,6 +59,9 @@ class QuartzSchedulerServiceTest {
             caseType,
             caseId
         );
+
+        when(existingScheduledJobFinder.getExistingSaveNotificationsToDataScheduledJob(timedEvent))
+                .thenReturn(Optional.empty());
 
         assertEquals(identity, schedulerService.schedule(timedEvent));
 
@@ -64,9 +78,27 @@ class QuartzSchedulerServiceTest {
     }
 
     @Test
-    public void should_re_schedule_event() throws SchedulerException {
+    public void should_not_schedule_event_if_already_exists() throws SchedulerException {
 
-        QuartzSchedulerService schedulerService = new QuartzSchedulerService(scheduler, identityProvider);
+        TimedEvent timedEvent = new TimedEvent(
+            "",
+            Event.EXAMPLE,
+            scheduledDateTime,
+            jurisdiction,
+            caseType,
+            caseId
+        );
+
+        when(existingScheduledJobFinder.getExistingSaveNotificationsToDataScheduledJob(timedEvent))
+                .thenReturn(Optional.of("eventid"));
+
+        assertEquals("eventid", schedulerService.schedule(timedEvent));
+
+        verifyNoInteractions(scheduler);
+    }
+
+    @Test
+    public void should_re_schedule_event() throws SchedulerException {
 
         TimedEvent timedEvent = new TimedEvent(
             identity,
@@ -97,8 +129,6 @@ class QuartzSchedulerServiceTest {
 
         when(identityProvider.identity()).thenReturn(identity);
         when(scheduler.scheduleJob(any(JobDetail.class), any(Trigger.class))).thenThrow(SchedulerException.class);
-
-        QuartzSchedulerService schedulerService = new QuartzSchedulerService(scheduler, identityProvider);
 
         TimedEvent timedEvent = new TimedEvent(
             "",
