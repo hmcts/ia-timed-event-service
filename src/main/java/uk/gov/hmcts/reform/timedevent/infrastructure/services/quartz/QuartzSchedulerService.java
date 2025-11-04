@@ -26,67 +26,50 @@ public class QuartzSchedulerService implements SchedulerService {
 
     private final Scheduler quartzScheduler;
     private final IdentityProvider identityProvider;
-    private final ExistingScheduledJobFinder existingScheduledJobFinder;
 
-    public QuartzSchedulerService(
-        Scheduler quartzScheduler,
-        IdentityProvider identityProvider,
-        ExistingScheduledJobFinder existingScheduledJobFinder
-    ) {
+    public QuartzSchedulerService(Scheduler quartzScheduler, IdentityProvider identityProvider) {
         this.quartzScheduler = quartzScheduler;
         this.identityProvider = identityProvider;
-        this.existingScheduledJobFinder = existingScheduledJobFinder;
     }
 
     @Override
     @Transactional
     public String schedule(TimedEvent timedEvent) {
-        Optional<String> existingScheduledJobOpt =
-                existingScheduledJobFinder.getExistingSaveNotificationsToDataScheduledJob(timedEvent);
 
-        if (existingScheduledJobOpt.isPresent()) {
+        String identity = identityProvider.identity();
+
+        Pair<JobDetail, Trigger> jobAndTrigger = createJobAndTrigger(
+            new TimedEvent(
+                identity,
+                timedEvent.getEvent(),
+                timedEvent.getScheduledDateTime(),
+                timedEvent.getJurisdiction(),
+                timedEvent.getCaseType(),
+                timedEvent.getCaseId()
+            )
+        );
+
+        try {
+
+            quartzScheduler.scheduleJob(jobAndTrigger.getLeft(), jobAndTrigger.getRight());
+
+            String timedEventId = jobAndTrigger.getRight().getKey().getName();
+
             log.info(
-                    "Timed Event already scheduled for event: {}, case id: {}, timed event id: {}, at: {}",
-                    timedEvent.getEvent().toString(),
-                    timedEvent.getCaseId(),
-                    existingScheduledJobOpt.get(),
-                    timedEvent.getScheduledDateTime().toString()
-            );
-            return existingScheduledJobOpt.get();
-        } else {
-            String identity = identityProvider.identity();
-
-            Pair<JobDetail, Trigger> jobAndTrigger = createJobAndTrigger(
-                    new TimedEvent(
-                            identity,
-                            timedEvent.getEvent(),
-                            timedEvent.getScheduledDateTime(),
-                            timedEvent.getJurisdiction(),
-                            timedEvent.getCaseType(),
-                            timedEvent.getCaseId()
-                    )
+                "Timed Event scheduled for event: {}, case id: {}, timed event id: {}, at: {}",
+                timedEvent.getEvent().toString(),
+                timedEvent.getCaseId(),
+                timedEventId,
+                timedEvent.getScheduledDateTime().toString()
             );
 
-            try {
-                quartzScheduler.scheduleJob(jobAndTrigger.getLeft(), jobAndTrigger.getRight());
+            return timedEventId;
 
-                String timedEventId = jobAndTrigger.getRight().getKey().getName();
+        } catch (SchedulerException e) {
 
-                log.info(
-                        "Timed Event scheduled for event: {}, case id: {}, timed event id: {}, at: {}",
-                        timedEvent.getEvent().toString(),
-                        timedEvent.getCaseId(),
-                        timedEventId,
-                        timedEvent.getScheduledDateTime().toString()
-                );
-
-                return timedEventId;
-
-            } catch (SchedulerException e) {
-
-                throw new SchedulerProcessingException(e);
-            }
+            throw new SchedulerProcessingException(e);
         }
+
     }
 
     @Override
