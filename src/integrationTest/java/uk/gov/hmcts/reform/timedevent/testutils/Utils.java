@@ -13,7 +13,7 @@ public class Utils {
             try {
                 codeBlock.run();
                 return;
-            } catch (AssertionError e) {
+            } catch (Error | Exception e) {
                 log.error("Failed attempt {} of {} due to:", i, maxAttempts);
                 log.error("{}", e.getMessage());
                 finalError = e;
