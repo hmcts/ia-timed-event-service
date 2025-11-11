@@ -32,6 +32,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static uk.gov.hmcts.reform.timedevent.testutils.Utils.retryTestCodeBlock;
 
 @Slf4j
 @DirtiesContext
@@ -67,16 +68,6 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
 
     @Test
     @WithMockUser(authorities = {"tribunal-caseworker"})
-    void testScheduledEventHasRunAfterAppropriateTime() {
-        scheduleEvent(ZonedDateTime.now().plusSeconds(5), CASE_ID1);
-
-        await()
-            .atMost(2000 + (retryIntervalMillis * (maxRetryNumber + 2)), TimeUnit.MILLISECONDS)
-            .untilAsserted(() -> verify(eventExecutor, times(1)).execute(any(EventExecution.class)));
-    }
-
-    @Test
-    @WithMockUser(authorities = {"tribunal-caseworker"})
     void testScheduledEventHasNotRunBeforeTime() {
         // Given: an event scheduled in the future
         scheduleEvent(ZonedDateTime.now().plusSeconds(5), CASE_ID2);
@@ -90,17 +81,33 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
 
     @Test
     @WithMockUser(authorities = {"tribunal-caseworker"})
+    void testScheduledEventHasRunAfterAppropriateTime() {
+        retryTestCodeBlock(10, () -> {
+            // Given: an event scheduled in the near future
+            scheduleEvent(ZonedDateTime.now().plusSeconds(5), CASE_ID1);
+
+            // When: I wait enough time to pass
+            await()
+                .atMost(2000 + (retryIntervalMillis * (maxRetryNumber + 2)), TimeUnit.MILLISECONDS)
+                .untilAsserted(() -> verify(eventExecutor, times(1)).execute(any(EventExecution.class)));
+        });
+    }
+
+    @Test
+    @WithMockUser(authorities = {"tribunal-caseworker"})
     void testExecutionFailureMaximumAttemptLimitIsRespected() {
-        doThrow(FeignException.GatewayTimeout.class).when(eventExecutor).execute(any(EventExecution.class));
+        retryTestCodeBlock(10, () -> {
+            doThrow(FeignException.GatewayTimeout.class).when(eventExecutor).execute(any(EventExecution.class));
 
-        scheduleEvent(ZonedDateTime.now(ZoneId.systemDefault()).plusSeconds(5), CASE_ID4);
+            scheduleEvent(ZonedDateTime.now(ZoneId.systemDefault()).plusSeconds(5), CASE_ID4);
 
-        await()
-            .atMost((retryIntervalMillis * (maxRetryNumber + 2) * 2), TimeUnit.MILLISECONDS)
-            .untilAsserted(() -> {
-                verify(eventExecutor, atLeast(1)).execute(any(EventExecution.class));
-                verify(eventExecutor, atMost(1 + maxRetryNumber)).execute(any(EventExecution.class));
-            });
+            await()
+                .atMost((retryIntervalMillis * (maxRetryNumber + 2) * 2), TimeUnit.MILLISECONDS)
+                .untilAsserted(() -> {
+                    verify(eventExecutor, atLeast(1)).execute(any(EventExecution.class));
+                    verify(eventExecutor, atMost(1 + maxRetryNumber)).execute(any(EventExecution.class));
+                });
+        });
     }
 
     @SneakyThrows
