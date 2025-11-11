@@ -1,12 +1,6 @@
 package uk.gov.hmcts.reform.timedevent.testutils;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
-import java.time.ZonedDateTime;
 import lombok.extern.slf4j.Slf4j;
-import uk.gov.hmcts.reform.timedevent.domain.entities.EventExecution;
 
 @Slf4j
 public class Utils {
