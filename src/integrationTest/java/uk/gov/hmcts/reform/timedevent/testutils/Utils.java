@@ -4,6 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class Utils {
+    private Utils() {
+    }
+
     public static void retryTestCodeBlock(int maxAttempts, Runnable codeBlock) {
         Throwable finalError = null;
         for (int i = 0; i < maxAttempts; i++) {
