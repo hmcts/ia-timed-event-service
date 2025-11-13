@@ -221,7 +221,7 @@ security:
       - "sendPaymentReminderNotification"
       - "saveNotificationsToData"
       - "testTimedEventSchedule"
-    caseworker-ia-retrigger-tasks:
+    caseworker-ia-internal:
       - "reTriggerWaTasks"
     citizen:
       - "endAppealAutomatically"
