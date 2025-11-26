@@ -82,9 +82,21 @@ spring:
             isClustered: true
             clusterCheckinInterval: 20000
   cache:
-    cache-names: userInfoCache, accessTokenCache
+    cache-names:
+      - userInfoCache
+      - accessTokenCache
+      - scheduledJobGroupNames
+      - scheduledJobKeys
+      - scheduledJobDetail
+      - scheduledJobTriggers
     caffeine:
-      spec: expireAfterAccess=3600s
+      spec:
+        userInfoCache: expireAfterAccess=3600s
+        accessTokenCache: expireAfterAccess=3600s
+        scheduledJobGroupNames: expireAfterAccess=3600s
+        scheduledJobKeys: expireAfterAccess=60s
+        scheduledJobDetail: expireAfterAccess=3600s
+        scheduledJobTriggers: expireAfterAccess=60s
 
 retry:
   durationInSeconds: ${IA_SCHEDULER_RETRY_DURATION:7200}

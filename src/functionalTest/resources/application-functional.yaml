@@ -2,7 +2,7 @@ spring.flyway.enabled: false
 
 spring:
   cache:
-    cache-names: userInfoCache, accessTokenCache, legalRepATokenCache, caseOfficerTokenCache, homeOfficeLartTokenCache, systemTokenCache
+    cache-names: userInfoCache, accessTokenCache, legalRepATokenCache, caseOfficerTokenCache, homeOfficeLartTokenCache, systemTokenCache, scheduledJobGroupNames, scheduledJobKeys, scheduledJobDetail, scheduledJobTriggers
     caffeine:
       spec: expireAfterAccess=3600s
   datasource:

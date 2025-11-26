@@ -6,7 +6,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.quartz.*;
-import org.quartz.impl.matchers.GroupMatcher;
 import uk.gov.hmcts.reform.timedevent.domain.entities.TimedEvent;
 import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Event;
 import uk.gov.hmcts.reform.timedevent.infrastructure.services.exceptions.SchedulerProcessingException;
@@ -25,7 +24,7 @@ import static uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Event.SAVE_NOTI
 class ExistingScheduledJobFinderTest {
 
     @Mock
-    private Scheduler quartzScheduler;
+    private ScheduledJobCache scheduledJobCache;
 
     private ExistingScheduledJobFinder jobFinder;
 
@@ -36,7 +35,7 @@ class ExistingScheduledJobFinderTest {
 
     @BeforeEach
     void setUp() {
-        jobFinder = new ExistingScheduledJobFinder(quartzScheduler);
+        jobFinder = new ExistingScheduledJobFinder(scheduledJobCache);
     }
 
     @Test
@@ -51,11 +50,11 @@ class ExistingScheduledJobFinderTest {
 
         String groupName = "testGroup";
         JobKey jobKey = new JobKey("job1", groupName);
-        when(quartzScheduler.getJobGroupNames()).thenReturn(List.of(groupName));
-        when(quartzScheduler.getJobKeys(GroupMatcher.jobGroupEquals(groupName))).thenReturn(Set.of(jobKey));
-        when(quartzScheduler.getJobDetail(jobKey)).thenReturn(jobDetail);
+        when(scheduledJobCache.getJobGroupNames()).thenReturn(List.of(groupName));
+        when(scheduledJobCache.getJobKeys(groupName)).thenReturn(Set.of(jobKey));
+        when(scheduledJobCache.getJobDetail(jobKey)).thenReturn(jobDetail);
         List<? extends Trigger> triggers = singletonList(mock(Trigger.class));
-        when(quartzScheduler.getTriggersOfJob(jobKey)).thenReturn((List)triggers);
+        when(scheduledJobCache.getTriggersOfJob(jobKey)).thenReturn((List)triggers);
 
         // when
         TimedEvent timedEvent = new TimedEvent(
@@ -85,10 +84,10 @@ class ExistingScheduledJobFinderTest {
 
         String groupName = "testGroup";
         JobKey jobKey = new JobKey("job1", groupName);
-        when(quartzScheduler.getJobGroupNames()).thenReturn(List.of(groupName));
-        when(quartzScheduler.getJobKeys(GroupMatcher.jobGroupEquals(groupName))).thenReturn(Set.of(jobKey));
-        when(quartzScheduler.getJobDetail(jobKey)).thenReturn(jobDetail);
-        when(quartzScheduler.getTriggersOfJob(jobKey)).thenReturn(emptyList());
+        when(scheduledJobCache.getJobGroupNames()).thenReturn(List.of(groupName));
+        when(scheduledJobCache.getJobKeys(groupName)).thenReturn(Set.of(jobKey));
+        when(scheduledJobCache.getJobDetail(jobKey)).thenReturn(jobDetail);
+        when(scheduledJobCache.getTriggersOfJob(jobKey)).thenReturn(emptyList());
 
         // when
         TimedEvent timedEvent = new TimedEvent(
@@ -116,8 +115,8 @@ class ExistingScheduledJobFinderTest {
                 caseId
         );
 
-        when(quartzScheduler.getJobGroupNames()).thenReturn(List.of("group1"));
-        when(quartzScheduler.getJobKeys(any())).thenReturn(Collections.emptySet());
+        when(scheduledJobCache.getJobGroupNames()).thenReturn(List.of("group1"));
+        when(scheduledJobCache.getJobKeys(any())).thenReturn(Collections.emptySet());
 
         Optional<String> result = jobFinder.getExistingSaveNotificationsToDataScheduledJob(timedEvent);
 
@@ -138,7 +137,7 @@ class ExistingScheduledJobFinderTest {
         Optional<String> result = jobFinder.getExistingSaveNotificationsToDataScheduledJob(timedEvent);
 
         assertThat(result).isEmpty();
-        verifyNoInteractions(quartzScheduler);
+        verifyNoInteractions(scheduledJobCache);
     }
 
     @Test
@@ -152,7 +151,7 @@ class ExistingScheduledJobFinderTest {
                 caseId
         );
 
-        when(quartzScheduler.getJobGroupNames()).thenThrow(new SchedulerException("boom"));
+        when(scheduledJobCache.getJobGroupNames()).thenThrow(new SchedulerException("boom"));
 
         assertThatThrownBy(() -> jobFinder.getExistingSaveNotificationsToDataScheduledJob(timedEvent))
                 .isInstanceOf(SchedulerProcessingException.class)

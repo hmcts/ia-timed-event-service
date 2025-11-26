@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.timedevent;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
@@ -9,6 +10,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
     "uk.gov.hmcts.reform.authorisation",
     "uk.gov.hmcts.reform.timedevent.infrastructure.clients"
 })
+@EnableConfigurationProperties
 @SuppressWarnings("HideUtilityClassConstructor") // Spring needs a constructor, its not a utility class
 public class Application {
 
