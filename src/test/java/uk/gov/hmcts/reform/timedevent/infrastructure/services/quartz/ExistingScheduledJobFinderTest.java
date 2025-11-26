@@ -69,7 +69,7 @@ class ExistingScheduledJobFinderTest {
 
         // then
         assertThat(result).isPresent();
-        assertThat("job1").isEqualTo(result.get());
+        assertThat(result.get()).isEqualTo("job1");
     }
 
     @Test
