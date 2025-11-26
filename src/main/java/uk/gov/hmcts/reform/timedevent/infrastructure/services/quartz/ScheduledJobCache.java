@@ -40,9 +40,9 @@ public class ScheduledJobCache {
     }
 
     @Cacheable(value = "scheduledJobTriggers")
-    public List<? extends Trigger> getTriggersOfJob(JobKey jobKey) throws SchedulerException {
+    public List<Trigger> getTriggersOfJob(JobKey jobKey) throws SchedulerException {
         log.info("Getting triggers for {}", jobKey);
 
-        return quartzScheduler.getTriggersOfJob(jobKey);
+        return (List<Trigger>)quartzScheduler.getTriggersOfJob(jobKey);
     }
 }
