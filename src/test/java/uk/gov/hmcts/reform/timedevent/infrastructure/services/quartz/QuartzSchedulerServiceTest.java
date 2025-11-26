@@ -47,7 +47,7 @@ class QuartzSchedulerServiceTest {
     }
 
     @Test
-    public void should_schedule_event_if_does_not_already_exist() throws SchedulerException {
+    void should_schedule_event_if_does_not_already_exist() throws SchedulerException {
 
         when(identityProvider.identity()).thenReturn(identity);
 
@@ -78,7 +78,7 @@ class QuartzSchedulerServiceTest {
     }
 
     @Test
-    public void should_not_schedule_event_if_already_exists() throws SchedulerException {
+    void should_not_schedule_event_if_already_exists() {
 
         TimedEvent timedEvent = new TimedEvent(
             "",
@@ -98,7 +98,7 @@ class QuartzSchedulerServiceTest {
     }
 
     @Test
-    public void should_re_schedule_event() throws SchedulerException {
+    void should_re_schedule_event() throws SchedulerException {
 
         TimedEvent timedEvent = new TimedEvent(
             identity,
@@ -125,7 +125,7 @@ class QuartzSchedulerServiceTest {
     }
 
     @Test
-    public void should_re_throw_custom_exception_when_scheduler_throws_it() throws SchedulerException {
+    void should_re_throw_custom_exception_when_scheduler_throws_it() throws SchedulerException {
 
         when(identityProvider.identity()).thenReturn(identity);
         when(scheduler.scheduleJob(any(JobDetail.class), any(Trigger.class))).thenThrow(SchedulerException.class);

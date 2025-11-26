@@ -1,6 +1,5 @@
 package uk.gov.hmcts.reform.timedevent.infrastructure.services.quartz;
 
-import com.github.benmanes.caffeine.cache.Caffeine;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -8,9 +7,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.quartz.*;
 import org.quartz.impl.matchers.GroupMatcher;
-import org.springframework.cache.CacheManager;
-import org.springframework.cache.caffeine.CaffeineCache;
-import org.springframework.cache.support.SimpleCacheManager;
 
 import java.util.List;
 import java.util.Set;
@@ -23,28 +19,12 @@ class ScheduledJobCacheTest {
 
     private Scheduler scheduler;
     private TestScheduledJobCache cache;
-    private CacheManager cacheManager;
 
     @BeforeEach
     void setup() {
         scheduler = mock(Scheduler.class);
 
-        // Create caffeine caches for test
-        CaffeineCache groupNamesCache = new CaffeineCache("scheduledJobGroupNames",
-                Caffeine.newBuilder().build());
-        CaffeineCache jobKeysCache = new CaffeineCache("scheduledJobKeys",
-                Caffeine.newBuilder().build());
-        CaffeineCache jobDetailCache = new CaffeineCache("scheduledJobDetail",
-                Caffeine.newBuilder().build());
-        CaffeineCache triggersCache = new CaffeineCache("scheduledJobTriggers",
-                Caffeine.newBuilder().build());
-
-        SimpleCacheManager manager = new SimpleCacheManager();
-        manager.setCaches(List.of(groupNamesCache, jobKeysCache, jobDetailCache, triggersCache));
-        manager.initializeCaches();
-
-        this.cacheManager = manager;
-        this.cache = new TestScheduledJobCache(scheduler, cacheManager);
+        this.cache = new TestScheduledJobCache(scheduler);
     }
 
     @Test
@@ -105,13 +85,11 @@ class ScheduledJobCacheTest {
         verify(scheduler, times(1)).getTriggersOfJob(key);
     }
 
-    class TestScheduledJobCache {
+    static class TestScheduledJobCache {
         private final Scheduler quartzScheduler;
-        private final CacheManager cacheManager;
 
-        public TestScheduledJobCache(Scheduler quartzScheduler, CacheManager cacheManager) {
+        public TestScheduledJobCache(Scheduler quartzScheduler) {
             this.quartzScheduler = quartzScheduler;
-            this.cacheManager = cacheManager;
         }
 
         public List<String> getJobGroupNames() throws SchedulerException {
