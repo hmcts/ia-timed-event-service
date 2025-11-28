@@ -24,7 +24,9 @@ public class ExistingScheduledJobFinder {
         if (timedEvent.getEvent().toString().equals(SAVE_NOTIFICATIONS_TO_DATA.toString())) {
             try {
                 for (String groupName : scheduledJobCache.getJobGroupNames()) {
+                    log.info("-------------------Found scheduled job for group {}", groupName);
                     for (JobKey jobKey : scheduledJobCache.getJobKeys(groupName)) {
+                        log.info("---------Found jobKey {}", jobKey.getName());
                         JobDetail jobDetail = scheduledJobCache.getJobDetail(jobKey);
                         JobDataMap jobDataMap = jobDetail.getJobDataMap();
                         List<? extends Trigger> jobTriggers = scheduledJobCache.getTriggersOfJob(jobKey);

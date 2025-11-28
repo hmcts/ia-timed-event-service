@@ -94,9 +94,9 @@ spring:
         userInfoCache: expireAfterAccess=3600s
         accessTokenCache: expireAfterAccess=3600s
         scheduledJobGroupNames: expireAfterAccess=3600s
-        scheduledJobKeys: expireAfterAccess=60s
-        scheduledJobDetail: expireAfterAccess=3600s
-        scheduledJobTriggers: expireAfterAccess=60s
+        scheduledJobKeys: expireAfterAccess=1s
+        scheduledJobDetail: expireAfterAccess=1s
+        scheduledJobTriggers: expireAfterAccess=1s
 
 retry:
   durationInSeconds: ${IA_SCHEDULER_RETRY_DURATION:7200}

@@ -27,21 +27,21 @@ public class ScheduledJobCache {
 
     @Cacheable(value = "scheduledJobKeys")
     public Set<JobKey> getJobKeys(String groupName) throws SchedulerException {
-        log.info("Getting job keys for {}", groupName);
+        log.info("Getting job keys for group {}", groupName);
 
         return quartzScheduler.getJobKeys(GroupMatcher.jobGroupEquals(groupName));
     }
 
     @Cacheable(value = "scheduledJobDetail")
     public JobDetail getJobDetail(JobKey jobKey) throws SchedulerException {
-        log.info("Getting job detail for {}", jobKey);
+        log.info("Getting job detail for jobKey {}", jobKey.getName());
 
         return quartzScheduler.getJobDetail(jobKey);
     }
 
     @Cacheable(value = "scheduledJobTriggers")
     public List<Trigger> getTriggersOfJob(JobKey jobKey) throws SchedulerException {
-        log.info("Getting triggers for {}", jobKey);
+        log.info("Getting triggers for group {}, jobKey {}", jobKey.getGroup(), jobKey.getName());
 
         return (List<Trigger>)quartzScheduler.getTriggersOfJob(jobKey);
     }
