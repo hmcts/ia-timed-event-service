@@ -21,15 +21,24 @@ public class ExistingScheduledJobFinder {
     }
 
     public Optional<String> getExistingSaveNotificationsToDataScheduledJob(TimedEvent timedEvent) {
+        log.info("---------Getting existing scheduled job for {}", timedEvent.getEvent().toString());
+
         if (timedEvent.getEvent().toString().equals(SAVE_NOTIFICATIONS_TO_DATA.toString())) {
+            log.info("---------222Getting existing scheduled job for {}", timedEvent.getEvent().toString());
+
             try {
                 for (String groupName : scheduledJobCache.getJobGroupNames()) {
                     log.info("-------------------Found scheduled job for group {}", groupName);
+
                     for (JobKey jobKey : scheduledJobCache.getJobKeys(groupName)) {
                         log.info("---------Found jobKey {}", jobKey.getName());
+
                         JobDetail jobDetail = scheduledJobCache.getJobDetail(jobKey);
                         JobDataMap jobDataMap = jobDetail.getJobDataMap();
                         List<? extends Trigger> jobTriggers = scheduledJobCache.getTriggersOfJob(jobKey);
+                        log.info("---------Found jobTriggers {}", jobTriggers.size());
+                        log.info("---------String.valueOf(jobDataMap.get(\"event\")) {}", String.valueOf(jobDataMap.get("event")));
+                        log.info("---------String.valueOf(jobDataMap.get(\"caseId\")) {}", String.valueOf(jobDataMap.get("caseId")));
 
                         if (String.valueOf(jobDataMap.get("event")).equals(SAVE_NOTIFICATIONS_TO_DATA.toString())
                                 && String.valueOf(jobDataMap.get("caseId")).equals(String.valueOf(timedEvent.getCaseId()))
