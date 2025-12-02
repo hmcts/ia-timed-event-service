@@ -2,98 +2,139 @@ package uk.gov.hmcts.reform.timedevent.infrastructure.services.quartz;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.quartz.*;
 import org.quartz.impl.matchers.GroupMatcher;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static java.util.Collections.singletonList;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class ScheduledJobCacheTest {
 
-    @Mock
     private Scheduler scheduler;
-
     private ScheduledJobCache cache;
 
     @BeforeEach
     void setup() {
-        MockitoAnnotations.openMocks(this);
+        scheduler = mock(Scheduler.class);
         cache = new ScheduledJobCache(scheduler);
     }
 
     @Test
-    void shouldCacheJobGroupNames() throws Exception {
-        List<String> groups = List.of("A", "B");
-        when(scheduler.getJobGroupNames()).thenReturn(groups);
+    void shouldFetchJobGroupNamesOnFirstCall() throws Exception {
+        List<String> groupNames = Arrays.asList("group1", "group2");
 
-        List<String> r1 = cache.getJobGroupNames();
-        List<String> r2 = cache.getJobGroupNames();
+        when(scheduler.getJobGroupNames()).thenReturn(groupNames);
 
-        assertThat(r1).containsExactly("A", "B");
-        assertThat(r2).containsExactly("A", "B");
+        List<String> result = cache.getJobGroupNames();
+
+        assertEquals(groupNames, result);
+        verify(scheduler, times(1)).getJobGroupNames();
+    }
+
+    @Test
+    void shouldReturnJobGroupNamesFromCacheOnSecondCall() throws Exception {
+        List<String> groupNames = Arrays.asList("group1", "group2");
+
+        when(scheduler.getJobGroupNames()).thenReturn(groupNames);
+
+        cache.getJobGroupNames();  // populates cache
+        cache.getJobGroupNames();  // should come from cache
 
         verify(scheduler, times(1)).getJobGroupNames();
     }
 
     @Test
-    void shouldCacheJobKeys() throws Exception {
-        String group = "MyGroup";
+    void shouldFetchJobKeysOnFirstCall() throws Exception {
+        Set<JobKey> keys = Set.of(new JobKey("job1", "group1"));
+        when(scheduler.getJobKeys(GroupMatcher.jobGroupEquals("group1"))).thenReturn(keys);
 
-        JobKey key1 = new JobKey("job1", group);
-        JobKey key2 = new JobKey("job2", group);
+        Set<JobKey> result = cache.getJobKeys("group1");
 
-        Set<JobKey> jobKeys = Set.of(key1, key2);
-
-        when(scheduler.getJobKeys(GroupMatcher.jobGroupEquals(group))).thenReturn(jobKeys);
-
-        Set<JobKey> r1 = cache.getJobKeys(group);
-        Set<JobKey> r2 = cache.getJobKeys(group);
-
-        assertThat(r1).containsExactlyInAnyOrder(key1, key2);
-        assertThat(r2).containsExactlyInAnyOrder(key1, key2);
-
-        verify(scheduler, times(1)).getJobKeys(GroupMatcher.jobGroupEquals(group));
+        assertEquals(keys, result);
+        verify(scheduler, times(1))
+                .getJobKeys(GroupMatcher.jobGroupEquals("group1"));
     }
 
     @Test
-    void shouldCacheJobDetail() throws Exception {
-        String group = "G1";
-        JobKey jobKey = new JobKey("jobA", group);
+    void shouldReturnJobKeysFromCacheOnSecondCall() throws Exception {
+        Set<JobKey> keys = Set.of(new JobKey("job1", "group1"));
+        when(scheduler.getJobKeys(GroupMatcher.jobGroupEquals("group1"))).thenReturn(keys);
 
+        cache.getJobKeys("group1");
+        cache.getJobKeys("group1");
+
+        verify(scheduler, times(1))
+                .getJobKeys(GroupMatcher.jobGroupEquals("group1"));
+    }
+
+    @Test
+    void shouldFetchJobDetailOnFirstCall() throws Exception {
+        JobKey jobKey = new JobKey("jobA", "groupX");
         JobDetail detail = mock(JobDetail.class);
 
         when(scheduler.getJobDetail(jobKey)).thenReturn(detail);
 
-        JobDetail r1 = cache.getJobDetail(group, jobKey);
-        JobDetail r2 = cache.getJobDetail(group, jobKey);
+        JobDetail result = cache.getJobDetail("groupX", jobKey);
 
-        assertThat(r1).isSameAs(detail);
-        assertThat(r2).isSameAs(detail);
+        assertEquals(detail, result);
+        verify(scheduler, times(1)).getJobDetail(jobKey);
+    }
+
+    @Test
+    void shouldReturnJobDetailFromCacheOnSecondCall() throws Exception {
+        JobKey jobKey = new JobKey("jobA", "groupX");
+        JobDetail detail = mock(JobDetail.class);
+
+        when(scheduler.getJobDetail(jobKey)).thenReturn(detail);
+
+        cache.getJobDetail("groupX", jobKey);
+        cache.getJobDetail("groupX", jobKey);
 
         verify(scheduler, times(1)).getJobDetail(jobKey);
     }
 
     @Test
-    void shouldCacheTriggersOfJob() throws Exception {
-        String group = "G1";
-        JobKey jobKey = new JobKey("jobA", group);
-
+    void shouldFetchTriggersOnFirstCall() throws Exception {
+        JobKey jobKey = new JobKey("job1", "group1");
         Trigger trigger = mock(Trigger.class);
-        List<Trigger> triggers = List.of(trigger);
+        List<Trigger> triggers = singletonList(trigger);
 
         when(scheduler.getTriggersOfJob(jobKey)).thenReturn((List) triggers);
 
-        List<Trigger> r1 = cache.getTriggersOfJob(group, jobKey);
-        List<Trigger> r2 = cache.getTriggersOfJob(group, jobKey);
+        List<Trigger> result = cache.getTriggersOfJob("group1", jobKey);
 
-        assertThat(r1).containsExactly(trigger);
-        assertThat(r2).containsExactly(trigger);
+        assertEquals(triggers, result);
+        verify(scheduler, times(1)).getTriggersOfJob(jobKey);
+    }
+
+    @Test
+    void shouldCacheTriggersWhenNotEmpty() throws Exception {
+        JobKey jobKey = new JobKey("job1", "group1");
+        Trigger trigger = mock(Trigger.class);
+        List<Trigger> triggers = singletonList(trigger);
+
+        when(scheduler.getTriggersOfJob(jobKey)).thenReturn((List) triggers);
+
+        cache.getTriggersOfJob("group1", jobKey); // populates cache
+        cache.getTriggersOfJob("group1", jobKey); // should hit cache
 
         verify(scheduler, times(1)).getTriggersOfJob(jobKey);
+    }
+
+    @Test
+    void shouldNotCacheEmptyTriggersList() throws Exception {
+        JobKey jobKey = new JobKey("job1", "group1");
+        List<Trigger> empty = Collections.emptyList();
+
+        when(scheduler.getTriggersOfJob(jobKey)).thenReturn((List) empty);
+
+        cache.getTriggersOfJob("group1", jobKey);
+        cache.getTriggersOfJob("group1", jobKey);
+
+        // Still called twice because empty lists are NOT cached
+        verify(scheduler, times(2)).getTriggersOfJob(jobKey);
     }
 }
