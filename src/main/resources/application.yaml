@@ -82,7 +82,7 @@ spring:
             isClustered: true
             clusterCheckinInterval: 20000
   cache:
-    cache-names: userInfoCache, accessTokenCache, scheduledJobGroupNames, scheduledJobKeys, scheduledJobDetail, scheduledJobTriggers
+    cache-names: userInfoCache, accessTokenCache
     caffeine:
         spec: expireAfterAccess=1s
 

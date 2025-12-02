@@ -33,9 +33,9 @@ public class ExistingScheduledJobFinder {
                     for (JobKey jobKey : scheduledJobCache.getJobKeys(groupName)) {
                         log.info("---------Found jobKey {}", jobKey.getName());
 
-                        JobDetail jobDetail = scheduledJobCache.getJobDetail(jobKey);
+                        JobDetail jobDetail = scheduledJobCache.getJobDetail(groupName, jobKey);
                         JobDataMap jobDataMap = jobDetail.getJobDataMap();
-                        List<? extends Trigger> jobTriggers = scheduledJobCache.getTriggersOfJob(jobKey);
+                        List<? extends Trigger> jobTriggers = scheduledJobCache.getTriggersOfJob(groupName, jobKey);
                         log.info("---------Found jobTriggers {}", jobTriggers.size());
                         log.info("---------String.valueOf(jobDataMap.get(\"event\")) {}", String.valueOf(jobDataMap.get("event")));
                         log.info("---------String.valueOf(jobDataMap.get(\"caseId\")) {}", String.valueOf(jobDataMap.get("caseId")));

@@ -52,9 +52,9 @@ class ExistingScheduledJobFinderTest {
         JobKey jobKey = new JobKey("job1", groupName);
         when(scheduledJobCache.getJobGroupNames()).thenReturn(List.of(groupName));
         when(scheduledJobCache.getJobKeys(groupName)).thenReturn(Set.of(jobKey));
-        when(scheduledJobCache.getJobDetail(jobKey)).thenReturn(jobDetail);
+        when(scheduledJobCache.getJobDetail("testGroup", jobKey)).thenReturn(jobDetail);
         List<? extends Trigger> triggers = singletonList(mock(Trigger.class));
-        when(scheduledJobCache.getTriggersOfJob(jobKey)).thenReturn((List)triggers);
+        when(scheduledJobCache.getTriggersOfJob("testGroup", jobKey)).thenReturn((List)triggers);
 
         // when
         TimedEvent timedEvent = new TimedEvent(
@@ -86,8 +86,8 @@ class ExistingScheduledJobFinderTest {
         JobKey jobKey = new JobKey("job1", groupName);
         when(scheduledJobCache.getJobGroupNames()).thenReturn(List.of(groupName));
         when(scheduledJobCache.getJobKeys(groupName)).thenReturn(Set.of(jobKey));
-        when(scheduledJobCache.getJobDetail(jobKey)).thenReturn(jobDetail);
-        when(scheduledJobCache.getTriggersOfJob(jobKey)).thenReturn(emptyList());
+        when(scheduledJobCache.getJobDetail("testGroup", jobKey)).thenReturn(jobDetail);
+        when(scheduledJobCache.getTriggersOfJob("testGroup", jobKey)).thenReturn(emptyList());
 
         // when
         TimedEvent timedEvent = new TimedEvent(
