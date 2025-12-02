@@ -32,10 +32,12 @@ public class ScheduledJobCache {
 
         Optional<List<String>> jobGroupNamesOpt = jobGroupNamesCache.get("JobGroupNames");
         if (jobGroupNamesOpt.isPresent()) {
+            log.info("-----Got {} job group names from cache", jobGroupNamesOpt.get().size());
             return jobGroupNamesOpt.get();
         } else {
             List<String> jobGroupNames = quartzScheduler.getJobGroupNames();
             jobGroupNamesCache.put("JobGroupNames", jobGroupNames, 3600000);
+            log.info("-----Put {} job group names to cache", jobGroupNames.size());
             return jobGroupNames;
         }
     }
@@ -45,9 +47,11 @@ public class ScheduledJobCache {
 
         Optional<Set<JobKey>> jobKeysOpt = jobKeysCache.get(groupName);
         if (jobKeysOpt.isPresent()) {
+            log.info("-----Got {} job keys from cache", jobKeysOpt.get().size());
             return jobKeysOpt.get();
         } else {
             Set<JobKey> jobKeys = quartzScheduler.getJobKeys(GroupMatcher.jobGroupEquals(groupName));
+            log.info("-----Put {} job keys to cache", jobKeys.size());
             jobKeysCache.put(groupName, jobKeys, 300000);
             return jobKeys;
         }
@@ -58,9 +62,11 @@ public class ScheduledJobCache {
 
         Optional<JobDetail> jobDetailOpt = jobDetailCache.get(groupName + " " + jobKey.getName());
         if (jobDetailOpt.isPresent()) {
+            log.info("-----Got job detail from cache {}", jobKey.getName());
             return jobDetailOpt.get();
         } else {
             JobDetail jobDetail = quartzScheduler.getJobDetail(jobKey);
+            log.info("-----Put job detail to cache {}", jobKey.getName());
             jobDetailCache.put(groupName + " " + jobKey.getName(), jobDetail, 300000);
             return jobDetail;
         }
@@ -71,9 +77,11 @@ public class ScheduledJobCache {
 
         Optional<List<Trigger>> triggersOfJobOpt = triggersOfJobCache.get(groupName + " " + jobKey.getName());
         if (triggersOfJobOpt.isPresent()) {
+            log.info("-----Got triggers of job from cache {}", triggersOfJobOpt.get().size());
             return triggersOfJobOpt.get();
         } else {
             List<Trigger> triggersOfJob = (List<Trigger>)quartzScheduler.getTriggersOfJob(jobKey);
+            log.info("-----Put triggers of job to cache {}", triggersOfJob.size());
             triggersOfJobCache.put(groupName + " " + jobKey.getName(), triggersOfJob, 300000);
             return triggersOfJob;
         }
