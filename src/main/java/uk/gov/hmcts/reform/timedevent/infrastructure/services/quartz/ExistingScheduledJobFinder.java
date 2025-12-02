@@ -8,6 +8,7 @@ import uk.gov.hmcts.reform.timedevent.infrastructure.services.exceptions.Schedul
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Event.SAVE_NOTIFICATIONS_TO_DATA;
 
@@ -24,13 +25,15 @@ public class ExistingScheduledJobFinder {
         log.info("---------Getting existing scheduled job for {}", timedEvent.getEvent().toString());
 
         if (timedEvent.getEvent().toString().equals(SAVE_NOTIFICATIONS_TO_DATA.toString())) {
-            log.info("---------222Getting existing scheduled job for {}", timedEvent.getEvent().toString());
+            log.info("---------222Getting existing scheduled job for {}", timedEvent.getEvent());
 
             try {
-                for (String groupName : scheduledJobCache.getJobGroupNames()) {
+                List<String> jobGroupNames = scheduledJobCache.getJobGroupNames();
+                for (String groupName : jobGroupNames) {
                     log.info("-------------------Found scheduled job for group {}", groupName);
 
-                    for (JobKey jobKey : scheduledJobCache.getJobKeys(groupName)) {
+                    Set<JobKey> jobKeys = scheduledJobCache.getJobKeys(groupName);
+                    for (JobKey jobKey : jobKeys) {
                         log.info("---------Found jobKey {}", jobKey.getName());
 
                         JobDetail jobDetail = scheduledJobCache.getJobDetail(groupName, jobKey);
