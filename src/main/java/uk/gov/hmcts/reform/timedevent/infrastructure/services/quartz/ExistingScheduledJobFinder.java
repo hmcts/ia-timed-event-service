@@ -30,18 +30,18 @@ public class ExistingScheduledJobFinder {
             try {
                 List<String> jobGroupNames = scheduledJobCache.getJobGroupNames();
                 for (String groupName : jobGroupNames) {
-                    log.info("-------------------Found scheduled job for group {}", groupName);
+                    log.info("-------------------Case {}, found group {}", timedEvent.getCaseId(), groupName);
 
                     Set<JobKey> jobKeys = scheduledJobCache.getJobKeys(groupName);
                     for (JobKey jobKey : jobKeys) {
-                        log.info("---------Found jobKey {}", jobKey.getName());
+                        log.info("---------Case {}, found jobKey {}", timedEvent.getCaseId(), jobKey.getName());
 
                         JobDetail jobDetail = scheduledJobCache.getJobDetail(groupName, jobKey);
                         JobDataMap jobDataMap = jobDetail.getJobDataMap();
                         List<? extends Trigger> jobTriggers = scheduledJobCache.getTriggersOfJob(groupName, jobKey);
-                        log.info("---------Found jobTriggers {}", jobTriggers.size());
-                        log.info("---------String.valueOf(jobDataMap.get(\"event\")) {}", String.valueOf(jobDataMap.get("event")));
-                        log.info("---------String.valueOf(jobDataMap.get(\"caseId\")) {}", String.valueOf(jobDataMap.get("caseId")));
+                        log.info("---------Case {}, found jobTriggers {}", timedEvent.getCaseId(), jobTriggers.size());
+                        log.info("---------Case {}, String.valueOf(jobDataMap.get(\"event\")) {}", timedEvent.getCaseId(), String.valueOf(jobDataMap.get("event")));
+                        log.info("---------Case {}, String.valueOf(jobDataMap.get(\"caseId\")) {}", timedEvent.getCaseId(), String.valueOf(jobDataMap.get("caseId")));
 
                         if (String.valueOf(jobDataMap.get("event")).equals(SAVE_NOTIFICATIONS_TO_DATA.toString())
                                 && String.valueOf(jobDataMap.get("caseId")).equals(String.valueOf(timedEvent.getCaseId()))
