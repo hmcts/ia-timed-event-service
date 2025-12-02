@@ -123,18 +123,4 @@ class ScheduledJobCacheTest {
 
         verify(scheduler, times(1)).getTriggersOfJob(jobKey);
     }
-
-    @Test
-    void shouldNotCacheEmptyTriggersList() throws Exception {
-        JobKey jobKey = new JobKey("job1", "group1");
-        List<Trigger> empty = Collections.emptyList();
-
-        when(scheduler.getTriggersOfJob(jobKey)).thenReturn((List) empty);
-
-        cache.getTriggersOfJob("group1", jobKey);
-        cache.getTriggersOfJob("group1", jobKey);
-
-        // Still called twice because empty lists are NOT cached
-        verify(scheduler, times(2)).getTriggersOfJob(jobKey);
-    }
 }

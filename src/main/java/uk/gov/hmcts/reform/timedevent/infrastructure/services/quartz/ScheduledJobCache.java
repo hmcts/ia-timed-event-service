@@ -82,10 +82,8 @@ public class ScheduledJobCache {
         } else {
             List<Trigger> triggersOfJob = (List<Trigger>)quartzScheduler.getTriggersOfJob(jobKey);
 
-            if (!triggersOfJob.isEmpty()) {
-                log.info("-----Put triggers of job to cache {}", triggersOfJob.size());
-                triggersOfJobCache.put(groupName + " " + jobKey.getName(), triggersOfJob, 300000);
-            }
+            log.info("-----Put triggers of job to cache {}", triggersOfJob.size());
+            triggersOfJobCache.put(groupName + " " + jobKey.getName(), triggersOfJob, 300000);
 
             return triggersOfJob;
         }
