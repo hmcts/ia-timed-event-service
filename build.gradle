@@ -180,7 +180,7 @@ dependencyUpdates.resolutionStrategy {
 }
 
 dependencyCheck {
-  suppressionFile = 'config/owasp/suppressions.xml'
+  suppressionFile = 'https://raw.githubusercontent.com/hmcts/ia-owasp-suppressions/refs/heads/master/ia-timed-event-service/suppressions.xml'
 }
 
 dependencyManagement {
