@@ -124,23 +124,28 @@ security:
   roleEventAccess:
     caseworker-caa:
       - "saveNotificationsToData"
+      - "saveNotificationsToDataBail"
     caseworker-approver:
       - "saveNotificationsToData"
+      - "saveNotificationsToDataBail"
     senior-tribunal-caseworker:
       - "requestHearingRequirementsFeature"
       - "example"
       - "unknown"
       - "saveNotificationsToData"
+      - "saveNotificationsToDataBail"
     challenged-access-legal-operations:
       - "requestHearingRequirementsFeature"
       - "example"
       - "unknown"
       - "saveNotificationsToData"
+      - "saveNotificationsToDataBail"
     tribunal-caseworker:
       - "requestHearingRequirementsFeature"
       - "example"
       - "unknown"
       - "saveNotificationsToData"
+      - "saveNotificationsToDataBail"
     caseworker-ia-legalrep-solicitor:
       - "moveToPaymentPending"
       - "rollbackPayment"
@@ -148,71 +153,88 @@ security:
       - "rollbackPaymentTimeoutToPaymentPending"
       - "endAppealAutomatically"
       - "saveNotificationsToData"
+      - "saveNotificationsToDataBail"
     caseworker-ia-iacjudge:
       - "requestHearingRequirementsFeature"
       - "saveNotificationsToData"
+      - "saveNotificationsToDataBail"
     judge:
       - "requestHearingRequirementsFeature"
       - "saveNotificationsToData"
+      - "saveNotificationsToDataBail"
     senior-judge:
       - "requestHearingRequirementsFeature"
       - "saveNotificationsToData"
+      - "saveNotificationsToDataBail"
     leadership-judge:
       - "requestHearingRequirementsFeature"
       - "saveNotificationsToData"
+      - "saveNotificationsToDataBail"
     fee-paid-judge:
       - "requestHearingRequirementsFeature"
       - "saveNotificationsToData"
+      - "saveNotificationsToDataBail"
     lead-judge:
       - "requestHearingRequirementsFeature"
       - "saveNotificationsToData"
+      - "saveNotificationsToDataBail"
     hearing-judge:
       - "requestHearingRequirementsFeature"
       - "saveNotificationsToData"
+      - "saveNotificationsToDataBail"
     ftpa-judge:
       - "requestHearingRequirementsFeature"
       - "saveNotificationsToData"
+      - "saveNotificationsToDataBail"
     hearing-panel-judge:
       - "requestHearingRequirementsFeature"
       - "saveNotificationsToData"
+      - "saveNotificationsToDataBail"
     challenged-access-judiciary:
       - "requestHearingRequirementsFeature"
       - "saveNotificationsToData"
+      - "saveNotificationsToDataBail"
     hearing-centre-admin:
       - "endAppealAutomatically"
       - "recordRemissionReminder"
       - "sendPaymentReminderNotification"
       - "saveNotificationsToData"
+      - "saveNotificationsToDataBail"
       - "testTimedEventSchedule"
     ctsc:
       - "endAppealAutomatically"
       - "recordRemissionReminder"
       - "sendPaymentReminderNotification"
       - "saveNotificationsToData"
+      - "saveNotificationsToDataBail"
       - "testTimedEventSchedule"
     ctsc-team-leader:
       - "endAppealAutomatically"
       - "recordRemissionReminder"
       - "sendPaymentReminderNotification"
       - "saveNotificationsToData"
+      - "saveNotificationsToDataBail"
       - "testTimedEventSchedule"
     national-business-centre:
       - "endAppealAutomatically"
       - "recordRemissionReminder"
       - "sendPaymentReminderNotification"
       - "saveNotificationsToData"
+      - "saveNotificationsToDataBail"
       - "testTimedEventSchedule"
     challenged-access-ctsc:
       - "endAppealAutomatically"
       - "recordRemissionReminder"
       - "sendPaymentReminderNotification"
       - "saveNotificationsToData"
+      - "saveNotificationsToDataBail"
       - "testTimedEventSchedule"
     challenged-access-admin:
       - "endAppealAutomatically"
       - "recordRemissionReminder"
       - "sendPaymentReminderNotification"
       - "saveNotificationsToData"
+      - "saveNotificationsToDataBail"
       - "testTimedEventSchedule"
     caseworker-ia-system:
       - "endAppealAutomatically"
@@ -220,20 +242,26 @@ security:
       - "reTriggerWaTasks"
       - "sendPaymentReminderNotification"
       - "saveNotificationsToData"
+      - "saveNotificationsToDataBail"
       - "testTimedEventSchedule"
     caseworker-ia-internal:
       - "reTriggerWaTasks"
     citizen:
       - "endAppealAutomatically"
       - "saveNotificationsToData"
+      - "saveNotificationsToDataBail"
     caseworker-ia-homeofficeapc:
       - "saveNotificationsToData"
+      - "saveNotificationsToDataBail"
     caseworker-ia-homeofficelart:
       - "saveNotificationsToData"
+      - "saveNotificationsToDataBail"
     caseworker-ia-homeofficepou:
       - "saveNotificationsToData"
+      - "saveNotificationsToDataBail"
     caseworker-ia-respondentofficer:
       - "saveNotificationsToData"
+      - "saveNotificationsToDataBail"
 
 auth.provider.service.client.baseUrl: ${S2S_URL:http://127.0.0.1:4502}
 
