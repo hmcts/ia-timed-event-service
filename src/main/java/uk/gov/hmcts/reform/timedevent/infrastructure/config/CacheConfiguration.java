@@ -24,6 +24,7 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.time.Duration;
+
 @EnableCaching
 @Configuration
 public class CacheConfiguration {
