@@ -40,7 +40,7 @@ public class IdamSystemTokenGenerator implements SystemTokenGenerator {
     }
 
     @Override
-    @Cacheable(value = "accessTokenCache")
+    @Cacheable(value = "systemUserTokenCache", key = "'systemUserTokenCache'")
     public String generate() {
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("grant_type", "password");
