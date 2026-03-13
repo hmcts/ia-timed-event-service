@@ -211,6 +211,7 @@ security:
       - "saveNotificationsToDataBail"
       - "testTimedEventSchedule"
     ctsc:
+    caseworker-ia-admofficer:
       - "endAppealAutomatically"
       - "recordRemissionReminder"
       - "sendPaymentReminderNotification"
