@@ -53,7 +53,7 @@ class IdamSystemTokenGeneratorTest {
 
         String token = idamSystemTokenGenerator.generate();
 
-        assertEquals(expectedToken, token);
+        assertEquals("Bearer " + expectedToken, token);
 
         ArgumentCaptor<Map<String, ?>> requestFormCaptor = ArgumentCaptor.forClass(Map.class);
         verify(idamApi).token(requestFormCaptor.capture());
