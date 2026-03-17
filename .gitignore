@@ -22,3 +22,6 @@ bin/main/application.yaml
 .DS_Store
 
 lombok.config
+
+target/
+.mirrord/
