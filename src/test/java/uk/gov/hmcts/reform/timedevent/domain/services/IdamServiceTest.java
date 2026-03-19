@@ -118,7 +118,7 @@ class IdamServiceTest {
         String expectedSurname = "Doe";
         String expectedName = expectedForename + " " + expectedSurname;
 
-        UserInfo expecteduUerInfo = new UserInfo(
+        UserInfo expectedUserInfo = new UserInfo(
             expectedEmailAddress,
             expectedId,
             expectedIdamRoles.equals("null") ? null : Collections.emptyList(),
@@ -126,7 +126,7 @@ class IdamServiceTest {
             expectedForename,
             expectedSurname
         );
-        when(idamApi.userInfo(anyString())).thenReturn(expecteduUerInfo);
+        when(idamApi.userInfo(anyString())).thenReturn(expectedUserInfo);
         when(roleAssignmentService.getAmRolesFromUser(expectedId, expectedAccessToken))
             .thenReturn(expectedAmRoles);
         UserInfo actualUserInfo = idamService.getUserInfo(expectedAccessToken);
