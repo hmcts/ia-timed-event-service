@@ -137,6 +137,7 @@ security:
     caseworker-approver:
       - "saveNotificationsToData"
       - "saveNotificationsToDataBail"
+    caseworker-ia-caseofficer:
     senior-tribunal-caseworker:
       - "requestHearingRequirementsFeature"
       - "example"
@@ -211,6 +212,7 @@ security:
       - "saveNotificationsToDataBail"
       - "testTimedEventSchedule"
     ctsc:
+    caseworker-ia-admofficer:
       - "endAppealAutomatically"
       - "recordRemissionReminder"
       - "sendPaymentReminderNotification"

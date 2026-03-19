@@ -42,8 +42,6 @@ public class IdamService {
             }
         }
         List<String> roles = Stream.concat(amRoles.stream(), idamRoles.stream()).toList();
-        log.info("AM roles: {}, IDAM roles: {}, setting roles '{}' to user '{}'",
-                amRoles, idamRoles, roles, userInfo.getEmail());
         userInfo.setRoles(roles);
         return userInfo;
     }
