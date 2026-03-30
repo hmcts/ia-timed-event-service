@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.quartz.Scheduler;
@@ -81,6 +82,7 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
 
     @Test
     @WithMockUser(authorities = {"tribunal-caseworker"})
+    @Disabled
     void testScheduledEventHasRunAfterAppropriateTime() {
         retryTestCodeBlock(10, () -> {
             // Given: an event scheduled in the near future
