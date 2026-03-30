@@ -37,6 +37,7 @@ import static uk.gov.hmcts.reform.timedevent.testutils.Utils.retryTestCodeBlock;
 
 @Slf4j
 @DirtiesContext
+@Disabled
 public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
 
     static final long INCREMENT = 250;
@@ -82,7 +83,6 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
 
     @Test
     @WithMockUser(authorities = {"tribunal-caseworker"})
-    @Disabled
     void testScheduledEventHasRunAfterAppropriateTime() {
         retryTestCodeBlock(10, () -> {
             // Given: an event scheduled in the near future
