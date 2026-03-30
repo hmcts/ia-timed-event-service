@@ -56,7 +56,7 @@ public class CacheConfiguration {
                     );
 
             RedisCacheConfiguration userInfoCacheConfig = RedisCacheConfiguration.defaultCacheConfig()
-                    .entryTtl(Duration.ofSeconds(3300))
+                    .entryTtl(Duration.ofSeconds(1800))
                     .disableCachingNullValues()
                     .serializeKeysWith(
                             RedisSerializationContext.SerializationPair
@@ -72,7 +72,7 @@ public class CacheConfiguration {
                             redisEncryptionKey
                     );
             RedisCacheConfiguration tokenCacheConfig = RedisCacheConfiguration.defaultCacheConfig()
-                    .entryTtl(Duration.ofSeconds(3300))  // 55mins (token might expire before cache)
+                    .entryTtl(Duration.ofSeconds(1800))  // 30mins (token might expire before cache)
                     .disableCachingNullValues()
                     .serializeKeysWith(
                             RedisSerializationContext.SerializationPair
