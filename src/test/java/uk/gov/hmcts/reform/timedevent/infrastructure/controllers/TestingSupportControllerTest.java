@@ -66,7 +66,7 @@ class TestingSupportControllerTest {
         String token = "someUserTokenHash";
         String userId = "someUserId";
         when(systemTokenGenerator.generate()).thenReturn(token);
-        when(systemUserProvider.getSystemUserId(token)).thenReturn(userId);
+        when(systemUserProvider.getSystemUserId("Bearer " + token)).thenReturn(userId);
 
         TestingSupportController testingSupportController = new TestingSupportController(
             systemTokenGenerator,

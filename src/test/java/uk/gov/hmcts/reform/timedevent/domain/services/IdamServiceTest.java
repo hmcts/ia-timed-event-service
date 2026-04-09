@@ -14,7 +14,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -118,7 +117,7 @@ class IdamServiceTest {
         String expectedSurname = "Doe";
         String expectedName = expectedForename + " " + expectedSurname;
 
-        UserInfo expectedUserInfo = new UserInfo(
+        UserInfo expecteduUerInfo = new UserInfo(
             expectedEmailAddress,
             expectedId,
             expectedIdamRoles.equals("null") ? null : Collections.emptyList(),
@@ -126,7 +125,7 @@ class IdamServiceTest {
             expectedForename,
             expectedSurname
         );
-        when(idamApi.userInfo(anyString())).thenReturn(expectedUserInfo);
+        when(idamApi.userInfo(anyString())).thenReturn(expecteduUerInfo);
         when(roleAssignmentService.getAmRolesFromUser(expectedId, expectedAccessToken))
             .thenReturn(expectedAmRoles);
         UserInfo actualUserInfo = idamService.getUserInfo(expectedAccessToken);
@@ -145,7 +144,6 @@ class IdamServiceTest {
 
     @ParameterizedTest
     @MethodSource("amOnboardedRolesProvider")
-    @Disabled
     void getUserDetails_logs_exception_when_role_assignment_service_fails_for_onboarded_roles(String role) {
         Logger responseLogger = (Logger) LoggerFactory.getLogger(IdamService.class);
         ListAppender<ILoggingEvent> listAppender = new ListAppender<>();
@@ -181,7 +179,6 @@ class IdamServiceTest {
     }
 
     @Test
-    @Disabled
     void getUserDetails_does_not_log_exception_when_role_assignment_service_fails_for_non_onboarded_roles() {
         Logger responseLogger = (Logger) LoggerFactory.getLogger(IdamService.class);
         ListAppender<ILoggingEvent> listAppender = new ListAppender<>();

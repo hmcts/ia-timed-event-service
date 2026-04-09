@@ -2,8 +2,8 @@ package uk.gov.hmcts.reform.timedevent.infrastructure.security;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newHashSet;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableMap;
@@ -50,7 +50,7 @@ class CcdEventAuthorizorTest {
             AccessDeniedException.class,
             () -> ccdEventAuthorizor.throwIfNotAuthorized(Event.UNKNOWN)
         );
-        assertTrue(thrown.getMessage().startsWith("Event 'unknown' not allowed"));
+        assertEquals("Event 'unknown' not allowed", thrown.getMessage());
     }
 
     @Test
@@ -64,7 +64,7 @@ class CcdEventAuthorizorTest {
             AccessDeniedException.class,
             () -> ccdEventAuthorizor.throwIfNotAuthorized(Event.UNKNOWN)
         );
-        assertTrue(thrown.getMessage().startsWith("Event 'unknown' not allowed"));
+        assertEquals("Event 'unknown' not allowed", thrown.getMessage());
     }
 
     @Test
@@ -80,6 +80,6 @@ class CcdEventAuthorizorTest {
             AccessDeniedException.class,
             () -> ccdEventAuthorizor.throwIfNotAuthorized(Event.UNKNOWN)
         );
-        assertTrue(thrown.getMessage().startsWith("Event 'unknown' not allowed"));
+        assertEquals("Event 'unknown' not allowed", thrown.getMessage());
     }
 }

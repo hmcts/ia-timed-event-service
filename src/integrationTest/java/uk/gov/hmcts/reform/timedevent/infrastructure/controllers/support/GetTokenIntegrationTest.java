@@ -24,6 +24,6 @@ class GetTokenIntegrationTest extends SpringBootIntegrationTest implements WithI
             .andExpect(status().isOk())
             .andReturn();
 
-        assertEquals("Bearer " + SYSTEM_USER_TOKEN, response.getResponse().getContentAsString());
+        assertEquals(SYSTEM_USER_TOKEN, response.getResponse().getContentAsString());
     }
 }

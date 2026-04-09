@@ -26,9 +26,8 @@ public class IdamService {
         this.roleAssignmentService = roleAssignmentService;
     }
 
-    @Cacheable(value = "userInfoCache", key = "#accessToken")
+    @Cacheable(value = "userInfoCache")
     public UserInfo getUserInfo(String accessToken) {
-        log.info("System user token expired. Getting a new token in ia-tmed-event-service");
         UserInfo userInfo = idamApi.userInfo(accessToken);
         List<String> amRoles = Collections.emptyList();
         List<String> idamRoles = userInfo.getRoles() == null ?

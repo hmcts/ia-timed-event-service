@@ -12,15 +12,8 @@ management:
         include: health, info, prometheus
 
   health:
-    redis:
-      enabled: false  # don't let Redis affect pod health
     probes:
       enabled: true
-    group:
-      readiness:
-        include: ping
-      liveness:
-        include: ping
 
 spring:
   application:
@@ -88,14 +81,10 @@ spring:
             tablePrefix: ia_timed_event_service.QRTZ_
             isClustered: true
             clusterCheckinInterval: 20000
-  data:
-    redis:
-      url: ${IA_REDIS_CONNECTION_STRING:}
-      secret: ${IA_REDIS_ACCESS_KEY:}
-      encryption:
-        key: ${IA_REDIS_ENCRYPTION_KEY:}
-      ssl:
-        enabled: true
+  cache:
+    cache-names: userInfoCache, accessTokenCache
+    caffeine:
+      spec: expireAfterAccess=3600s
 
 retry:
   durationInSeconds: ${IA_SCHEDULER_RETRY_DURATION:7200}
@@ -139,7 +128,6 @@ security:
     caseworker-approver:
       - "saveNotificationsToData"
       - "saveNotificationsToDataBail"
-    caseworker-ia-caseofficer:
     senior-tribunal-caseworker:
       - "requestHearingRequirementsFeature"
       - "example"
@@ -214,7 +202,6 @@ security:
       - "saveNotificationsToDataBail"
       - "testTimedEventSchedule"
     ctsc:
-    caseworker-ia-admofficer:
       - "endAppealAutomatically"
       - "recordRemissionReminder"
       - "sendPaymentReminderNotification"

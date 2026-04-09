@@ -63,11 +63,11 @@ class CcdEventExecutorTest {
         when(systemTokenGenerator.generate()).thenReturn(token);
         when(s2sAuthTokenGenerator.generate()).thenReturn(serviceToken);
 
-        when(systemUserProvider.getSystemUserId(token)).thenReturn(userId);
+        when(systemUserProvider.getSystemUserId("Bearer " + token)).thenReturn(userId);
 
         when(startEventTrigger.getToken()).thenReturn(ccdToken);
         when(ccdApi.startEvent(
-            token,
+            "Bearer " + token,
             serviceToken,
             userId,
             jurisdiction,
@@ -78,7 +78,7 @@ class CcdEventExecutorTest {
 
         when(caseDetails.getState()).thenReturn(state);
         when(ccdApi.submitEvent(
-            eq(token),
+            eq("Bearer " + token),
             eq(serviceToken),
             eq(userId),
             eq(jurisdiction),
@@ -100,10 +100,10 @@ class CcdEventExecutorTest {
         verify(systemTokenGenerator).generate();
         verify(s2sAuthTokenGenerator).generate();
 
-        verify(systemUserProvider).getSystemUserId(token);
+        verify(systemUserProvider).getSystemUserId("Bearer " + token);
 
         verify(ccdApi).startEvent(
-            token,
+            "Bearer " + token,
             serviceToken,
             userId,
             jurisdiction,
@@ -117,7 +117,7 @@ class CcdEventExecutorTest {
         ArgumentCaptor<CaseDataContent> caseDataCaptor = ArgumentCaptor.forClass(CaseDataContent.class);
 
         verify(ccdApi).submitEvent(
-            eq(token),
+            eq("Bearer " + token),
             eq(serviceToken),
             eq(userId),
             eq(jurisdiction),
@@ -212,10 +212,10 @@ class CcdEventExecutorTest {
         when(systemTokenGenerator.generate()).thenReturn(token);
         when(s2sAuthTokenGenerator.generate()).thenReturn(serviceToken);
 
-        when(systemUserProvider.getSystemUserId(token)).thenReturn(userId);
+        when(systemUserProvider.getSystemUserId("Bearer " + token)).thenReturn(userId);
 
         when(ccdApi.startEvent(
-            token,
+            "Bearer " + token,
             serviceToken,
             userId,
             jurisdiction,
@@ -241,10 +241,10 @@ class CcdEventExecutorTest {
         verify(systemTokenGenerator).generate();
         verify(s2sAuthTokenGenerator).generate();
 
-        verify(systemUserProvider).getSystemUserId(token);
+        verify(systemUserProvider).getSystemUserId("Bearer " + token);
 
         verify(ccdApi).startEvent(
-            token,
+            "Bearer " + token,
             serviceToken,
             userId,
             jurisdiction,

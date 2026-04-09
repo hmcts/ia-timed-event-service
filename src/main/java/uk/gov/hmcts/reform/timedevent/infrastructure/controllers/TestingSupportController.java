@@ -76,7 +76,7 @@ public class TestingSupportController {
     @GetMapping("/testing-support/system-user")
     public ResponseEntity<String> systemUser() {
 
-        return ok(systemUserProvider.getSystemUserId(systemTokenGenerator.generate()));
+        return ok(systemUserProvider.getSystemUserId("Bearer " + systemTokenGenerator.generate()));
     }
 
     @Operation(summary = "Executing event in CCD")

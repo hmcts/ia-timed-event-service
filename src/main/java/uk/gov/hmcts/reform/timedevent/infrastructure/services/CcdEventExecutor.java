@@ -53,7 +53,7 @@ public class CcdEventExecutor implements EventExecutor {
         String s2sToken;
         String uid;
         try {
-            userToken = systemTokenGenerator.generate();
+            userToken = "Bearer " + systemTokenGenerator.generate();
             log.info("System user token has been generated for event: {}, caseId: {}.", event, caseId);
 
             // returned token is already with Bearer prefix
