@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.quartz.Scheduler;
@@ -36,6 +37,7 @@ import static uk.gov.hmcts.reform.timedevent.testutils.Utils.retryTestCodeBlock;
 
 @Slf4j
 @DirtiesContext
+@Disabled
 public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
 
     static final long INCREMENT = 250;

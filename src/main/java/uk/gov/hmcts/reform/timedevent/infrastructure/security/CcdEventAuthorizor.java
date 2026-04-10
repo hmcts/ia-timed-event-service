@@ -27,7 +27,7 @@ public class CcdEventAuthorizor {
             || userRoles.isEmpty()
             || Collections.disjoint(requiredRoles, userRoles)) {
 
-            throw new AccessDeniedException("Event '" + event.toString() + "' not allowed");
+            throw new AccessDeniedException("Event '" + event.toString() + "' not allowed for roles: " + userRoles);
         }
     }
 
