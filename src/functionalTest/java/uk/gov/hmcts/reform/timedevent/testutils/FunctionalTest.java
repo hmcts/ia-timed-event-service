@@ -30,8 +30,7 @@ import uk.gov.hmcts.reform.timedevent.testutils.data.*;
 @SpringBootTest(classes = {
     DocumentUploadClientApiConfiguration.class,
     ServiceTokenGeneratorConfiguration.class,
-    FunctionalSpringContext.class,
-    CacheConfiguration.class
+    FunctionalSpringContext.class
 })
 @ActiveProfiles("functional")
 public class FunctionalTest {
