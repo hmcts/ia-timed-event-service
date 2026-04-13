@@ -136,6 +136,8 @@ security:
     caseworker-caa:
       - "saveNotificationsToData"
       - "saveNotificationsToDataBail"
+    caseworker-ia-homeofficebail:
+      - "saveNotificationsToDataBail"
     caseworker-approver:
       - "saveNotificationsToData"
       - "saveNotificationsToDataBail"
