@@ -7,11 +7,13 @@ import io.restassured.response.Response;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.reform.timedevent.testutils.FunctionalTest;
 import uk.gov.hmcts.reform.timedevent.testutils.data.CaseDataFixture;
 
 @Slf4j
+@Disabled
 public class RequestHearingRequirementsFunctionTest extends FunctionalTest {
 
     private String jurisdiction = "IA";

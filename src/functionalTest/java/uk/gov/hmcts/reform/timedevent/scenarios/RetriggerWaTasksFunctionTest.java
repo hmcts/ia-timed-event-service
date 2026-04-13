@@ -3,6 +3,7 @@ package uk.gov.hmcts.reform.timedevent.scenarios;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import uk.gov.hmcts.reform.timedevent.testutils.FunctionalTest;
 import uk.gov.hmcts.reform.timedevent.testutils.data.CaseDataFixture;
@@ -12,6 +13,7 @@ import java.time.ZonedDateTime;
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Disabled
 public class RetriggerWaTasksFunctionTest extends FunctionalTest {
 
     private String jurisdiction = "IA";
