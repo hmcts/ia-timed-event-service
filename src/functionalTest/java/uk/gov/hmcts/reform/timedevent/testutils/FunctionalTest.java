@@ -22,7 +22,6 @@ import org.springframework.test.context.ActiveProfiles;
 import uk.gov.hmcts.reform.authorisation.generators.AuthTokenGenerator;
 import uk.gov.hmcts.reform.document.DocumentUploadClientApi;
 import uk.gov.hmcts.reform.timedevent.infrastructure.clients.IdamApi;
-import uk.gov.hmcts.reform.timedevent.infrastructure.config.CacheConfiguration;
 import uk.gov.hmcts.reform.timedevent.infrastructure.config.ServiceTokenGeneratorConfiguration;
 import uk.gov.hmcts.reform.timedevent.testutils.clients.*;
 import uk.gov.hmcts.reform.timedevent.testutils.data.*;
