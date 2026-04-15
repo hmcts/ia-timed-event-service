@@ -40,7 +40,7 @@ public class CacheConfiguration {
     public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
         try {
             redisConnectionFactory.getConnection().ping();
-            log.info("Redis connection successful - using Redis for systemTokenCache");
+            log.info("Redis connection successful - using Redis for systemUserTokenCache");
 
             // Idam user info config
             AesEncryptingRedisSerializer<UserInfo> userInfoSerializer =
