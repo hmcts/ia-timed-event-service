@@ -79,7 +79,6 @@ public class CacheConfiguration {
                 .withCacheConfiguration("systemUserTokenCache", tokenCacheConfig)
                 .withCacheConfiguration("userInfoCache", userInfoCacheConfig)
                 // functional token caches
-                .withCacheConfiguration("userInfoCache", tokenCacheConfig)
                 .withCacheConfiguration("accessTokenCache", tokenCacheConfig)
                 .withCacheConfiguration("legalRepATokenCache", tokenCacheConfig)
                 .withCacheConfiguration("caseOfficerTokenCache", tokenCacheConfig)
