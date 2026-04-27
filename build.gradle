@@ -192,6 +192,11 @@ dependencyCheck {
     failBuildOnCVSS = 11
 }
 
+dependencyCheckAggregate {
+    // TODO remove this
+    failBuildOnCVSS = 11
+}
+
 dependencyManagement {
     imports {
         mavenBom 'org.springframework.cloud:spring-cloud-dependencies:2025.0.2'
