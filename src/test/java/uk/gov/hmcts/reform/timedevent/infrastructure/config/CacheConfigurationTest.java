@@ -16,12 +16,10 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
-import org.testcontainers.containers.GenericContainer;
 
 import java.util.Base64;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -43,18 +41,9 @@ class CacheConfigurationTest {
     private static final String ACCESS_KEY = "some-access-key";
     private static final String TEST_ENCRYPTION_KEY = Base64.getEncoder().encodeToString(new byte[32]);
 
-    static GenericContainer<?> redis = new GenericContainer<>("redis:7-alpine")
-            .withExposedPorts(6379);
-
-    static {
-        redis.start();
-    }
-
     @DynamicPropertySource
     static void redisProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.data.redis.url", () ->
-                String.format("redis://localhost:%d", redis.getMappedPort(6379))
-        );
+        registry.add("spring.data.redis.url", () -> "redis://localhost:6379");
         registry.add("spring.data.redis.encryption.key", () -> TEST_ENCRYPTION_KEY);
     }
 
