@@ -1,7 +1,7 @@
 package uk.gov.hmcts.reform.timedevent.scenarios;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import feign.FeignException;
 import io.restassured.response.Response;
