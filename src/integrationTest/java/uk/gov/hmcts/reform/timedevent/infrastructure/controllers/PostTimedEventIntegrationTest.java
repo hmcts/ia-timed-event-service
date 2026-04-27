@@ -8,15 +8,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MvcResult;
 import uk.gov.hmcts.reform.timedevent.infrastructure.services.IdentityProvider;
 import uk.gov.hmcts.reform.timedevent.testutils.SpringBootIntegrationTest;
 
 class PostTimedEventIntegrationTest extends SpringBootIntegrationTest {
 
-    @MockBean
+    @MockitoBean
     IdentityProvider identityProvider;
 
     @Test
