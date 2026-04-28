@@ -156,7 +156,7 @@ public class CaseDataFixture {
 
         final List<Value> values = new ArrayList<>();
         values.add(new Value("NoMatch", "No Match"));
-        DynamicList appellantsList = new DynamicList(values.get(0), values);
+        DynamicList appellantsList = new DynamicList(values.getFirst(), values);
 
         data.put("homeOfficeAppellantsList", appellantsList);
 
