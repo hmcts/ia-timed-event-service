@@ -7,5 +7,6 @@
         <cve>CVE-2026-34481</cve>
         <cve>CVE-2025-15104</cve>
         <cve>CVE-2025-68161</cve>
+        <cve>CVE-2025-7962</cve>
     </suppress>
 </suppressions>
