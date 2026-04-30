@@ -95,12 +95,16 @@ tasks.withType(JavaCompile).configureEach {
     ]
 }
 
-task functional(type: Test, description: 'Runs the functional tests.', group: 'Verification') {
+tasks.register('functional', Test) {
+    description = 'Runs the functional tests.'
+    group = 'Verification'
     testClassesDirs = sourceSets.functionalTest.output.classesDirs
     classpath = sourceSets.functionalTest.runtimeClasspath
 }
 
-task integration(type: Test, description: 'Runs the integration tests.', group: 'Verification') {
+tasks.register('integration', Test) {
+    description = 'Runs the integration tests.'
+    group = 'Verification'
     testClassesDirs = sourceSets.integrationTest.output.classesDirs
     classpath = sourceSets.integrationTest.runtimeClasspath
     useJUnitPlatform()
@@ -108,18 +112,21 @@ task integration(type: Test, description: 'Runs the integration tests.', group: 
     // environment("APPINSIGHTS_INSTRUMENTATIONKEY", "test-key")
 }
 
-task smoke(type: Test, description: 'Runs the smoke tests.', group: 'Verification') {
+tasks.register('smoke', Test) {
+    description = 'Runs the smoke tests.'
+    group = 'Verification'
     testClassesDirs = sourceSets.smokeTest.output.classesDirs
     classpath = sourceSets.smokeTest.runtimeClasspath
 }
 
-task fortifyScan(type: JavaExec, description: 'Run fortify scan.') {
+tasks.register('fortifyScan', JavaExec) {
+    description = 'Run fortify scan.'
     mainClass = "uk.gov.hmcts.fortifyclient.FortifyClientMainApp"
     classpath += sourceSets.test.runtimeClasspath
     jvmArgs = ['--add-opens=java.base/java.lang.reflect=ALL-UNNAMED']
 }
 
-tasks.withType(Test) {
+tasks.withType(Test).configureEach {
     useJUnitPlatform()
 
     testLogging {
@@ -137,7 +144,7 @@ pmd {
     toolVersion = "6.55.0"
     ignoreFailures = true
     sourceSets = [sourceSets.main, sourceSets.test, sourceSets.functionalTest, sourceSets.integrationTest, sourceSets.smokeTest]
-    reportsDir = file("$project.buildDir/reports/pmd")
+    reportsDir = file("${project.getLayout().getBuildDirectory()}/reports/pmd")
     ruleSets = [
             'category/java/errorprone.xml',
             'category/java/bestpractices.xml'
@@ -164,7 +171,10 @@ sonarqube {
     }
 }
 
-project.tasks['sonarqube'].dependsOn test, integration, jacocoTestReport
+tasks.named('sonarqube') {
+    dependsOn test, integration, jacocoTestReport
+    group = "Verification"
+}
 
 pitest {
     junit5PluginVersion = '1.2.1'
@@ -181,7 +191,9 @@ pitest {
     mutationThreshold = 55
 }
 
-project.tasks['pitest'].group = "Verification"
+tasks.named('pitest') {
+    group = "Verification"
+}
 
 dependencyUpdates.resolutionStrategy {
     componentSelection { rules ->
@@ -199,9 +211,7 @@ dependencyUpdates.resolutionStrategy {
 }
 
 dependencyCheck {
-    // TODO swap back
-    // suppressionFile = 'https://raw.githubusercontent.com/hmcts/ia-owasp-suppressions/refs/heads/master/ia-timed-event-service/suppressions.xml'
-    suppressionFile = 'config/owasp/suppressions.xml'
+    suppressionFile = 'https://raw.githubusercontent.com/hmcts/ia-owasp-suppressions/refs/heads/master/ia-timed-event-service/suppressions.xml'
 }
 
 dependencyManagement {
@@ -265,27 +275,27 @@ repositories {
 }
 
 dependencies {
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-json'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-cache'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'org.springframework.boot:spring-boot-starter-json'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
 
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-quartz'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-quartz'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-bootstrap'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
 
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
 
-    implementation group: 'org.springframework.security', name: 'spring-security-oauth2-client'
-    implementation group: 'org.springframework.security', name: 'spring-security-oauth2-resource-server'
-    implementation group: 'org.springframework.security', name: 'spring-security-oauth2-jose'
+    implementation 'org.springframework.security:spring-security-oauth2-client'
+    implementation 'org.springframework.security:spring-security-oauth2-resource-server'
+    implementation 'org.springframework.security:spring-security-oauth2-jose'
 
     implementation group: 'org.flywaydb', name: 'flyway-core', version: '9.22.3'
 
@@ -304,13 +314,12 @@ dependencies {
 
     implementation group: 'commons-io', name: 'commons-io', version: '2.21.0'
 
-    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    testImplementation group: 'org.springframework.security', name: 'spring-security-test'
+    testImplementation 'org.springframework.security:spring-security-test'
 
     testImplementation group: 'com.github.hmcts', name: 'document-management-client', version: '7.0.1'
 
-    // testImplementation group: 'com.h2database', name: 'h2', version: '1.4.200'
     testImplementation group: 'com.h2database', name: 'h2', version: '2.4.240'
 
     testImplementation group: 'org.pitest', name: 'pitest', version: '1.15.8'
