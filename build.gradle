@@ -305,8 +305,8 @@ dependencies {
     testImplementation group: 'org.pitest', name: 'pitest', version: '1.15.8'
     testImplementation 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.15.0'
 
-    testImplementation 'net.serenity-bdd:net.serenity-rest-assured'
-    testImplementation 'net.serenity-bdd:net.serenity-spring'
+    testImplementation 'net.serenity-bdd:serenity-rest-assured'
+    testImplementation 'net.serenity-bdd:serenity-spring'
 
     testImplementation 'org.springframework.cloud:spring-cloud-contract-wiremock'
 
