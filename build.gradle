@@ -243,6 +243,13 @@ dependencyManagement {
             entry 'mockito-core'
             entry 'mockito-junit-jupiter'
         }
+
+        dependencySet(group: 'org.apache.logging.log4j', version: '2.25.4') {
+            entry 'log4j-to-slf4j'
+            entry 'log4j-api'
+        }
+
+        dependency group: 'org.springframework', name: 'spring-context-support', version: '6.2.18'
     }
 }
 
@@ -279,7 +286,7 @@ dependencies {
 
     implementation group: 'org.flywaydb', name: 'flyway-core', version: '9.22.3'
 
-    implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.10'
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.11'
 
     implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.8.17'
 
