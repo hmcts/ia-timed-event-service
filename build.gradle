@@ -218,7 +218,7 @@ dependencyManagement {
     imports {
         mavenBom 'org.springframework.cloud:spring-cloud-dependencies:2025.0.2'
         mavenBom 'com.fasterxml.jackson:jackson-bom:2.21.2'
-        mavenBom "net.serenity-bdd:serenity-bom:5.3.9"
+        mavenBom "net.serenity-bdd:serenity-bom:5.3.10"
 
         // CVE-2025-55163 - from spring-boot-starter-data-redis@3.5.14
         mavenBom "io.netty:netty-bom:4.1.132.Final"
@@ -240,6 +240,7 @@ dependencyManagement {
 
         dependency group: 'io.rest-assured', name: 'rest-assured', version: '5.5.7'
 
+        // due to Serenity 5.3.10 forcing commons-lang3@3.18.0
         dependency group: 'org.apache.commons', name: 'commons-lang3', version: '3.20.0'
 
         dependencySet(group: 'org.mockito', version: '5.23.0') {
@@ -247,11 +248,16 @@ dependencyManagement {
             entry 'mockito-junit-jupiter'
         }
 
+        // CVE-2026-34480
+        // CVE-2026-34478
+        // CVE-2026-34477
+        // CVE-2025-68161 - from spring-boot-starter-logging@3.5.14
         dependencySet(group: 'org.apache.logging.log4j', version: '2.25.4') {
             entry 'log4j-to-slf4j'
             entry 'log4j-api'
         }
 
+        // due to Serenity 5.3.10 forcing spring-context-support@6.2.10
         dependency group: 'org.springframework', name: 'spring-context-support', version: '6.2.18'
 
         // CVE-2025-7962 - from spring-boot-starter-data-jpa@3.5.14
