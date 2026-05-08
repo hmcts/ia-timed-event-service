@@ -265,10 +265,10 @@ dependencyManagement {
         dependency group: 'org.eclipse.angus', name: 'jakarta-mail', version: '2.0.5'
 
         // CVE-2025-15104 - from spring-boot-starter-validation@3.5.14 and springdoc-openapi-starter-webmvc-ui@2.8.17
-        dependency group: 'org.hibernate.validator:', name: 'hibernate-validator', version: '9.1.0.Final'
+        dependency group: 'org.hibernate.validator', name: 'hibernate-validator', version: '9.1.0.Final'
 
         // CVE-2020-13956 - transitive from service-auth-provider-java-client@5.3.3
-        dependency group: 'org.apache.httpcomponents:', name: 'httpclient', version: '4.5.14'
+        dependency group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
     }
 }
 
@@ -281,16 +281,6 @@ repositories {
 }
 
 dependencies {
-    // CVE-2025-7962 - from spring-boot-starter-data-jpa@3.5.14
-    implementation group: 'org.eclipse.angus', name: 'angus-mail', version: '2.0.5'
-    implementation group: 'org.eclipse.angus', name: 'jakarta-mail', version: '2.0.5'
-
-    // CVE-2025-15104 - from spring-boot-starter-validation@3.5.14 and springdoc-openapi-starter-webmvc-ui@2.8.17
-    implementation group: 'org.hibernate.validator:', name: 'hibernate-validator', version: '9.1.0.Final'
-
-    // CVE-2020-13956 - transitive from service-auth-provider-java-client@5.3.3
-    implementation group: 'org.apache.httpcomponents:', name: 'httpclient', version: '4.5.14'
-
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
