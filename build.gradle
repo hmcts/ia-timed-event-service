@@ -219,6 +219,9 @@ dependencyManagement {
         mavenBom 'org.springframework.cloud:spring-cloud-dependencies:2025.0.2'
         mavenBom 'com.fasterxml.jackson:jackson-bom:2.21.2'
         mavenBom "net.serenity-bdd:serenity-bom:5.3.9"
+
+        // CVE-2025-55163 - from spring-boot-starter-data-redis@3.5.14
+        mavenBom "io.netty:netty-bom:4.1.132.Final"
     }
 
     dependencies {
@@ -250,6 +253,16 @@ dependencyManagement {
         }
 
         dependency group: 'org.springframework', name: 'spring-context-support', version: '6.2.18'
+
+        // CVE-2025-7962 - from spring-boot-starter-data-jpa@3.5.14
+        dependency group: 'org.eclipse.angus', name: 'angus-mail', version: '2.0.5'
+        dependency group: 'org.eclipse.angus', name: 'jakarta-mail', version: '2.0.5'
+
+        // CVE-2025-15104 - from spring-boot-starter-validation@3.5.14 and springdoc-openapi-starter-webmvc-ui@2.8.17
+        dependency group: 'org.hibernate.validator:', name: 'hibernate-validator', version: '9.1.0.Final'
+
+        // CVE-2020-13956 - transitive from service-auth-provider-java-client@5.3.3
+        dependency group: 'org.apache.httpcomponents:', name: 'httpclient', version: '4.5.14'
     }
 }
 
@@ -296,8 +309,6 @@ dependencies {
 
     implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: '8.0.0'
     implementation group: 'com.github.hmcts', name: 'service-auth-provider-java-client', version: '5.3.3'
-
-    implementation group: 'com.sun.xml.bind', name: 'jaxb-osgi', version: '4.0.7'
 
     implementation group: 'commons-io', name: 'commons-io', version: '2.21.0'
 
