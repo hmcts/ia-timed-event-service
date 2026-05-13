@@ -221,7 +221,7 @@ dependencyManagement {
         mavenBom "net.serenity-bdd:serenity-bom:5.3.10"
 
         // CVE-2025-55163 - from spring-boot-starter-data-redis@3.5.14
-        mavenBom "io.netty:netty-bom:4.1.132.Final"
+        mavenBom "io.netty:netty-bom:4.1.133.Final"
     }
 
     dependencies {
