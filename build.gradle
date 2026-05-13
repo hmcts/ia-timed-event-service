@@ -240,13 +240,13 @@ dependencyManagement {
 
         dependency group: 'io.rest-assured', name: 'rest-assured', version: '5.5.7'
 
-        // due to Serenity 5.3.10 forcing commons-lang3@3.18.0
-        dependency group: 'org.apache.commons', name: 'commons-lang3', version: '3.20.0'
-
         dependencySet(group: 'org.mockito', version: '5.23.0') {
             entry 'mockito-core'
             entry 'mockito-junit-jupiter'
         }
+
+        // due to Serenity 5.3.10 forcing commons-lang3@3.18.0
+        dependency group: 'org.apache.commons', name: 'commons-lang3', version: '3.20.0'
 
         // CVE-2026-34480
         // CVE-2026-34478
