@@ -28,12 +28,10 @@ public class IdamAuthoritiesConverter implements Converter<Jwt, Collection<Grant
 
     @Override
     public Collection<GrantedAuthority> convert(Jwt jwt) {
-
-        List<GrantedAuthority> authorities = new ArrayList<>();
         if (jwt.hasClaim(TOKEN_NAME) && jwt.getClaim(TOKEN_NAME).equals(ACCESS_TOKEN)) {
-            authorities.addAll(getUserRoles(jwt.getTokenValue()));
+            return getUserRoles(jwt.getTokenValue());
         }
-        return authorities;
+        return Collections.emptyList();
     }
 
     private List<GrantedAuthority> getUserRoles(String authorization) {
