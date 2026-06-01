@@ -15,6 +15,11 @@ spring:
           jobStore:
             tablePrefix: QRTZ_
   sql.init.platform: h2
+  autoconfigure:
+    exclude:
+          - org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration
+          - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+          - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
 
 ccdGatewayUrl: ${CCD_GW_URL:http://localhost:3453}
 document_management.url: ${DM_URL:http://127.0.0.1:4506}
@@ -22,3 +27,8 @@ document_management.url: ${DM_URL:http://127.0.0.1:4506}
 retry:
   durationInSeconds: 2
   maxRetryNumber: 3
+
+app:
+  cache:
+    enabled: false
+

@@ -24,6 +24,8 @@ import uk.gov.hmcts.reform.timedevent.Application;
     "IDAM_URL=http://127.0.0.1:8990/idam",
     "IA_IDAM_REDIRECT_URI=http://localhost:3002/oauth2/callback",
     "IA_SYSTEM_USERNAME=ia-system-user@fake.hmcts.net",
+    "IA_SYSTEM_PASSWORD=London05",
+    "IA_IDAM_SECRET=something",
     "S2S_URL=http://127.0.0.1:8990/s2s",
     "IA_IDAM_CLIENT_ID=ia",
     "IA_S2S_MICROSERVICE=ia"
@@ -36,7 +38,7 @@ public class SpringBootIntegrationTest {
     @Autowired
     protected MockMvc mockMvc;
 
-    protected static WireMockServer server;
+    protected WireMockServer server;
 
     @BeforeAll
     public void spinUp() {
