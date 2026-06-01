@@ -6,7 +6,6 @@ spring:
     url: jdbc:h2:mem:ia_timed_event_service
     username: sa
     password:
-    platform: h2
   quartz:
     jdbc:
       initialize-schema: embedded
@@ -15,6 +14,7 @@ spring:
         quartz:
           jobStore:
             tablePrefix: QRTZ_
+  sql.init.platform: h2
 
 ccdGatewayUrl: ${CCD_GW_URL:http://localhost:3453}
 document_management.url: ${DM_URL:http://127.0.0.1:4506}

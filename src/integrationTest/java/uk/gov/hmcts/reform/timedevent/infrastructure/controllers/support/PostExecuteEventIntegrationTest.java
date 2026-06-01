@@ -82,7 +82,7 @@ class PostExecuteEventIntegrationTest extends SpringBootIntegrationTest implemen
     void should_return_400_when_event_not_found() throws Exception {
 
         String notExistingEvent = "notExistingEvent";
-        String url = String.format("/testing-support/execute/jurisdiction/%s/case-type/%s/cid/%s/event/%s", jurisdiction, caseType, caseId, notExistingEvent);
+        String url = "/testing-support/execute/jurisdiction/%s/case-type/%s/cid/%s/event/%s".formatted(jurisdiction, caseType, caseId, notExistingEvent);
 
         MvcResult response = mockMvc
             .perform(post(url))
@@ -127,7 +127,7 @@ class PostExecuteEventIntegrationTest extends SpringBootIntegrationTest implemen
             )
         );
 
-        String url = String.format("/testing-support/execute/jurisdiction/%s/case-type/%s/cid/%s/event/%s", jurisdiction, caseType, caseId, event);
+        String url = "/testing-support/execute/jurisdiction/%s/case-type/%s/cid/%s/event/%s".formatted(jurisdiction, caseType, caseId, event);
 
         MvcResult response = mockMvc
             .perform(post(url))
@@ -174,7 +174,7 @@ class PostExecuteEventIntegrationTest extends SpringBootIntegrationTest implemen
             )
         );
 
-        String url = String.format("/testing-support/execute/jurisdiction/%s/case-type/%s/cid/%s/event/%s", jurisdiction, caseType, caseId, eventNotExistingInCcd);
+        String url = "/testing-support/execute/jurisdiction/%s/case-type/%s/cid/%s/event/%s".formatted(jurisdiction, caseType, caseId, eventNotExistingInCcd);
 
         MvcResult response = mockMvc
             .perform(post(url))
@@ -218,7 +218,7 @@ class PostExecuteEventIntegrationTest extends SpringBootIntegrationTest implemen
             )
         );
 
-        String url = String.format("/testing-support/execute/jurisdiction/%s/case-type/%s/cid/%s/event/%s", jurisdiction, caseType, caseId, event);
+        String url = "/testing-support/execute/jurisdiction/%s/case-type/%s/cid/%s/event/%s".formatted(jurisdiction, caseType, caseId, event);
 
         MvcResult response = mockMvc
             .perform(post(url))
@@ -263,7 +263,7 @@ class PostExecuteEventIntegrationTest extends SpringBootIntegrationTest implemen
             )
         );
 
-        String url = String.format("/testing-support/execute/jurisdiction/%s/case-type/%s/cid/%s/event/%s", jurisdiction, caseType, caseId, event);
+        String url = "/testing-support/execute/jurisdiction/%s/case-type/%s/cid/%s/event/%s".formatted(jurisdiction, caseType, caseId, event);
 
         MvcResult response = mockMvc
             .perform(post(url))
@@ -310,7 +310,7 @@ class PostExecuteEventIntegrationTest extends SpringBootIntegrationTest implemen
             )
         );
 
-        String url = String.format("/testing-support/execute/jurisdiction/%s/case-type/%s/cid/%s/event/%s", jurisdiction, notExistingCaseType, caseId, event);
+        String url = "/testing-support/execute/jurisdiction/%s/case-type/%s/cid/%s/event/%s".formatted(jurisdiction, notExistingCaseType, caseId, event);
 
         MvcResult response = mockMvc
             .perform(post(url))
@@ -353,7 +353,7 @@ class PostExecuteEventIntegrationTest extends SpringBootIntegrationTest implemen
             )
         );
 
-        String url = String.format("/testing-support/execute/jurisdiction/%s/case-type/%s/cid/%s/event/%s", notExistingJurisdiction, caseType, caseId, event);
+        String url = "/testing-support/execute/jurisdiction/%s/case-type/%s/cid/%s/event/%s".formatted(notExistingJurisdiction, caseType, caseId, event);
 
         MvcResult response = mockMvc
             .perform(post(url))

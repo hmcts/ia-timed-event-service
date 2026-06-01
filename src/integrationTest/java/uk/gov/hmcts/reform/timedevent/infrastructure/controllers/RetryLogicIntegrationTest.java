@@ -15,9 +15,9 @@ import org.mockito.Mockito;
 import org.quartz.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import uk.gov.hmcts.reform.timedevent.domain.entities.EventExecution;
 import uk.gov.hmcts.reform.timedevent.domain.entities.TimedEvent;
 import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Event;
@@ -45,7 +45,7 @@ public class RetryLogicIntegrationTest extends SpringBootIntegrationTest {
     public static final long CASE_ID2 = 1588772172174021L;
     public static final long CASE_ID4 = 1588772172174000L;
 
-    @MockBean
+    @MockitoBean
     EventExecutor eventExecutor;
 
     @Autowired
