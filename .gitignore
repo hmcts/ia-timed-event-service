@@ -24,4 +24,4 @@ bin/main/application.yaml
 lombok.config
 
 target/
-.mirrord/
+.mirrord//reports/pmd/*
