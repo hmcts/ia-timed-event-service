@@ -156,7 +156,7 @@ public class CaseDataFixture {
 
         final List<Value> values = new ArrayList<>();
         values.add(new Value("NoMatch", "No Match"));
-        DynamicList appellantsList = new DynamicList(values.get(0), values);
+        DynamicList appellantsList = new DynamicList(values.getFirst(), values);
 
         data.put("homeOfficeAppellantsList", appellantsList);
 
@@ -174,18 +174,19 @@ public class CaseDataFixture {
     public String requestRespondentEvidence() {
 
         Map<String, Object> data = new HashMap<>();
-        data.put("sendDirectionExplanation", "A notice of appeal has been lodged against this asylum decision.\n"
-                                             + "\n"
-                                             + "You must now send all documents to the case officer. The case officer will send them to the other party. You have 14 days to supply these documents.\n"
-                                             + "\n"
-                                             + "You must include:\n"
-                                             + "- the notice of decision\n"
-                                             + "- any other document provided to the appellant giving reasons for that decision\n"
-                                             + "- any statements of evidence\n"
-                                             + "- the application form\n"
-                                             + "- any record of interview with the appellant in relation to the decision being appealed\n"
-                                             + "- any other unpublished documents on which you rely\n"
-                                             + "- the notice of any other appealable decision made in relation to the appellant"
+        data.put("sendDirectionExplanation", """
+                                             A notice of appeal has been lodged against this asylum decision.
+                                             
+                                             You must now send all documents to the case officer. The case officer will send them to the other party. You have 14 days to supply these documents.
+                                             
+                                             You must include:
+                                             - the notice of decision
+                                             - any other document provided to the appellant giving reasons for that decision
+                                             - any statements of evidence
+                                             - the application form
+                                             - any record of interview with the appellant in relation to the decision being appealed
+                                             - any other unpublished documents on which you rely
+                                             - the notice of any other appealable decision made in relation to the appellant"""
         );
         data.put("sendDirectionDateDue", "{$TODAY+14}");
         data.put("sendDirectionParties", "respondent");
@@ -252,19 +253,20 @@ public class CaseDataFixture {
     public String requestRespondentReview() {
 
         Map<String, Object> data = new HashMap<>();
-        data.put("sendDirectionExplanation", "You have 14 days to review the Appeal Skeleton Argument and evidence. You must explain whether the appellant makes a valid case for overturning the original decision.\n"
-                                             + "\n"
-                                             + "You must respond to the Tribunal and tell them:\n"
-                                             + "- whether you oppose all or parts of the appellant's case\n"
-                                             + "- what your grounds are for opposing the case\n"
-                                             + "- which of the issues are agreed or not agreed\n"
-                                             + "- whether there are any further issues you wish to raise\n"
-                                             + "- whether you are prepared to withdraw to grant\n"
-                                             + "- whether the appeal can be resolved without a hearing\n"
-                                             + "\n"
-                                             + "# Next steps\n"
-                                             + "\n"
-                                             + "If you do not respond in time the Tribunal will decide how the case should proceed."
+        data.put("sendDirectionExplanation", """
+                                             You have 14 days to review the Appeal Skeleton Argument and evidence. You must explain whether the appellant makes a valid case for overturning the original decision.
+                                             
+                                             You must respond to the Tribunal and tell them:
+                                             - whether you oppose all or parts of the appellant's case
+                                             - what your grounds are for opposing the case
+                                             - which of the issues are agreed or not agreed
+                                             - whether there are any further issues you wish to raise
+                                             - whether you are prepared to withdraw to grant
+                                             - whether the appeal can be resolved without a hearing
+                                             
+                                             # Next steps
+                                             
+                                             If you do not respond in time the Tribunal will decide how the case should proceed."""
         );
         data.put("sendDirectionDateDue", "{$TODAY+14}");
         data.put("sendDirectionParties", "respondent");
@@ -323,12 +325,13 @@ public class CaseDataFixture {
     public String requestResponseReview() {
 
         Map<String, Object> data = new HashMap<>();
-        data.put("sendDirectionExplanation", "The Home Office has replied to your Appeal Skeleton Argument and evidence. You should review their response.\n"
-                                             + "\n"
-                                             + "# Next steps\n"
-                                             + "\n"
-                                             + "You have 5 days to review the Home Office response. If you want to respond to what they have said, you should email the Tribunal.\n"
-                                             + "If you do not respond within 5 days, the case will automatically go to hearing."
+        data.put("sendDirectionExplanation", """
+                                             The Home Office has replied to your Appeal Skeleton Argument and evidence. You should review their response.
+                                             
+                                             # Next steps
+                                             
+                                             You have 5 days to review the Home Office response. If you want to respond to what they have said, you should email the Tribunal.
+                                             If you do not respond within 5 days, the case will automatically go to hearing."""
         );
         data.put("sendDirectionDateDue", "{$TODAY+5}");
         data.put("sendDirectionParties", "legalRepresentative");

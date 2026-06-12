@@ -25,9 +25,7 @@ public class RetryableExceptionHandler {
 
     private boolean isExceptionNonRetryable(Exception ex) {
 
-        if (ex instanceof FeignException) {
-
-            FeignException e = (FeignException) ex;
+        if (ex instanceof FeignException e) {
 
             return caseStatusDidNotQualify(e) || caseStatusDoesNotExist(e);
         }

@@ -1,7 +1,7 @@
 #!groovy
 properties([
-    [$class: 'GithubProjectProperty', projectUrlStr: 'https://github.com/hmcts/ia-timed-event-service.git'],
-    pipelineTriggers([[$class: 'GitHubPushTrigger']])
+        [$class: 'GithubProjectProperty', projectUrlStr: 'https://github.com/hmcts/ia-timed-event-service.git'],
+        pipelineTriggers([[$class: 'GitHubPushTrigger']])
 ])
 
 
@@ -12,28 +12,28 @@ def product = "ia"
 def component = "timed-event-service"
 
 def secrets = [
-    'ia-${env}': [
+        'ia-${env}': [
 
-        secret('idam-client-id', 'IA_IDAM_CLIENT_ID'),
-        secret('idam-secret', 'IA_IDAM_SECRET'),
-        secret('idam-redirect-uri', 'IA_IDAM_REDIRECT_URI'),
-        secret('s2s-secret', 'IA_S2S_SECRET'),
-        secret('s2s-microservice', 'IA_S2S_MICROSERVICE'),
-        secret('system-username', 'IA_SYSTEM_USERNAME'),
-        secret('system-password', 'IA_SYSTEM_PASSWORD'),
-        secret('ia-redis-access-key', 'IA_REDIS_ACCESS_KEY'),
-        secret('ia-redis-connection-string', 'IA_REDIS_CONNECTION_STRING'),
-        secret('ia-redis-encryption-key', 'IA_REDIS_ENCRYPTION_KEY'),
+                secret('idam-client-id', 'IA_IDAM_CLIENT_ID'),
+                secret('idam-secret', 'IA_IDAM_SECRET'),
+                secret('idam-redirect-uri', 'IA_IDAM_REDIRECT_URI'),
+                secret('s2s-secret', 'IA_S2S_SECRET'),
+                secret('s2s-microservice', 'IA_S2S_MICROSERVICE'),
+                secret('system-username', 'IA_SYSTEM_USERNAME'),
+                secret('system-password', 'IA_SYSTEM_PASSWORD'),
+                secret('ia-redis-access-key', 'IA_REDIS_ACCESS_KEY'),
+                secret('ia-redis-connection-string', 'IA_REDIS_CONNECTION_STRING'),
+                secret('ia-redis-encryption-key', 'IA_REDIS_ENCRYPTION_KEY'),
 
-        secret('test-caseofficer-username', 'TEST_CASEOFFICER_USERNAME'),
-        secret('test-caseofficer-password', 'TEST_CASEOFFICER_PASSWORD'),
-        secret('test-law-firm-a-username', 'TEST_LAW_FIRM_A_USERNAME'),
-        secret('test-law-firm-a-password', 'TEST_LAW_FIRM_A_PASSWORD'),
-        secret('test-homeoffice-lart-username', 'TEST_HOMEOFFICE_LART_USERNAME'),
-        secret('test-homeoffice-lart-password', 'TEST_HOMEOFFICE_LART_PASSWORD'),
+                secret('test-caseofficer-username', 'TEST_CASEOFFICER_USERNAME'),
+                secret('test-caseofficer-password', 'TEST_CASEOFFICER_PASSWORD'),
+                secret('test-law-firm-a-username', 'TEST_LAW_FIRM_A_USERNAME'),
+                secret('test-law-firm-a-password', 'TEST_LAW_FIRM_A_PASSWORD'),
+                secret('test-homeoffice-lart-username', 'TEST_HOMEOFFICE_LART_USERNAME'),
+                secret('test-homeoffice-lart-password', 'TEST_HOMEOFFICE_LART_PASSWORD'),
 
-        secret('ia-config-validator-secret', 'IA_CONFIG_VALIDATOR_SECRET')
-    ]
+                secret('ia-config-validator-secret', 'IA_CONFIG_VALIDATOR_SECRET')
+        ]
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
@@ -57,7 +57,15 @@ withPipeline(type, product, component) {
     loadVaultSecrets(secrets)
     enableAksStagingDeployment()
     disableLegacyDeployment()
-    afterSuccess('functionalTest:preview') {
+    afterAlways('functionalTest:preview') {
+        publishHTML([
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "build/reports/tests/functional",
+                reportFiles          : 'index.html',
+                reportName           : 'Functional Test Report'
+        ])
         steps.archiveArtifacts allowEmptyArchive: true, artifacts: '**/site/serenity/**/*'
     }
 
