@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Collections;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -11,7 +12,9 @@ import java.util.List;
 public record RoleAssignmentResource(List<Assignment> roleAssignmentResponse) {
     @JsonCreator
     public RoleAssignmentResource(@JsonProperty("roleAssignmentResponse") List<Assignment> roleAssignmentResponse) {
-        this.roleAssignmentResponse = roleAssignmentResponse;
+        this.roleAssignmentResponse = roleAssignmentResponse == null
+            ? Collections.emptyList()
+            : Collections.unmodifiableList(roleAssignmentResponse);
     }
 
 }
