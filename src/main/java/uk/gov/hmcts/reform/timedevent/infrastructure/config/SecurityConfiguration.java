@@ -3,9 +3,9 @@ package uk.gov.hmcts.reform.timedevent.infrastructure.config;
 import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import java.util.*;
-import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,9 +31,7 @@ import uk.gov.hmcts.reform.timedevent.infrastructure.security.SpringAuthorizedRo
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration  {
 
-    @Getter
     private final List<String> anonymousPaths = new ArrayList<>();
-    @Getter
     private final Map<String, List<Event>> roleEventAccess = new HashMap<>();
 
     private final Converter<Jwt, Collection<GrantedAuthority>> idamAuthoritiesConverter;
@@ -43,6 +41,14 @@ public class SecurityConfiguration  {
                                  ServiceAuthFilter serviceAuthFiler) {
         this.idamAuthoritiesConverter = idamAuthoritiesConverter;
         this.serviceAuthFiler = serviceAuthFiler;
+    }
+
+    public List<String> getAnonymousPaths() {
+        return anonymousPaths == null ? Collections.emptyList() : ImmutableList.copyOf(anonymousPaths);
+    }
+
+    public Map<String, List<Event>> getRoleEventAccess() {
+        return roleEventAccess == null ? Collections.emptyMap() : ImmutableMap.copyOf(roleEventAccess);
     }
 
     @Bean

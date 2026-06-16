@@ -30,9 +30,7 @@ public class IdamService {
     public UserInfo getUserInfo(String accessToken) {
         UserInfo userInfo = idamApi.userInfo(accessToken);
         List<String> amRoles = Collections.emptyList();
-        List<String> idamRoles = userInfo.getRoles() == null ?
-            Collections.emptyList() :
-            userInfo.getRoles();
+        List<String> idamRoles = userInfo.getRoles();
         try {
             amRoles = roleAssignmentService.getAmRolesFromUser(userInfo.getUid(), accessToken);
         } catch (Exception e) {
@@ -40,9 +38,15 @@ public class IdamService {
                 log.error("Error fetching AM roles for user: {}", userInfo.getUid(), e);
             }
         }
-        List<String> roles = Stream.concat(amRoles.stream(), idamRoles.stream()).toList();
-        userInfo.setRoles(roles);
-        return userInfo;
+        List<String> combinedRoles = Stream.concat(amRoles.stream(), idamRoles.stream()).toList();
+        return new UserInfo(
+            userInfo.getEmail(),
+            userInfo.getUid(),
+            combinedRoles,
+            userInfo.getName(),
+            userInfo.getGivenName(),
+            userInfo.getFamilyName()
+        );
     }
 }
 
