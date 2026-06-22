@@ -31,8 +31,8 @@ import uk.gov.hmcts.reform.timedevent.infrastructure.security.SpringAuthorizedRo
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration  {
 
-    private final List<String> anonymousPaths = new ArrayList<>();
-    private final Map<String, List<Event>> roleEventAccess = new HashMap<>();
+    private List<String> anonymousPaths = new ArrayList<>();
+    private Map<String, List<Event>> roleEventAccess = new HashMap<>();
 
     private final Converter<Jwt, Collection<GrantedAuthority>> idamAuthoritiesConverter;
     private final ServiceAuthFilter serviceAuthFiler;
@@ -47,8 +47,16 @@ public class SecurityConfiguration  {
         return anonymousPaths == null ? Collections.emptyList() : ImmutableList.copyOf(anonymousPaths);
     }
 
+    public void setAnonymousPaths(List<String> anonymousPaths) {
+        this.anonymousPaths = anonymousPaths;
+    }
+
     public Map<String, List<Event>> getRoleEventAccess() {
         return roleEventAccess == null ? Collections.emptyMap() : ImmutableMap.copyOf(roleEventAccess);
+    }
+
+    public void setRoleEventAccess(Map<String, List<Event>> roleEventAccess) {
+        this.roleEventAccess = roleEventAccess;
     }
 
     @Bean
