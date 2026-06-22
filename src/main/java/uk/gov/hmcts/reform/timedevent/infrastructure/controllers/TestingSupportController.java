@@ -19,6 +19,7 @@ import uk.gov.hmcts.reform.timedevent.domain.entities.EventExecution;
 import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.Event;
 import uk.gov.hmcts.reform.timedevent.domain.entities.ccd.EventNotFoundException;
 import uk.gov.hmcts.reform.timedevent.domain.services.EventExecutor;
+import uk.gov.hmcts.reform.timedevent.infrastructure.config.CorrelationIdFilter;
 import uk.gov.hmcts.reform.timedevent.infrastructure.security.SystemTokenGenerator;
 import uk.gov.hmcts.reform.timedevent.infrastructure.security.SystemUserProvider;
 
@@ -119,6 +120,7 @@ public class TestingSupportController {
         @PathVariable("cid") long id,
         @PathVariable("event") String event
     ) {
+        CorrelationIdFilter.setCcdCaseId(String.valueOf(id));
 
         try {
 

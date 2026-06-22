@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.reform.timedevent.domain.entities.TimedEvent;
 import uk.gov.hmcts.reform.timedevent.domain.services.SchedulerService;
+import uk.gov.hmcts.reform.timedevent.infrastructure.config.CorrelationIdFilter;
 import uk.gov.hmcts.reform.timedevent.infrastructure.security.CcdEventAuthorizor;
 
 @RestController
@@ -65,6 +66,8 @@ public class TimedEventController {
         if (!isValid(timedEvent)) {
             return badRequest().build();
         }
+
+        CorrelationIdFilter.setCcdCaseId(String.valueOf(timedEvent.getCaseId()));
 
         ccdEventAuthorizor.throwIfNotAuthorized(timedEvent.getEvent());
 
