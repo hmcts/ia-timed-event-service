@@ -1,8 +1,10 @@
 package uk.gov.hmcts.reform.timedevent.infrastructure.config;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,7 +19,7 @@ public class AuthCheckerConfiguration {
     private final List<String> authorisedServices = new ArrayList<>();
 
     public List<String> getAuthorisedServices() {
-        return authorisedServices;
+        return authorisedServices == null ? Collections.emptyList() : ImmutableList.copyOf(authorisedServices);
     }
 
     @Bean

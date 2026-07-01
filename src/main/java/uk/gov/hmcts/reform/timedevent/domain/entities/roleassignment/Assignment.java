@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import lombok.Builder;
@@ -21,7 +22,6 @@ public class Assignment {
     private final String id;
     @Getter
     private final LocalDateTime created;
-    @Getter
     private final List<String> authorisations;
     @Getter
     private final ActorIdType actorIdType;
@@ -38,7 +38,6 @@ public class Assignment {
     @Getter
     private final GrantType grantType;
     private final Boolean readOnly;
-    @Getter
     private final Map<String, String> attributes;
 
     @JsonCreator
@@ -66,5 +65,13 @@ public class Assignment {
         this.grantType = grantType;
         this.readOnly = readOnly;
         this.attributes = attributes;
+    }
+
+    public List<String> getAuthorisations() {
+        return authorisations == null ? Collections.emptyList() : Collections.unmodifiableList(authorisations);
+    }
+
+    public Map<String, String> getAttributes() {
+        return attributes == null ? Collections.emptyMap() : Collections.unmodifiableMap(attributes);
     }
 }
