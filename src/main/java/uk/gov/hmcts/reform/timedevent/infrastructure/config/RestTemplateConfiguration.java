@@ -1,32 +1,54 @@
 package uk.gov.hmcts.reform.timedevent.infrastructure.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
+@Slf4j
+@SuppressWarnings("removal")
 public class RestTemplateConfiguration {
 
     @Bean
-    public RestOperations restOperations(ObjectMapper objectMapper) {
+    public RestOperations restOperations(
+            ObjectMapper objectMapper
+    ) {
         return restTemplate(objectMapper);
     }
 
     @Bean
     public RestTemplate restTemplate(ObjectMapper objectMapper) {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getMessageConverters().removeIf(converter -> converter instanceof MappingJackson2HttpMessageConverter);
-        restTemplate.getMessageConverters().add(mappingJackson2HttpMessageConverter(objectMapper));
+
+        restTemplate.getMessageConverters()
+                .forEach(c -> log.info("BEFORE converter: {}", c.getClass().getName()));
+
+        restTemplate.getMessageConverters().removeIf(converter ->
+                converter.getClass().getName().startsWith("org.springframework.http.converter.json.")
+                        && converter.getClass().getSimpleName().contains("Jackson")
+        );
+
+        restTemplate.getMessageConverters().addFirst(mappingJackson2HttpMessageConverter(objectMapper));
+
+        log.info("AFTER");
+        log.info("modules: {}, inclusion: {}",
+                objectMapper.getRegisteredModuleIds(),
+                objectMapper.getSerializationConfig().getDefaultPropertyInclusion());
+
+        restTemplate.getMessageConverters()
+                .forEach(c -> log.info("AFTER converter: {}", c.getClass().getName()));
 
         return restTemplate;
     }
 
     @Bean
-    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter(ObjectMapper objectMapper) {
-        return new MappingJackson2HttpMessageConverter(objectMapper);
+    public org.springframework.http.converter.json.MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter(
+            ObjectMapper objectMapper
+    ) {
+        return new org.springframework.http.converter.json.MappingJackson2HttpMessageConverter(objectMapper);
     }
 
 }
