@@ -31,7 +31,9 @@ public class RestTemplateConfiguration {
                         && converter.getClass().getSimpleName().contains("Jackson")
         );
 
-        restTemplate.getMessageConverters().addFirst(mappingJackson2HttpMessageConverter(objectMapper));
+        restTemplate.getMessageConverters().addFirst(
+                new org.springframework.http.converter.json.MappingJackson2HttpMessageConverter(objectMapper)
+        );
 
         log.info("AFTER");
         log.info("modules: {}, inclusion: {}",
@@ -42,13 +44,6 @@ public class RestTemplateConfiguration {
                 .forEach(c -> log.info("AFTER converter: {}", c.getClass().getName()));
 
         return restTemplate;
-    }
-
-    @Bean
-    public org.springframework.http.converter.json.MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter(
-            ObjectMapper objectMapper
-    ) {
-        return new org.springframework.http.converter.json.MappingJackson2HttpMessageConverter(objectMapper);
     }
 
 }
