@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.HttpMessageConverters;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
@@ -23,15 +25,20 @@ public class RestTemplateConfiguration {
     public RestTemplate restTemplate(ObjectMapper objectMapper) {
         RestTemplate restTemplate = new RestTemplate();
 
-        restTemplate.getMessageConverters()
-                .forEach(c -> log.info("BEFORE converter: {}", c.getClass().getName()));
+        int jackson3Index = -1;
+        for (int i = 0; i < restTemplate.getMessageConverters().size(); i++) {
+            HttpMessageConverter<?> converter = restTemplate.getMessageConverters().get(i);
+            log.info("BEFORE converter: {}", converter.getClass().getName());
+            if (converter.getClass().getName()
+                    .startsWith("org.springframework.http.converter.json.")
+                    && converter.getClass().getSimpleName().contains("Jackson")) {
+                jackson3Index = i;
+            }
+        }
 
-        restTemplate.getMessageConverters().removeIf(converter ->
-                converter.getClass().getName().startsWith("org.springframework.http.converter.json.")
-                        && converter.getClass().getSimpleName().contains("Jackson")
-        );
+        restTemplate.getMessageConverters().remove(jackson3Index);
 
-        restTemplate.getMessageConverters().addFirst(
+        restTemplate.getMessageConverters().add(jackson3Index,
                 new org.springframework.http.converter.json.MappingJackson2HttpMessageConverter(objectMapper)
         );
 
