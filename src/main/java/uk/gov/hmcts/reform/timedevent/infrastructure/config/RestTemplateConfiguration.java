@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.HttpMessageConverters;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
