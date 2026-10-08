@@ -13,12 +13,6 @@ plugins {
     id "info.solidsoft.pitest" version '1.15.0'
     id 'net.serenity-bdd.serenity-gradle-plugin' version '5.3.9'
     id 'org.gradle.test-retry' version '1.6.6'
-    id 'org.openrewrite.rewrite' version '7.30.0'
-}
-
-rewrite {
-    activeRecipe("org.openrewrite.java.spring.boot4.UpgradeSpringBoot_4_0")
-    setExportDatatables(true)
 }
 
 apply plugin: 'java'
@@ -303,13 +297,6 @@ repositories {
     maven {
         url 'https://pkgs.dev.azure.com/hmcts/Artifacts/_packaging/hmcts-lib/maven/v1'
     }
-    maven {
-        url = 'https://artifacts.codegenomeproject.org/maven'
-        credentials {
-            username = 'kleovoulosg@gmail.com'
-            password = 'cgp_dvaQjBZIGCL5se1C9UYE9mL5ov2LTQZ3jHWOSDoAiVo'
-        }
-    }
 }
 
 dependencies {
@@ -399,7 +386,7 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-security-test'
 
-    testImplementation group: 'com.github.hmcts', name: 'document-management-client', version: '7.0.1'
+    testImplementation group: 'com.github.hmcts', name: 'document-management-client', version: '10.0.1'
 
     testImplementation group: 'com.h2database', name: 'h2', version: '2.4.240'
 
