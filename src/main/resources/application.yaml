@@ -142,19 +142,23 @@ security:
       - "saveNotificationsToData"
       - "saveNotificationsToDataBail"
     caseworker-ia-caseofficer:
+      - "endAppealAutomatically"
     senior-tribunal-caseworker:
       - "requestHearingRequirementsFeature"
       - "example"
       - "unknown"
       - "saveNotificationsToData"
       - "saveNotificationsToDataBail"
+      - "endAppealAutomatically"
     challenged-access-legal-operations:
       - "requestHearingRequirementsFeature"
       - "example"
       - "unknown"
       - "saveNotificationsToData"
       - "saveNotificationsToDataBail"
+      - "endAppealAutomatically"
     tribunal-caseworker:
+      - "endAppealAutomatically"
       - "requestHearingRequirementsFeature"
       - "example"
       - "unknown"
