@@ -262,6 +262,7 @@ security:
       - "sendPaymentReminderNotification"
       - "saveNotificationsToData"
       - "saveNotificationsToDataBail"
+      - "generateServiceRequest"
       - "testTimedEventSchedule"
     caseworker-ia-internal:
       - "reTriggerWaTasks"
