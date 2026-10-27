@@ -256,13 +256,13 @@ security:
       - "saveNotificationsToDataBail"
       - "testTimedEventSchedule"
     caseworker-ia-system:
+      - "generateServiceRequest"
       - "endAppealAutomatically"
       - "recordRemissionReminder"
       - "reTriggerWaTasks"
       - "sendPaymentReminderNotification"
       - "saveNotificationsToData"
       - "saveNotificationsToDataBail"
-      - "generateServiceRequest"
       - "testTimedEventSchedule"
     caseworker-ia-internal:
       - "reTriggerWaTasks"
