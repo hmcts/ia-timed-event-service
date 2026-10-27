@@ -20,6 +20,7 @@ public enum Event {
     SEND_PAYMENT_REMINDER_NOTIFICATION("sendPaymentReminderNotification"),
     SAVE_NOTIFICATIONS_TO_DATA("saveNotificationsToData"),
     SAVE_NOTIFICATIONS_TO_DATA_BAIL("saveNotificationsToDataBail"),
+    GENERATE_SERVICE_REQUEST("generateServiceRequest"),
     TEST_TIMED_EVENT_SCHEDULE("testTimedEventSchedule"),
     @JsonEnumDefaultValue
     UNKNOWN("unknown");
