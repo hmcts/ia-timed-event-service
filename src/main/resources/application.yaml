@@ -166,6 +166,7 @@ security:
       - "saveNotificationsToDataBail"
     caseworker-ia-legalrep-solicitor:
       - "moveToPaymentPending"
+      - "generateServiceRequest"
       - "rollbackPayment"
       - "rollbackPaymentTimeout"
       - "rollbackPaymentTimeoutToPaymentPending"
@@ -256,6 +257,7 @@ security:
       - "saveNotificationsToDataBail"
       - "testTimedEventSchedule"
     caseworker-ia-system:
+      - "generateServiceRequest"
       - "endAppealAutomatically"
       - "recordRemissionReminder"
       - "reTriggerWaTasks"

@@ -51,6 +51,7 @@ class EventTest {
             Arguments.of("saveNotificationsToData", Event.SAVE_NOTIFICATIONS_TO_DATA),
             Arguments.of("saveNotificationsToDataBail", Event.SAVE_NOTIFICATIONS_TO_DATA_BAIL),
             Arguments.of("testTimedEventSchedule", Event.TEST_TIMED_EVENT_SCHEDULE),
+            Arguments.of("generateServiceRequest", Event.GENERATE_SERVICE_REQUEST),
             Arguments.of("unknown", Event.UNKNOWN)
         );
     }
