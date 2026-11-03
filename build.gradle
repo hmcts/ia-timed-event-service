@@ -260,7 +260,7 @@ dependencyManagement {
         // CVE-2026-33870
         // CVE-2026-33871
         // CVE-2025-67735 - from spring-boot-starter-data-redis@3.5.14
-        mavenBom "io.netty:netty-bom:4.2.18.Final"
+        mavenBom "io.netty:netty-bom:4.2.20.Final"
     }
 
     dependencies {
@@ -367,7 +367,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-flyway'
     implementation 'org.flywaydb:flyway-database-postgresql'
 
-    implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.13'
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.14'
 
     implementation (group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '3.0.3') {
         exclude group: 'org.springframework.boot', module: 'spring-boot-jackson'
