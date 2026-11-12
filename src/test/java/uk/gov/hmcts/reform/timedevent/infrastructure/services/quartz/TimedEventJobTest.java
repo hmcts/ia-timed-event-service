@@ -56,7 +56,6 @@ class TimedEventJobTest {
 
     @Test
     public void should_execute_job_without_exception_handler_interaction() throws JobExecutionException {
-        doNothing().when(eventExecutor).execute(any(EventExecution.class));
 
         TimedEventJob timedEventJob = new TimedEventJob(eventExecutor, exceptionHandler);
 

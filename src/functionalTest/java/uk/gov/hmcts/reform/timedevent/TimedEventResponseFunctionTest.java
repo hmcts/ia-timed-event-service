@@ -3,8 +3,7 @@ package uk.gov.hmcts.reform.timedevent;
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
 import java.time.ZonedDateTime;
@@ -31,7 +30,7 @@ public class TimedEventResponseFunctionTest extends FunctionalTest {
     }
 
     @Test
-    public void should_return_201_and_created_timed_event() throws JsonProcessingException {
+    public void should_return_201_and_created_timed_event() {
 
         TimedEvent timedEvent = new TimedEvent(
             null,
@@ -58,7 +57,7 @@ public class TimedEventResponseFunctionTest extends FunctionalTest {
     }
 
     @Test
-    public void should_return_415_when_content_type_is_not_application_json() throws JsonProcessingException {
+    public void should_return_415_when_content_type_is_not_application_json() {
 
         TimedEvent timedEvent = new TimedEvent(
             null,
@@ -84,7 +83,7 @@ public class TimedEventResponseFunctionTest extends FunctionalTest {
     }
 
     @Test
-    public void should_return_400_when_data_is_missing() throws JsonProcessingException {
+    public void should_return_400_when_data_is_missing() {
 
         TimedEvent timedEvent = new TimedEvent(
             null,
@@ -111,7 +110,7 @@ public class TimedEventResponseFunctionTest extends FunctionalTest {
     }
 
     @Test
-    public void should_return_200_when_timed_event_exists() throws JsonProcessingException {
+    public void should_return_200_when_timed_event_exists() {
 
         TimedEvent timedEvent = new TimedEvent(
             null,
@@ -152,7 +151,7 @@ public class TimedEventResponseFunctionTest extends FunctionalTest {
     }
 
     @Test
-    public void should_return_404_when_timed_event_does_not_exist() throws JsonProcessingException {
+    public void should_return_404_when_timed_event_does_not_exist() {
 
         Response response = given(requestSpecification)
             .when()

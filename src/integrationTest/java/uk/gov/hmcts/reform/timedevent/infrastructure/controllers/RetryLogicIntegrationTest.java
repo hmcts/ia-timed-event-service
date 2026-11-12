@@ -3,7 +3,7 @@ package uk.gov.hmcts.reform.timedevent.infrastructure.controllers;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import feign.FeignException;
 import java.util.concurrent.TimeUnit;
 import lombok.SneakyThrows;

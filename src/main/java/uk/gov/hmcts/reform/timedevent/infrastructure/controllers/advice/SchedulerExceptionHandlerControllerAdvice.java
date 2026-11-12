@@ -4,6 +4,7 @@ import feign.FeignException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -94,7 +95,7 @@ public class SchedulerExceptionHandlerControllerAdvice extends ResponseEntityExc
         return new ResponseEntity<>(response, ErrorCode.INTERNAL_ERROR.getHttpStatus());
     }
 
-    private ErrorCode mapFeignStatusToErrorCode(HttpStatus status) {
+    private ErrorCode mapFeignStatusToErrorCode(HttpStatusCode status) {
         if (status == null) {
             return ErrorCode.DOWNSTREAM_ERROR;
         }
