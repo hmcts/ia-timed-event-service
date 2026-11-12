@@ -29,7 +29,9 @@ spring:
     import: "optional:configtree:/mnt/secrets/ia/"
   main:
     allow-bean-definition-overriding: true
-  jackson.date-format: yyyy-MM-dd
+  jackson:
+    date-format: yyyy-MM-dd
+    use-jackson2-defaults: true
   security:
     oauth2:
       client:
