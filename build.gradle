@@ -254,20 +254,6 @@ dependencyManagement {
 
         // due to Serenity 5.3.10 forcing commons-lang3@3.18.0
         dependency group: 'org.apache.commons', name: 'commons-lang3', version: '3.20.0'
-
-        // CVE-2026-34478
-        // CVE-2026-34479
-        // CVE-2026-34480
-        // CVE-2026-34481
-        // CVE-2026-34477
-        // CVE-2025-68161 - from spring-boot-starter-logging@3.5.14
-        dependencySet(group: 'org.apache.logging.log4j', version: '2.25.4') {
-            entry 'log4j-to-slf4j'
-            entry 'log4j-api'
-        }
-
-        // CVE-2020-13956 - transitive from service-auth-provider-java-client@5.3.3
-        dependency group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
     }
 }
 
