@@ -215,8 +215,6 @@ dependencyCheck {
     suppressionFile = 'config/owasp/suppressions.xml'
 }
 
-ext["tomcat.version"] = "10.1.56"
-
 test {
     retry {
         maxRetries = 5
