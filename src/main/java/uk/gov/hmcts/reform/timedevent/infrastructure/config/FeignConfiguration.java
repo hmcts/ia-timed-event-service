@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.timedevent.infrastructure.config;
 
+import feign.codec.Decoder;
 import feign.codec.Encoder;
 import feign.form.spring.SpringFormEncoder;
 import org.springframework.beans.factory.ObjectProvider;
@@ -24,6 +25,11 @@ public class FeignConfiguration {
     @Primary
     public Encoder feignFormEncoder(ObjectProvider<FeignHttpMessageConverters> messageConverters) {
         return new SpringFormEncoder(new SpringEncoder(messageConverters));
+    }
+
+    @Bean
+    public Decoder feignDecoder() {
+        return new ResponseEntityDecoder(new Jackson3Decoder(FeignMapperConfig.INSTANCE));
     }
 
 }

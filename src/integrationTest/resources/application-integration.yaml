@@ -1,9 +1,6 @@
 spring.flyway.enabled: false
 
 spring:
-  data:
-    redis:
-      url: ${REDIS_URL:redis://localhost:6379}
   datasource:
     driverClassName: org.h2.Driver
     url: jdbc:h2:mem:ia_timed_event_service
@@ -20,9 +17,9 @@ spring:
   sql.init.platform: h2
   autoconfigure:
     exclude:
-          - org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration
-          - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
-          - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+      - org.springframework.boot.cache.autoconfigure.CacheAutoConfiguration
+      - org.springframework.boot.data.redis.autoconfigure.DataRedisAutoConfiguration
+      - org.springframework.boot.data.redis.autoconfigure.DataRedisRepositoriesAutoConfiguration
 
 ccdGatewayUrl: ${CCD_GW_URL:http://localhost:3453}
 document_management.url: ${DM_URL:http://127.0.0.1:4506}
