@@ -1,6 +1,6 @@
 package uk.gov.hmcts.reform.timedevent.domain.entities.ccd;
 
-
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
@@ -27,6 +27,7 @@ public enum Event {
     @JsonValue
     private final String id;
 
+    @JsonCreator
     Event(String id) {
         this.id = id;
     }

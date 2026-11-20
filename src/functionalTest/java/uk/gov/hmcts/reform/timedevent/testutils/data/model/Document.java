@@ -2,8 +2,8 @@ package uk.gov.hmcts.reform.timedevent.testutils.data.model;
 
 import static java.util.Objects.requireNonNull;
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import tools.jackson.databind.PropertyNamingStrategies;
+import tools.jackson.databind.annotation.JsonNaming;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
