@@ -294,7 +294,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-flyway'
     implementation 'org.flywaydb:flyway-database-postgresql'
 
-    implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.14'
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.15'
 
     implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '3.0.3'
 
